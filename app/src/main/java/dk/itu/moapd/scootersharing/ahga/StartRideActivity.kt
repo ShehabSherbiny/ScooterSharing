@@ -58,9 +58,10 @@ class StartRideActivity : AppCompatActivity() {
                 if(startRideButton.text.isNotEmpty() && locationInput.text.isNotEmpty()){
                     val name = nameInput.text.toString().trim()
                     val location = locationInput.text.toString().trim()
-                    scooter = Scooter(name, location, System.currentTimeMillis())
 
-                    val snack = Snackbar.make(it,scooter.toString(),1000)
+                    scooter = Scooter(name, location)
+
+                    val snack = Snackbar.make(it,scooter.toString(),10000)
                     snack.setAnchorView(startRideButton.id)
                     snack.show()
 
@@ -72,8 +73,8 @@ class StartRideActivity : AppCompatActivity() {
                     }
                     setResult(Activity.RESULT_OK,intent)
                     finish()
-
                 }
+
             }
         }
 

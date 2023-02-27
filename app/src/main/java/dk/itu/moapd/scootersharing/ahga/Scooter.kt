@@ -23,13 +23,17 @@ SOFTWARE.
  */
 package dk.itu.moapd.scootersharing.ahga
 
+import java.text.DateFormat
+
 /**
  * This class is a data class meant to hold information about scooters
  * @property name is a String; Name of the scooter
  * @property location is a String; Starting point for the ride
  * @property timestamp Is a long; Timestamp
  */
-data class Scooter(val name: String, val location: String, val timestamp: Long)
-
-
+data class Scooter(val name: String, val location: String, val timestamp: Long = System.currentTimeMillis()){
+    override fun toString(): String {
+        return "'$name' is placed at $location on ${DateFormat.getDateInstance().format(timestamp)}"
+    }
+}
 

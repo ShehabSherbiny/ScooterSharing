@@ -23,14 +23,13 @@ SOFTWARE.
  */
 package dk.itu.moapd.scootersharing.ahga
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.WindowCompat
-import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -54,6 +53,7 @@ class MainActivity : AppCompatActivity() {
      * @param
      */
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState:Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
