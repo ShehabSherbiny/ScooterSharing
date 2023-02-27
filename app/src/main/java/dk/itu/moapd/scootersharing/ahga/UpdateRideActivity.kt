@@ -23,60 +23,55 @@ SOFTWARE.
  */
 package dk.itu.moapd.scootersharing.ahga
 
-import android.app.Activity
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.WindowCompat
 import com.google.android.material.snackbar.Snackbar
-import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
+import dk.itu.moapd.scootersharing.ahga.databinding.ActivityUpdateRideBinding
 
-class MainActivity : AppCompatActivity() {
+class UpdateRideActivity : AppCompatActivity() {
     companion object {
         private val TAG = MainActivity :: class.qualifiedName
     }
 
-    private lateinit var binding: ActivityMainBinding
-    private var name : String? = null
-
-
-    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {result ->
-        if(result.resultCode == Activity.RESULT_OK) {
-            intent = result.data
-            name = intent?.getStringExtra("name")
-        }
-    }
+    private lateinit var binding: ActivityUpdateRideBinding
+    private lateinit var scooter : Scooter
 
     /**
      * Method for creating a new activity
      * @param
      */
-
     override fun onCreate(savedInstanceState:Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityUpdateRideBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         //set event listener and implement logic
         binding.apply {
 
+            val name = intent.getStringExtra("name")
+            nameInput.setText(name)
 
-            startRideButton.setOnClickListener{
-              val intent = Intent(baseContext, StartRideActivity::class.java)
-                startForResult.launch(intent)
-            }
             updateRideButton.setOnClickListener{
-                val intent = Intent(baseContext, UpdateRideActivity::class.java).apply {
-                    putExtra("name", name)
+                if(updateRideButton.text.isNotEmpty() && locationInput.text.isNotEmpty()){
+                    val location = locationInput.text.toString().trim()
+                   /* scooter = Scooter(name, location, System.currentTimeMillis())
+                    val snack = Snackbar.make(it,scooter.toString(),1000)
+                    snack.setAnchorView(updateRideButton.id)
+                    snack.show()*/
+
+                    //reset textfields and update UI
+                    nameInput.text.clear()
+                    locationInput.text.clear()
+
                 }
-                startActivity(intent)
             }
         }
 
-        val view = binding.root
-        setContentView(view)
+    }
+    private fun showMessage(){
+        Log.d(TAG,scooter.toString())
     }
 }
