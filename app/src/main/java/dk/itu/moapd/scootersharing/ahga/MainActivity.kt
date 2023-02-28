@@ -30,12 +30,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.WindowCompat
+import dk.itu.moapd.listview.ScooterArrayAdapter
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     companion object {
         private val TAG = MainActivity :: class.qualifiedName
         lateinit var ridesDB: RidesDB
+        private lateinit var adapter: ScooterArrayAdapter
     }
 
     private lateinit var binding: ActivityMainBinding
@@ -76,8 +78,33 @@ class MainActivity : AppCompatActivity() {
                 }
                 startActivity(intent)
             }
+            listRidesButton.setOnClickListener{
+                //toggle visibility here
+            }
         }
 
+        // Create a dummy dataset with 100 elements.
+        val data = ArrayList<Scooter>()
+        for (i in ridesDB.getRidesList())
+            data.add(
+                Scooter("Scooter Name ${i.name}",
+                    "Location ${i.location}",
+                    i.timestamp)
+            )
+
+        // Create the custom adapter to populate a list of dummy objects.
+        adapter = ScooterArrayAdapter(this, R.layout.list_item, data)
+
+        // Migrate from Kotlin synthetics to Jetpack view binding.
+        // https://developer.android.com/topic/libraries/view-binding/migration
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        // Define the list view adapter.
+        binding.listView.adapter = adapter
+
+
+
+        // Inflate the user interface into the current activity.
         val view = binding.root
         setContentView(view)
     }

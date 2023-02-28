@@ -6,6 +6,7 @@
     <string name="title_activity_start_ride">StartRideActivity</string>
     <string name="title_activity_update_ride">UpdateRideActivity</string>
     <string name="update_ride">Update ride </string>
+    <string name="list_rides">List Rides</string>
 
 
 </resources>
