@@ -61,6 +61,9 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         ridesDB = RidesDB.get(this)
+
+        // Migrate from Kotlin synthetics to Jetpack view binding.
+        // https://developer.android.com/topic/libraries/view-binding/migration
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -79,6 +82,8 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
             listRidesButton.setOnClickListener{
+                // Define the list view adapter.
+                listViewContainer.adapter = adapter
                 //toggle visibility here
             }
         }
@@ -94,15 +99,6 @@ class MainActivity : AppCompatActivity() {
 
         // Create the custom adapter to populate a list of dummy objects.
         adapter = ScooterArrayAdapter(this, R.layout.list_item, data)
-
-        // Migrate from Kotlin synthetics to Jetpack view binding.
-        // https://developer.android.com/topic/libraries/view-binding/migration
-        binding = ActivityMainBinding.inflate(layoutInflater)
-
-        // Define the list view adapter.
-        binding.listView.adapter = adapter
-
-
 
         // Inflate the user interface into the current activity.
         val view = binding.root
