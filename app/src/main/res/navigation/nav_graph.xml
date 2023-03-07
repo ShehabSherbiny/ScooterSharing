@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_start_ride" />
     <fragment
         android:id="@+id/stopFragment"
-        android:name="dk.itu.moapd.scootersharing.ahga.StopRideFragment"
+        android:name="dk.itu.moapd.scootersharing.ahga.UpdateRideFragment"
         android:label="fragment_stop"
         tools:layout="@layout/fragment_update_ride" />
 </navigation>

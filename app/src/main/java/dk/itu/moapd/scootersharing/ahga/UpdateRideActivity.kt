@@ -58,10 +58,12 @@ class UpdateRideActivity : AppCompatActivity() {
             updateRideButton.setOnClickListener{
                 if(updateRideButton.text.isNotEmpty() && locationInput.text.isNotEmpty()){
                     val location = locationInput.text.toString().trim()
-                   /* scooter = Scooter(name, location, System.currentTimeMillis())
-                    val snack = Snackbar.make(it,scooter.toString(),1000)
-                    snack.setAnchorView(updateRideButton.id)
-                    snack.show()*/
+
+                    /* SnackBar:
+                     scooter = Scooter(name, location, System.currentTimeMillis())
+                     val snack = Snackbar.make(it,scooter.toString(),1000)
+                     snack.setAnchorView(updateRideButton.id)
+                     snack.show()*/
 
                     //reset textfields and update UI
                     nameInput.text.clear()

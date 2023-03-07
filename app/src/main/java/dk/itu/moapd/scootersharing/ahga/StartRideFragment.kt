@@ -1,11 +1,13 @@
 package dk.itu.moapd.scootersharing.ahga
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil.setContentView
 import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityStartRideBinding
 
@@ -23,6 +25,7 @@ class StartRideFragment : Fragment() {
         super.onCreate(savedInstanceState)
         ridesDB = RidesDB.get(requireContext())
         binding = ActivityStartRideBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
 
         //set event listener and implement logic
         binding.apply {
@@ -45,8 +48,9 @@ class StartRideFragment : Fragment() {
                     val intent = Intent().apply{
                         putExtra("name", name)
                     }
+//                    setResult(Activity.RESULT_OK,intent)
+//                    finish()
                 }
-//                finish()
             }
         }
 
