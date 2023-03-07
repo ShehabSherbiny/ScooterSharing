@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import dk.itu.moapd.scootersharing.ahga.databinding.ActivityUpdateRideBinding
+import dk.itu.moapd.scootersharing.ahga.databinding.FragmentUpdateRideBinding
 
 class UpdateRideFragment : Fragment() {
 
@@ -15,13 +15,13 @@ class UpdateRideFragment : Fragment() {
         lateinit var ridesDB: RidesDB
     }
 
-    private lateinit var binding: ActivityUpdateRideBinding
+    private lateinit var binding: FragmentUpdateRideBinding
     private lateinit var scooter : Scooter
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         UpdateRideFragment.ridesDB = RidesDB.get(requireContext())
-        binding = ActivityUpdateRideBinding.inflate(layoutInflater)
+        binding = FragmentUpdateRideBinding.inflate(layoutInflater)
 //        setContentView(binding.root)
 
         //set event listener and implement logic

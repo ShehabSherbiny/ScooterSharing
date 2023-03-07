@@ -16,13 +16,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="Fragment Update" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="24dp"
@@ -31,10 +24,11 @@
         <EditText
             android:id="@+id/name_input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:clickable="false"
             android:enabled="false"
-            />
+            android:inputType="text"
+            android:hint="@string/scooter_name"/>
     </LinearLayout>
 
     <LinearLayout
@@ -53,8 +47,9 @@
         <EditText
             android:id="@+id/location_input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text" />
+            android:layout_height="48dp"
+            android:inputType="text"
+            android:hint="@string/enter_your_new_location"/>
     </LinearLayout>
 
     <View

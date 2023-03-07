@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.snackbar.Snackbar
-import dk.itu.moapd.scootersharing.ahga.databinding.ActivityStartRideBinding
+import dk.itu.moapd.scootersharing.ahga.databinding.FragmentStartRideBinding
 
 class StartRideFragment : Fragment() {
 
@@ -16,13 +16,13 @@ class StartRideFragment : Fragment() {
         private lateinit var ridesDB: RidesDB
     }
 
-    private lateinit var binding: ActivityStartRideBinding
+    private lateinit var binding: FragmentStartRideBinding
     private lateinit var scooter : Scooter
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         ridesDB = RidesDB.get(requireContext())
-        binding = ActivityStartRideBinding.inflate(layoutInflater)
+        binding = FragmentStartRideBinding.inflate(layoutInflater)
 //        setContentView(binding.root)
 
         //set event listener and implement logic
