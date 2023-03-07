@@ -27,7 +27,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.core.view.WindowCompat
-import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityUpdateRideBinding
 
 class UpdateRideActivity : AppCompatActivity() {
