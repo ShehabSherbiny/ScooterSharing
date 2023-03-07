@@ -24,11 +24,9 @@ SOFTWARE.
 package dk.itu.moapd.scootersharing.ahga
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.WindowCompat
 import dk.itu.moapd.listview.ScooterArrayAdapter
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
@@ -40,16 +38,7 @@ class MainActivity : AppCompatActivity() {
         private lateinit var adapter: ScooterArrayAdapter
     }
 
-    private lateinit var binding: ActivityMainBinding
-    private var name : String? = null
 
-
-    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {result ->
-        if(result.resultCode == Activity.RESULT_OK) {
-            intent = result.data
-            name = intent?.getStringExtra("name")
-        }
-    }
 
     /**
      * Method for creating a new activity
@@ -60,48 +49,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState:Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-        ridesDB = RidesDB.get(this)
 
-        // Migrate from Kotlin synthetics to Jetpack view binding.
-        // https://developer.android.com/topic/libraries/view-binding/migration
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        //set event listener and implement logic
-        binding.apply {
-
-
-            startRideButton.setOnClickListener{
-              val intent = Intent(baseContext, StartRideActivity::class.java)
-                startForResult.launch(intent)
-            }
-            updateRideButton.setOnClickListener{
-                val intent = Intent(baseContext, UpdateRideActivity::class.java).apply {
-                    putExtra("name", name)
-                }
-                startActivity(intent)
-            }
-            listRidesButton.setOnClickListener{
-                // Define the list view adapter.
-                listViewContainer.adapter = adapter
-                //toggle visibility here
-            }
-        }
-
-        // Create a dummy dataset with 100 elements.
-        val data = ArrayList<Scooter>()
-        for (i in ridesDB.getRidesList())
-            data.add(
-                Scooter("Scooter Name ${i.name}",
-                    "Location ${i.location}",
-                    i.timestamp)
-            )
-
-        // Create the custom adapter to populate a list of dummy objects.
-        adapter = ScooterArrayAdapter(this, R.layout.list_item, data)
-
-        // Inflate the user interface into the current activity.
-        val view = binding.root
-        setContentView(view)
+        setContentView(R.layout.activity_main)
     }
 }
