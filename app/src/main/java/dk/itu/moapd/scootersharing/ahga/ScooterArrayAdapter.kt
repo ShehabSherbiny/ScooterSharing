@@ -20,13 +20,13 @@
  */
 package dk.itu.moapd.listview
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import dk.itu.moapd.scootersharing.ahga.MainFragment
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.Scooter
 
@@ -34,7 +34,7 @@ import dk.itu.moapd.scootersharing.ahga.Scooter
 /**
  * A class to customize an adapter with a `ViewHolder` to populate a dummy dataset into a `ListView`.
  */
-class ScooterArrayAdapter(context: MainFragment, private var resource: Int, data: List<Scooter>) :
+class ScooterArrayAdapter(context: Context, private var resource: Int, data: List<Scooter>) :
     ArrayAdapter<Scooter>(context, R.layout.list_item, data) {
 
     /**

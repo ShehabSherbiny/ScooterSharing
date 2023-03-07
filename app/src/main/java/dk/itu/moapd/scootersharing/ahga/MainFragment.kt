@@ -58,7 +58,7 @@ class MainFragment : Fragment() {
             )
 
         // Create the custom adapter to populate a list of dummy objects.
-        MainFragment.adapter = ScooterArrayAdapter(this, R.layout.list_item, data)
+        MainFragment.adapter = ScooterArrayAdapter(requireContext(), R.layout.list_item, data)
     }
 
     override fun onDestroyView() {

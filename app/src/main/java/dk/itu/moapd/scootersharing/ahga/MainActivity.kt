@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
+        ridesDB = RidesDB.get(this)
+
         setContentView(R.layout.activity_main)
     }
 }
