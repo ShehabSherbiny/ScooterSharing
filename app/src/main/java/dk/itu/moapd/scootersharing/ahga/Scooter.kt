@@ -33,7 +33,7 @@ import java.text.DateFormat
  */
 data class Scooter(val name: String, var location: String, var timestamp: Long = System.currentTimeMillis()){
     override fun toString(): String {
-        return "'$name' is placed at $location on ${DateFormat.getDateInstance().format(timestamp)}"
+        return "Scooter '$name' at '$location' on ${DateFormat.getDateInstance().format(timestamp)}"
     }
 }
 

@@ -1,14 +1,22 @@
 <resources>
     <string name="app_name">ScooterSharing</string>
+
     <string name="name_field">Name: </string>
     <string name="location_field">Location: </string>
+
     <string name="start_ride">Start ride </string>
+    <string name="update_ride">Update ride </string>
+
     <string name="title_activity_start_ride">StartRideActivity</string>
     <string name="title_activity_update_ride">UpdateRideActivity</string>
-    <string name="update_ride">Update ride </string>
+
     <string name="list_rides">List Rides</string>
-    <string name="enter_your_location">Enter your location</string>
-    <string name="enter_your_new_location">Enter your new location</string>
+
     <string name="enter_scooter_name">Enter scooter name</string>
+    <string name="enter_your_location">Enter your location</string>
     <string name="scooter_name">Scooter name</string>
+    <string name="enter_your_new_location">Enter your new location</string>
+    <string name="scooter_location">Scooter location</string>
+    <string name="scooter_time">Scooter time</string>
+
 </resources>

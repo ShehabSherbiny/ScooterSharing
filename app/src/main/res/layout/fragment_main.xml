@@ -22,8 +22,7 @@
             android:id="@+id/start_ride_button"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/start_ride"
-            />
+            android:text="@string/start_ride" />
 
     </LinearLayout>
 
@@ -41,29 +40,30 @@
             android:id="@+id/update_ride_button"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/update_ride"
-            />
+            android:text="@string/update_ride" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="437dp"
         android:layout_margin="5dp"
         android:gravity="center"
         android:orientation="vertical">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
         <Button
             android:id="@+id/list_rides_button"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/list_rides"
-            />
-
+            android:layout_height="wrap_content"
+            android:text="@string/list_rides" />
         <ListView
             android:id="@+id/list_view_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"/>
         <!--        android:visibility="gone"-->
 
     </LinearLayout>

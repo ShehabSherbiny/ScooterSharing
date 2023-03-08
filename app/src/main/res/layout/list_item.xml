@@ -5,22 +5,23 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="name"
-        android:id="@+id/item_name"/>
+        android:layout_margin="5dp"
+        android:hint="@string/scooter_name"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="location"
+        android:layout_margin="5dp"
+        android:hint="@string/scooter_location"
         android:id="@+id/item_location"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="time"
+        android:layout_margin="5dp"
+        android:hint="@string/scooter_time"
         android:id="@+id/item_time"/>
-
 
 </LinearLayout>

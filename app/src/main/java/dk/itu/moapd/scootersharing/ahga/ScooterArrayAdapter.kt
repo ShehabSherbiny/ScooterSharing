@@ -29,6 +29,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.Scooter
+import java.text.DateFormat
 
 
 /**
@@ -83,7 +84,7 @@ class ScooterArrayAdapter(context: Context, private val resource: Int, data: Lis
         // Populate the view holder with the selected `DummyModel` data.
         viewHolder.title.text = scooter?.name
         viewHolder.secondaryText.text = scooter?.location
-        viewHolder.supportingText.text = scooter?.timestamp.toString()
+        viewHolder.supportingText.text = DateFormat.getDateInstance().format(scooter?.timestamp)
 
         // Set the new view holder and return the view object.
         view?.tag = viewHolder

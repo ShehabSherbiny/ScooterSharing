@@ -11,51 +11,50 @@ class RidesDB private constructor(context: Context) {
 
     init {
         rides.add(
-            Scooter(" CPH001 ", "ITU ", randomDate())
+            Scooter("CPH001 ", "ITU ", randomDate())
         )
         rides.add(
-            Scooter(" CPH002 ", " Fields ", randomDate())
+            Scooter("CPH002 ", "Fields ", randomDate())
         )
         rides.add(
-            Scooter(" CPH003 ", " Lufthavn ", randomDate())
+            Scooter("CPH003 ", "Lufthavn ", randomDate())
         )
         rides.add(
-            Scooter(" CPH004 ", "ITU ", randomDate())
+            Scooter("CPH004 ", "ITU ", randomDate())
         )
         rides.add(
-            Scooter(" CPH005 ", " Fields ", randomDate())
+            Scooter("CPH005 ", "Fields ", randomDate())
         )
         rides.add(
-            Scooter(" CPH006 ", " Lufthavn ", randomDate())
+            Scooter("CPH006 ", "Lufthavn ", randomDate())
         )
         rides.add(
-            Scooter(" CPH007 ", "ITU ", randomDate())
+            Scooter("CPH007 ", "ITU ", randomDate())
         )
         rides.add(
-            Scooter(" CPH008 ", " Fields ", randomDate())
+            Scooter("CPH008 ", "Fields ", randomDate())
         )
         rides.add(
-            Scooter(" CPH009 ", " Lufthavn ", randomDate())
+            Scooter("CPH009 ", "Lufthavn ", randomDate())
         )
         rides.add(
-            Scooter(" CPH010 ", "ITU ", randomDate())
+            Scooter("CPH010 ", "ITU ", randomDate())
         )
         rides.add(
-            Scooter(" CPH011 ", " Fields ", randomDate())
+            Scooter("CPH011 ", "Fields ", randomDate())
         )
         rides.add(
-            Scooter(" CPH012 ", " Lufthavn ", randomDate())
+            Scooter("CPH012 ", "Lufthavn ", randomDate())
         )
         rides.add(
-            Scooter(" CPH013 ", "ITU ", randomDate())
+            Scooter("CPH013 ", "ITU ", randomDate())
         )
         rides.add(
-            Scooter(" CPH014 ", " Fields ", randomDate())
+            Scooter("CPH014 ", "Fields ", randomDate())
         )
         rides.add(
-            Scooter(" CPH015 ", " Lufthavn ", randomDate())
+            Scooter("CPH015 ", "Lufthavn ", randomDate())
         )
-// TODO : You can add more ‘Scooter ‘ objects if you want to.
     }
 
     fun getRidesList(): List<Scooter> {

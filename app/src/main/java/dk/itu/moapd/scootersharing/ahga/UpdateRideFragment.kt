@@ -19,10 +19,9 @@ class UpdateRideFragment : Fragment() {
     }
 
     private var _binding: FragmentUpdateRideBinding? = null
-    private val binding
-        get() = checkNotNull(_binding) {
-            "Cannot access binding because it is null. Is the view visible?"
-        }
+    private val binding get() = checkNotNull(_binding) {
+        "Cannot access binding because it is null. Is the view visible?"
+    }
 
     private lateinit var scooter : Scooter
 

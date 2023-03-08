@@ -18,10 +18,9 @@ class StartRideFragment : Fragment() {
     }
 
     private var _binding: FragmentStartRideBinding? = null
-    private val binding
-        get() = checkNotNull(_binding) {
-            "Cannot access binding because it is null. Is the view visible?"
-        }
+    private val binding get() = checkNotNull(_binding) {
+        "Cannot access binding because it is null. Is the view visible?"
+    }
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)

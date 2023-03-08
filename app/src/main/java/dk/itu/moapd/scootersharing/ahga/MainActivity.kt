@@ -24,30 +24,18 @@ SOFTWARE.
 package dk.itu.moapd.scootersharing.ahga
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.view.WindowCompat
-import dk.itu.moapd.listview.ScooterArrayAdapter
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
-import dk.itu.moapd.scootersharing.ahga.databinding.FragmentStartRideBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     companion object {
-        private val TAG = MainActivity :: class.qualifiedName
         lateinit var ridesDB: RidesDB
-        private lateinit var adapter: ScooterArrayAdapter
     }
-
-
-
-    /**
-     * Method for creating a new activity
-     * @param
-     */
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState:Bundle?) {
