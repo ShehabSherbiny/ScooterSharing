@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentUpdateRideBinding
 
 class UpdateRideFragment : Fragment() {
@@ -38,11 +39,10 @@ class UpdateRideFragment : Fragment() {
                 if(nameInput.text.toString().isNotEmpty() && locationInput.text.toString().isNotEmpty()){
                     val location = locationInput.text.toString().trim()
 
-                    /* SnackBar:
                      scooter = Scooter(name, location, System.currentTimeMillis())
                      val snack = Snackbar.make(it,scooter.toString(),1000)
                      snack.setAnchorView(updateRideButton.id)
-                     snack.show()*/
+                     snack.show()
 
                     //reset textfields and update UI
                     nameInput.text.clear()
