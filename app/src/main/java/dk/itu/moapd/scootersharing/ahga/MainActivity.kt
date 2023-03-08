@@ -29,14 +29,40 @@ import android.os.Bundle
 import androidx.core.view.WindowCompat
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
 
+/**
+ * An activity class used as canvas for different Fragments and a ListView.
+ */
 class MainActivity : AppCompatActivity() {
 
+    /**
+     * View binding is a feature that allows you to more easily write code that interacts with
+     * views. Once view binding is enabled in a module, it generates a binding class for each XML
+     * layout file present in that module. An instance of a binding class contains direct references
+     * to all views that have an ID in the corresponding layout.
+     */
     private lateinit var binding: ActivityMainBinding
 
+    /**
+     * A set of static attributes used in this activity class.
+     * `ridesDB` represents a MockDatBase, and is lazy instantiated.
+     */
     companion object {
         lateinit var ridesDB: RidesDB
     }
 
+    /**
+     * Called when the activity is starting.
+     * Derived classes must call through to the super class's implementation of this method.
+     * If they do not, an exception will be thrown.
+     *
+     * `binding` is initialized.
+     * `ridesDB` is initialized.
+     * `setContentView(int)` inflates the activity's UI, using ViewBinding.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut
+     * down then this Bundle contains the data it most recently supplied in `onSaveInstanceState()`.
+     * Note: Otherwise it is null.
+     */
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState:Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
