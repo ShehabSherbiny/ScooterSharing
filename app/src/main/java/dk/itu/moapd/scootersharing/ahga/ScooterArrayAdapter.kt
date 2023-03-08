@@ -34,7 +34,7 @@ import dk.itu.moapd.scootersharing.ahga.Scooter
 /**
  * A class to customize an adapter with a `ViewHolder` to populate a dummy dataset into a `ListView`.
  */
-class ScooterArrayAdapter(context: Context, private var resource: Int, data: List<Scooter>) :
+class ScooterArrayAdapter(context: Context, private val resource: Int, data: List<Scooter>) :
     ArrayAdapter<Scooter>(context, R.layout.list_item, data) {
 
     /**

@@ -19,9 +19,16 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding
         get() = checkNotNull(_binding){
-            "Cannot access"
+            "Cannot access Binding"
         }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ridesDB = RidesDB.get(requireContext())
+
+        // Create the custom adapter to populate a list of dummy objects.
+        adapter = ScooterArrayAdapter(requireContext(), R.layout.list_item, ridesDB.getRidesList())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +41,6 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ridesDB = RidesDB.get(requireContext())
         binding.apply {
             startRideButton.setOnClickListener {
                 findNavController().navigate(R.id.show_start_ride_fragment)
@@ -44,7 +50,7 @@ class MainFragment : Fragment() {
             }
             listRidesButton.setOnClickListener{
                 // Define the list view adapter.
-                listViewContainer.adapter = MainFragment.adapter
+                listViewContainer.adapter = adapter
                 //toggle visibility here
             }
         }
@@ -56,9 +62,6 @@ class MainFragment : Fragment() {
                     "Location ${i.location}",
                     i.timestamp)
             )
-
-        // Create the custom adapter to populate a list of dummy objects.
-        MainFragment.adapter = ScooterArrayAdapter(requireContext(), R.layout.list_item, data)
     }
 
     override fun onDestroyView() {

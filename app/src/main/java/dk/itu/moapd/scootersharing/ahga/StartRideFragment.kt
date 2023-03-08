@@ -1,11 +1,11 @@
 package dk.itu.moapd.scootersharing.ahga
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentStartRideBinding
 
@@ -23,37 +23,38 @@ class StartRideFragment : Fragment() {
         super.onCreate(savedInstanceState)
         ridesDB = RidesDB.get(requireContext())
         binding = FragmentStartRideBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
+//      setContentView(binding.root) // Only in the activity
 
+    }
+
+    // Opførsel i View
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         //set event listener and implement logic
         binding.apply {
 
-
             startRideButton.setOnClickListener{
-                if(startRideButton.text.isNotEmpty() && locationInput.text.isNotEmpty()){
+                if(nameInput.text.toString().isNotEmpty() && locationInput.text.toString().isNotEmpty()){
                     val name = nameInput.text.toString().trim()
                     val location = locationInput.text.toString().trim()
 
-                    scooter = Scooter(name, location)
-
-                    val snack = Snackbar.make(it,scooter.toString(),10000)
+                    val snack = Snackbar.make(it, ridesDB.getCurrentScooterInfo(),10000)
                     snack.setAnchorView(startRideButton.id)
                     snack.show()
+
+                    ridesDB.addScooter(name, location)
 
                     //reset textfields and update UI
                     nameInput.text.clear()
                     locationInput.text.clear()
-                    val intent = Intent().apply{
-                        putExtra("name", name)
-                    }
-//                    setResult(Activity.RESULT_OK,intent)
-//                    finish()
+
+                    findNavController().navigate(R.id.mainFragment)
                 }
             }
         }
-
     }
 
+    //Laver View
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

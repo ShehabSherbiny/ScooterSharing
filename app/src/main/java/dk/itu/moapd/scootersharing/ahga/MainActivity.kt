@@ -30,8 +30,12 @@ import android.os.Bundle
 import androidx.core.view.WindowCompat
 import dk.itu.moapd.listview.ScooterArrayAdapter
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
+import dk.itu.moapd.scootersharing.ahga.databinding.FragmentStartRideBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     companion object {
         private val TAG = MainActivity :: class.qualifiedName
         lateinit var ridesDB: RidesDB
@@ -50,8 +54,10 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
         ridesDB = RidesDB.get(this)
 
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
     }
 }

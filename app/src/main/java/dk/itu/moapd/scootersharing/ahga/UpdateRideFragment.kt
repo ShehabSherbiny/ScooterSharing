@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentUpdateRideBinding
 
 class UpdateRideFragment : Fragment() {
@@ -30,8 +31,11 @@ class UpdateRideFragment : Fragment() {
 //            val name = intent.getStringExtra("name")
 //            nameInput.setText(name)
 
+            val name = ridesDB.getCurrentScooter().name
+            nameInput.setText(name)
+
             updateRideButton.setOnClickListener{
-                if(updateRideButton.text.isNotEmpty() && locationInput.text.isNotEmpty()){
+                if(nameInput.text.toString().isNotEmpty() && locationInput.text.toString().isNotEmpty()){
                     val location = locationInput.text.toString().trim()
 
                     /* SnackBar:
@@ -43,7 +47,10 @@ class UpdateRideFragment : Fragment() {
                     //reset textfields and update UI
                     nameInput.text.clear()
                     locationInput.text.clear()
+
+                    ridesDB.updateCurrentScooter(location)
                 }
+                findNavController().navigate(R.id.mainFragment)
             }
         }
 
