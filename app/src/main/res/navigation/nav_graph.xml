@@ -22,9 +22,9 @@
         android:name="dk.itu.moapd.scootersharing.ahga.StartRideFragment"
         android:label="fragment_start"
         tools:layout="@layout/fragment_start_ride" >
-    <action
-        android:id="@+id/show_main_fragment"
-        app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/show_main_fragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/stopFragment"

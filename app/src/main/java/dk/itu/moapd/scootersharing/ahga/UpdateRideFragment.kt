@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast.LENGTH_SHORT
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentUpdateRideBinding
@@ -17,20 +18,31 @@ class UpdateRideFragment : Fragment() {
         lateinit var ridesDB: RidesDB
     }
 
-    private lateinit var binding: FragmentUpdateRideBinding
+    private var _binding: FragmentUpdateRideBinding? = null
+    private val binding
+        get() = checkNotNull(_binding) {
+            "Cannot access binding because it is null. Is the view visible?"
+        }
+
     private lateinit var scooter : Scooter
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
-        UpdateRideFragment.ridesDB = RidesDB.get(requireContext())
-        binding = FragmentUpdateRideBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
+        ridesDB = RidesDB.get(requireContext())
+    }
 
-        //set event listener and implement logic
+    override fun onCreateView( // LAYOUT
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentUpdateRideBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) { // LOGIC
+        super.onViewCreated(view, savedInstanceState)
+
         binding.apply {
-
-//            val name = intent.getStringExtra("name")
-//            nameInput.setText(name)
 
             val name = ridesDB.getCurrentScooter().name
             nameInput.setText(name)
@@ -39,33 +51,31 @@ class UpdateRideFragment : Fragment() {
                 if(nameInput.text.toString().isNotEmpty() && locationInput.text.toString().isNotEmpty()){
                     val location = locationInput.text.toString().trim()
 
-                     scooter = Scooter(name, location, System.currentTimeMillis())
-                     val snack = Snackbar.make(it,scooter.toString(),1000)
-                     snack.setAnchorView(updateRideButton.id)
-                     snack.show()
+                    scooter = Scooter(name, location, System.currentTimeMillis())
 
-                    //reset textfields and update UI
                     nameInput.text.clear()
                     locationInput.text.clear()
 
                     ridesDB.updateCurrentScooter(location)
+
+                    //SNACKBAR
+                    val snack = Snackbar.make(it,scooter.toString(), LENGTH_SHORT)
+                    snack.setAnchorView(updateRideButton.id)
+                    snack.show()
+
+                    findNavController().navigate(R.id.show_main_fragment)
                 }
-                findNavController().navigate(R.id.show_main_fragment)
             }
         }
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun showMessage(){
-        Log.d(UpdateRideFragment.TAG, scooter.toString())
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_update_ride, container, false)
+        Log.d(TAG, scooter.toString())
     }
 
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentStartRideBinding
 
@@ -16,37 +17,45 @@ class StartRideFragment : Fragment() {
         private lateinit var ridesDB: RidesDB
     }
 
-    private lateinit var binding: FragmentStartRideBinding
-    private lateinit var scooter : Scooter
+    private var _binding: FragmentStartRideBinding? = null
+    private val binding
+        get() = checkNotNull(_binding) {
+            "Cannot access binding because it is null. Is the view visible?"
+        }
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         ridesDB = RidesDB.get(requireContext())
-        binding = FragmentStartRideBinding.inflate(layoutInflater)
-//      setContentView(binding.root) // Only in the activity
-
     }
 
-    // Opførsel i View
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onCreateView( // LAYOUT
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        _binding = FragmentStartRideBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) { // LOGIC
         super.onViewCreated(view, savedInstanceState)
-        //set event listener and implement logic
+
         binding.apply {
 
-            startRideButton.setOnClickListener{
-                if(nameInput.text.toString().isNotEmpty() && locationInput.text.toString().isNotEmpty()){
-                    val name = nameInput.text.toString().trim()
-                    val location = locationInput.text.toString().trim()
-
-                    val snack = Snackbar.make(it, ridesDB.getCurrentScooterInfo(),10000)
-                    snack.setAnchorView(startRideButton.id)
-                    snack.show()
+            binding.startRideButton.setOnClickListener{
+                if(binding.nameInput.text.toString().isNotEmpty() && binding.locationInput.text.toString().isNotEmpty()){
+                    val name = binding.nameInput.text.toString().trim()
+                    val location = binding.locationInput.text.toString().trim()
 
                     ridesDB.addScooter(name, location)
 
-                    //reset textfields and update UI
-                    nameInput.text.clear()
-                    locationInput.text.clear()
+                    binding.nameInput.text.clear()
+                    binding.locationInput.text.clear()
+
+                    //SNACKBAR
+                    val snack = Snackbar.make(it, ridesDB.getCurrentScooterInfo(),LENGTH_SHORT)
+                    snack.setAnchorView(binding.startRideButton.id)
+                    snack.show()
 
                     findNavController().navigate(R.id.show_main_fragment)
                 }
@@ -54,13 +63,9 @@ class StartRideFragment : Fragment() {
         }
     }
 
-    //Laver View
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_start_ride, container, false)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
