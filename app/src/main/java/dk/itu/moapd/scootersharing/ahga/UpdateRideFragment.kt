@@ -50,7 +50,7 @@ class UpdateRideFragment : Fragment() {
 
                     ridesDB.updateCurrentScooter(location)
                 }
-                findNavController().navigate(R.id.mainFragment)
+                findNavController().navigate(R.id.show_main_fragment)
             }
         }
 

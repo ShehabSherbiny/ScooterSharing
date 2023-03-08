@@ -48,7 +48,7 @@ class StartRideFragment : Fragment() {
                     nameInput.text.clear()
                     locationInput.text.clear()
 
-                    findNavController().navigate(R.id.mainFragment)
+                    findNavController().navigate(R.id.show_main_fragment)
                 }
             }
         }

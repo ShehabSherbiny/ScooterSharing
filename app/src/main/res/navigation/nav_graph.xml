@@ -21,10 +21,18 @@
         android:id="@+id/startFragment"
         android:name="dk.itu.moapd.scootersharing.ahga.StartRideFragment"
         android:label="fragment_start"
-        tools:layout="@layout/fragment_start_ride" />
+        tools:layout="@layout/fragment_start_ride" >
+    <action
+        android:id="@+id/show_main_fragment"
+        app:destination="@id/mainFragment" />
+    </fragment>
     <fragment
         android:id="@+id/stopFragment"
         android:name="dk.itu.moapd.scootersharing.ahga.UpdateRideFragment"
         android:label="fragment_stop"
-        tools:layout="@layout/fragment_update_ride" />
+        tools:layout="@layout/fragment_update_ride" >
+        <action
+            android:id="@+id/show_main_fragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>
