@@ -21,9 +21,11 @@
     <string name="enter_your_new_location">Enter your new location</string>
     <string name="scooter_location">Scooter location</string>
     <string name="scooter_time">Scooter time</string>
+
     <string name="cancel">Cancel</string>
     <string name="decline">Decline</string>
     <string name="accept">Accept</string>
+
     <string name="delete_ride">Delete Ride</string>
     <string name="search_ride">Search Ride</string>
     <string name="delete_ride_title">DELETE RIDE</string>
