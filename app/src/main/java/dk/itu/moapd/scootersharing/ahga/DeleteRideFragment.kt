@@ -47,47 +47,41 @@ class DeleteRideFragment : Fragment() {
             binding.deleteRideButton.setOnClickListener{
                 if(binding.nameInput.text.toString().isNotEmpty()){
 
-                    MaterialAlertDialogBuilder(requireContext())
-                        .setTitle(resources.getString(R.string.app_name))
-                        .setMessage(resources.getString(R.string.start_ride))
-                        .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
-                            // Respond to neutral button press
-                            binding.nameInput.text.clear()
-                        }
-                        .setNegativeButton(resources.getString(R.string.decline)) { dialog, which ->
-                            // Respond to negative button press
-                            binding.nameInput.text.clear()
-                        }
-                        .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
-                            // Respond to positive button press
+                    val name = binding.nameInput.text.toString().trim()
 
-                            //TODO: DEBUG: Find Ride in the DataBase to Delete
-                            val name = binding.nameInput.text.toString().trim()
+                    if (ridesDB.containsScooter(name)){
 
-                            Log.d(TAG, "CONTAIN SCOOTER: " + ridesDB.containsScooter(name))
-                            //WHY DOES IT RETURN FALSE?
-                            if (ridesDB.containsScooter(name)){
-                                Log.d(TAG, "CONTAIN SCOOTER: " + ridesDB.getRidesList())
-
-                                ridesDB.deleteScooter(name)
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setTitle(resources.getString(R.string.app_name))
+                            .setMessage(resources.getString(R.string.delete_ride) + ": " + binding.nameInput.text.toString())
+                            .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+                                // Respond to neutral button press
+                                binding.nameInput.text.clear()
                             }
-                            else {
+                            .setNegativeButton(resources.getString(R.string.decline)) { dialog, which ->
+                                // Respond to negative button press
+                                binding.nameInput.text.clear()
+                            }
+                            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                                // Respond to positive button press
+                                ridesDB.deleteScooter(name)
+
                                 //SNACKBAR
-                                val snack = Snackbar.make(it, "Ride Don't Exist",LENGTH_SHORT)
+                                val snack = Snackbar.make(it, "Ride deleted",LENGTH_SHORT)
                                 snack.setAnchorView(binding.deleteRideButton.id)
                                 snack.show()
+
+                                binding.nameInput.text.clear()
+
+                                findNavController().navigate(R.id.show_main_fragment)
                             }
-
-                            binding.nameInput.text.clear()
-
-                            //SNACKBAR
-                            val snack = Snackbar.make(it, "Ride deleted",LENGTH_SHORT)
-                            snack.setAnchorView(binding.deleteRideButton.id)
-                            snack.show()
-
-                            findNavController().navigate(R.id.show_main_fragment)
-                        }
-                        .show()
+                            .show()
+                    } else {
+                        //SNACKBAR
+                        val snack = Snackbar.make(it, "Ride doesn't exist\nCheck your rides at the 'List Rides'",LENGTH_SHORT)
+                        snack.setAnchorView(binding.deleteRideButton)
+                        snack.show()
+                    }
                 } else {
                     //SNACKBAR
                     val snack = Snackbar.make(it, "The field must not be empty",LENGTH_SHORT)

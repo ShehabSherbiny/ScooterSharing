@@ -47,7 +47,7 @@ class StartRideFragment : Fragment() {
 
                     MaterialAlertDialogBuilder(requireContext())
                         .setTitle(resources.getString(R.string.app_name))
-                        .setMessage(resources.getString(R.string.start_ride))
+                        .setMessage(resources.getString(R.string.start_ride) + ": " + binding.nameInput.text.toString() + " from " + binding.locationInput.text.toString())
                         .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
                             // Respond to neutral button press
                             binding.nameInput.text.clear()
@@ -60,7 +60,6 @@ class StartRideFragment : Fragment() {
                         }
                         .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
                             // Respond to positive button press
-
                             val name = binding.nameInput.text.toString().trim()
                             val location = binding.locationInput.text.toString().trim()
 

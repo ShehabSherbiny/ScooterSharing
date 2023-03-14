@@ -53,7 +53,7 @@ class UpdateRideFragment : Fragment() {
 
                     MaterialAlertDialogBuilder(requireContext())
                         .setTitle(resources.getString(R.string.app_name))
-                        .setMessage(resources.getString(R.string.start_ride))
+                        .setMessage(resources.getString(R.string.update_ride) + ": " + binding.nameInput.text.toString() + " to " + binding.locationInput.text.toString())
                         .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
                             // Respond to neutral button press
                             binding.locationInput.text.clear()

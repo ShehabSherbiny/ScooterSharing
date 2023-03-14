@@ -12,49 +12,49 @@ class RidesDB private constructor(context: Context) {
 
     init {
         rides.add(
-            Scooter("CPH001 ", "ITU ", randomDate())
+            Scooter("CPH001", "ITU ", randomDate())
         )
         rides.add(
-            Scooter("CPH002 ", "Fields ", randomDate())
+            Scooter("CPH002", "Fields ", randomDate())
         )
         rides.add(
-            Scooter("CPH003 ", "Lufthavn ", randomDate())
+            Scooter("CPH003", "Lufthavn ", randomDate())
         )
         rides.add(
-            Scooter("CPH004 ", "ITU ", randomDate())
+            Scooter("CPH004", "ITU ", randomDate())
         )
         rides.add(
-            Scooter("CPH005 ", "Fields ", randomDate())
+            Scooter("CPH005", "Fields ", randomDate())
         )
         rides.add(
-            Scooter("CPH006 ", "Lufthavn ", randomDate())
+            Scooter("CPH006", "Lufthavn ", randomDate())
         )
         rides.add(
-            Scooter("CPH007 ", "ITU ", randomDate())
+            Scooter("CPH007", "ITU ", randomDate())
         )
         rides.add(
-            Scooter("CPH008 ", "Fields ", randomDate())
+            Scooter("CPH008", "Fields ", randomDate())
         )
         rides.add(
-            Scooter("CPH009 ", "Lufthavn ", randomDate())
+            Scooter("CPH009", "Lufthavn ", randomDate())
         )
         rides.add(
-            Scooter("CPH010 ", "ITU ", randomDate())
+            Scooter("CPH010", "ITU ", randomDate())
         )
         rides.add(
-            Scooter("CPH011 ", "Fields ", randomDate())
+            Scooter("CPH011", "Fields ", randomDate())
         )
         rides.add(
-            Scooter("CPH012 ", "Lufthavn ", randomDate())
+            Scooter("CPH012", "Lufthavn ", randomDate())
         )
         rides.add(
-            Scooter("CPH013 ", "ITU ", randomDate())
+            Scooter("CPH013", "ITU ", randomDate())
         )
         rides.add(
-            Scooter("CPH014 ", "Fields ", randomDate())
+            Scooter("CPH014", "Fields ", randomDate())
         )
         rides.add(
-            Scooter("CPH015 ", "Lufthavn ", randomDate())
+            Scooter("CPH015", "Lufthavn ", randomDate())
         )
     }
 
@@ -69,15 +69,11 @@ class RidesDB private constructor(context: Context) {
     }
 
     fun containsScooter(name: String) : Boolean {
-        val scooterFound = rides.find { it.name == name }
-        Log.d("CONTAINS", "CONTAINS: SCOOTERFOUND: " + scooterFound)
-        //WHY DOES IT RETURNS NULL?
-        return rides.contains(scooterFound)
+        return rides.contains(rides.find { it.name == name })
     }
 
     fun deleteScooter(name: String) {
         val scooterToRemove = rides.find { it.name == name }
-        Log.d("RIDEDB", "REMOVE: " + scooterToRemove )
         scooterToRemove?.let { rides.remove(it) }
     }
 
