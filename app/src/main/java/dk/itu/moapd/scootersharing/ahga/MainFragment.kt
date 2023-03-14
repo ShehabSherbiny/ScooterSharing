@@ -57,6 +57,9 @@ class MainFragment : Fragment() {
             updateRideButton.setOnClickListener{
                 findNavController().navigate(R.id.show_update_ride_fragment)
             }
+            deleteRideButton.setOnClickListener{
+                findNavController().navigate(R.id.show_delete_ride_fragment)
+            }
             listRidesButton.setOnClickListener{
 
                 recyclerView.adapter = adapter

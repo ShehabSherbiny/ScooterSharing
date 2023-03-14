@@ -24,5 +24,8 @@
     <string name="cancel">Cancel</string>
     <string name="decline">Decline</string>
     <string name="accept">Accept</string>
+    <string name="delete_ride">Delete Ride</string>
+    <string name="search_ride">Search Ride</string>
+    <string name="delete_ride_title">DELETE RIDE</string>
 
 </resources>

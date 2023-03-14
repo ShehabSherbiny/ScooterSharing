@@ -1,6 +1,7 @@
 package dk.itu.moapd.scootersharing.ahga
 
 import android.content.Context
+import android.util.Log
 import java.util.Random
 import kotlin.collections.ArrayList
 
@@ -65,6 +66,19 @@ class RidesDB private constructor(context: Context) {
         rides.add(
             Scooter(name, location)
         )
+    }
+
+    fun containsScooter(name: String) : Boolean {
+        val scooterFound = rides.find { it.name == name }
+        Log.d("CONTAINS", "CONTAINS: SCOOTERFOUND: " + scooterFound)
+        //WHY DOES IT RETURNS NULL?
+        return rides.contains(scooterFound)
+    }
+
+    fun deleteScooter(name: String) {
+        val scooterToRemove = rides.find { it.name == name }
+        Log.d("RIDEDB", "REMOVE: " + scooterToRemove )
+        scooterToRemove?.let { rides.remove(it) }
     }
 
     fun updateCurrentScooter(location: String) {
