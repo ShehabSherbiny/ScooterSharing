@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast.LENGTH_SHORT
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentUpdateRideBinding
 
@@ -48,21 +50,44 @@ class UpdateRideFragment : Fragment() {
 
             updateRideButton.setOnClickListener{
                 if(nameInput.text.toString().isNotEmpty() && locationInput.text.toString().isNotEmpty()){
-                    val location = locationInput.text.toString().trim()
 
-                    scooter = Scooter(name, location, System.currentTimeMillis())
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(resources.getString(R.string.app_name))
+                        .setMessage(resources.getString(R.string.start_ride))
+                        .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+                            // Respond to neutral button press
+                            binding.locationInput.text.clear()
+                        }
+                        .setNegativeButton(resources.getString(R.string.decline)) { dialog, which ->
+                            // Respond to negative button press
+                            binding.locationInput.text.clear()
+                        }
+                        .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                            // Respond to positive button press
+                            val location = locationInput.text.toString().trim()
 
-                    nameInput.text.clear()
-                    locationInput.text.clear()
+                            scooter = Scooter(name, location, System.currentTimeMillis())
 
-                    ridesDB.updateCurrentScooter(location)
+                            nameInput.text.clear()
+                            locationInput.text.clear()
 
+                            ridesDB.updateCurrentScooter(location)
+
+                            //SNACKBAR
+                            val snack = Snackbar.make(it,scooter.toString(), LENGTH_SHORT)
+                            snack.setAnchorView(updateRideButton.id)
+                            snack.show()
+
+                            findNavController().navigate(R.id.show_main_fragment)
+                        }
+                        .show()
+                } else {
                     //SNACKBAR
-                    val snack = Snackbar.make(it,scooter.toString(), LENGTH_SHORT)
-                    snack.setAnchorView(updateRideButton.id)
+                    val snack = Snackbar.make(it, "The field must not be empty",
+                        BaseTransientBottomBar.LENGTH_SHORT
+                    )
+                    snack.setAnchorView(binding.updateRideButton.id)
                     snack.show()
-
-                    findNavController().navigate(R.id.show_main_fragment)
                 }
             }
         }
