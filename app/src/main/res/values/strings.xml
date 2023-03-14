@@ -11,6 +11,9 @@
     <string name="title_activity_update_ride">UpdateRideActivity</string>
 
     <string name="list_rides">List Rides</string>
+    <string name="s_name">%s</string>
+    <string name="s_location">%s</string>
+    <string name="s_time">%s</string>
 
     <string name="enter_scooter_name">Enter scooter name</string>
     <string name="enter_your_location">Enter your location</string>

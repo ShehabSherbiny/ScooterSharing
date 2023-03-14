@@ -12,16 +12,6 @@
         android:theme="@style/Theme.ScooterSharing"
         tools:targetApi="31">
         <activity
-            android:name=".StartRideActivity"
-            android:exported="false"
-            android:label="@string/title_activity_start_ride"
-            android:theme="@style/Theme.ScooterSharing.NoActionBar" />
-        <activity
-            android:name=".UpdateRideActivity"
-            android:exported="false"
-            android:label="@string/title_activity_update_ride"
-            android:theme="@style/Theme.ScooterSharing.NoActionBar" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

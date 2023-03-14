@@ -1,19 +1,21 @@
 package dk.itu.moapd.scootersharing.ahga
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import dk.itu.moapd.listview.ScooterArrayAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import dk.itu.moapd.listview.ScooterAdapter
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
 
     companion object {
         lateinit var ridesDB: RidesDB
-        private lateinit var adapter: ScooterArrayAdapter
+        private lateinit var adapter: ScooterAdapter
     }
 
     private var _binding: FragmentMainBinding? = null
@@ -26,7 +28,10 @@ class MainFragment : Fragment() {
 
         ridesDB = RidesDB.get(requireContext())
 
-        adapter = ScooterArrayAdapter(requireContext(), R.layout.list_item, ridesDB.getRidesList())
+        adapter = ScooterAdapter(ridesDB)
+
+        _binding = FragmentMainBinding.inflate(layoutInflater)
+
     }
 
     override fun onCreateView( // LAYOUT
@@ -37,10 +42,14 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { // LOGIC
         super.onViewCreated(view, savedInstanceState)
 
+
         binding.apply {
+
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             startRideButton.setOnClickListener {
                 findNavController().navigate(R.id.show_start_ride_fragment)
@@ -49,18 +58,11 @@ class MainFragment : Fragment() {
                 findNavController().navigate(R.id.show_update_ride_fragment)
             }
             listRidesButton.setOnClickListener{
-                listViewContainer.adapter = adapter
+
+                recyclerView.adapter = adapter
                 //TODO: toggle visibility here
             }
         }
-
-        val data = ArrayList<Scooter>()
-        for (i in MainActivity.ridesDB.getRidesList())
-            data.add(
-                Scooter("Scooter Name ${i.name}",
-                    "Location ${i.location}",
-                    i.timestamp)
-            )
     }
 
     override fun onDestroyView() {
