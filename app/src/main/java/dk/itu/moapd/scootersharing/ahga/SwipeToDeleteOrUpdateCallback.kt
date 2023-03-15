@@ -9,12 +9,10 @@ class SwipeToDeleteOrUpdateCallback(private val adapter: RecyclerView.Adapter<*>
         val position = viewHolder.adapterPosition
         when (direction) {
             ItemTouchHelper.LEFT -> {
-                // Handle left swipe (delete)
                 //TODO: delete from rides array for real
                 adapter.notifyItemRemoved(position)
             }
             ItemTouchHelper.RIGHT -> {
-                // Handle right swipe (update)
                 //TODO: call update ride
                 adapter.notifyItemChanged(position)
             }
