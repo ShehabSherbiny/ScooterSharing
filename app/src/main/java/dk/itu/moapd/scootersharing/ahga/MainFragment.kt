@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import dk.itu.moapd.listview.ScooterAdapter
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMainBinding
 
@@ -63,9 +63,16 @@ class MainFragment : Fragment() {
             listRidesButton.setOnClickListener{
 
                 recyclerView.adapter = adapter
-                //TODO: toggle visibility here
+                if (recyclerView.visibility == View.VISIBLE){
+                    recyclerView.visibility = View.INVISIBLE
+                } else {
+                    recyclerView.visibility = View.VISIBLE
+                }
             }
         }
+
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteOrUpdateCallback(adapter))
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
     }
 
     override fun onDestroyView() {
