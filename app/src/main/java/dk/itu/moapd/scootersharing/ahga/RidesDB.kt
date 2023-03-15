@@ -1,7 +1,6 @@
 package dk.itu.moapd.scootersharing.ahga
 
 import android.content.Context
-import android.util.Log
 import java.util.Random
 import kotlin.collections.ArrayList
 
@@ -72,9 +71,15 @@ class RidesDB private constructor(context: Context) {
         return rides.contains(rides.find { it.name == name })
     }
 
-    fun deleteScooter(name: String) {
+    fun deleteScooterByName(name: String) {
         val scooterToRemove = rides.find { it.name == name }
         scooterToRemove?.let { rides.remove(it) }
+    }
+
+    fun deleteScooterByID(itemID: Int) {
+        if (rides.size != 0){
+            rides.removeAt(itemID)
+        }
     }
 
     fun updateCurrentScooter(location: String) {

@@ -1,7 +1,6 @@
 package dk.itu.moapd.scootersharing.ahga
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentDeleteRideBinding
-import dk.itu.moapd.scootersharing.ahga.databinding.FragmentStartRideBinding
 
 class DeleteRideFragment : Fragment() {
 
@@ -64,7 +62,7 @@ class DeleteRideFragment : Fragment() {
                             }
                             .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
                                 // Respond to positive button press
-                                ridesDB.deleteScooter(name)
+                                ridesDB.deleteScooterByName(name)
 
                                 //SNACKBAR
                                 val snack = Snackbar.make(it, "Ride deleted",LENGTH_SHORT)

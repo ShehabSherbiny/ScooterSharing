@@ -1,19 +1,24 @@
 package dk.itu.moapd.scootersharing.ahga
 
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import dk.itu.moapd.scootersharing.ahga.MainActivity.Companion.ridesDB
 
 class SwipeToDeleteOrUpdateCallback(private val adapter: RecyclerView.Adapter<*>) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
+
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
+
         when (direction) {
             ItemTouchHelper.LEFT -> {
-                //TODO: delete from rides array for real
+                ridesDB.deleteScooterByID(position)
                 adapter.notifyItemRemoved(position)
             }
             ItemTouchHelper.RIGHT -> {
                 //TODO: call update ride
+                //findNavController().navigate(R.id.show_update_ride_fragment)
                 adapter.notifyItemChanged(position)
             }
         }
