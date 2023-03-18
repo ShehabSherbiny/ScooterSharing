@@ -17,5 +17,21 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
 
+    <include
+        android:id="@+id/content_main"
+        layout="@layout/content_main" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 </LinearLayout>
 

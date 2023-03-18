@@ -24,9 +24,12 @@ SOFTWARE.
 package dk.itu.moapd.scootersharing.ahga.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.view.WindowCompat
+import com.google.firebase.auth.FirebaseAuth
+import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
 
@@ -34,6 +37,8 @@ import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
  * An activity class used as canvas for different Fragments and a ListView.
  */
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var auth: FirebaseAuth
 
     /**
      * View binding is a feature that allows you to more easily write code that interacts with
@@ -49,6 +54,28 @@ class MainActivity : AppCompatActivity() {
      */
     companion object {
         lateinit var ridesDB: RidesDB
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        // Check if the user is not logged and redirect her/him to the LoginActivity.
+        if (auth.currentUser == null)
+            startLoginActivity()
+
+        // Set the user information.
+        val user = auth.currentUser
+        binding.contentMain.description.text = getString(
+            R.string.firebase_user_description,
+            if (user?.email!!.isEmpty()) user.phoneNumber else user.email
+        )
+    }
+
+    private fun startLoginActivity() {
+        val intent = Intent(this,
+            LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     /**
@@ -68,6 +95,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState:Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+
+        auth = FirebaseAuth.getInstance()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
