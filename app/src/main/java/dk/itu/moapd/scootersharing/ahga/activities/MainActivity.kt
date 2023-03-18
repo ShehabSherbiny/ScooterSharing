@@ -27,6 +27,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.core.view.WindowCompat
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.ahga.R
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         binding.contentMain.description.text = getString(
             R.string.firebase_user_description,
             if (user?.email!!.isEmpty()) user.phoneNumber else user.email
+
         )
     }
 
@@ -102,6 +104,25 @@ class MainActivity : AppCompatActivity() {
 
         ridesDB = RidesDB.get(this)
 
+//        setSupportActionBar(binding.toolbar)
+
         setContentView(binding.root)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return when (item.itemId) {
+            // Firebase Sign Out.
+            R.id.action_sign_out -> {
+                auth.signOut()
+                startLoginActivity()
+                true
+            } else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
 }
+

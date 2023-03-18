@@ -29,9 +29,10 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize" />
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/app_name"
+            app:menu="@menu/menu_main"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
 </LinearLayout>
-

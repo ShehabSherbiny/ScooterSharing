@@ -18,10 +18,11 @@
 <resources>
 <!-- Base application theme. -->
 <style name="Base.Theme.FirebaseAuthentication" parent="Theme.Material3.DayNight.NoActionBar">
-    <!-- Customize your dark theme here. -->
-    <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <!-- Customize your light theme here. -->
+    <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <item name="windowActionBar">false</item>
+
 </style>
 
-    <style name="Theme.FirebaseAuthentication" parent="Base.Theme.FirebaseAuthentication" />
-
+<style name="Theme.FirebaseAuthentication" parent="Base.Theme.FirebaseAuthentication" />
 </resources>
