@@ -1,4 +1,4 @@
-package dk.itu.moapd.scootersharing.ahga
+package dk.itu.moapd.scootersharing.ahga.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import dk.itu.moapd.listview.ScooterAdapter
+import dk.itu.moapd.scootersharing.ahga.adapters.ScooterAdapter
+import dk.itu.moapd.scootersharing.ahga.R
+import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
+import dk.itu.moapd.scootersharing.ahga.helperClasses.SwipeToDeleteOrUpdateCallback
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {

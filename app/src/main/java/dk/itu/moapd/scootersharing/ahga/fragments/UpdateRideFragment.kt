@@ -1,4 +1,4 @@
-package dk.itu.moapd.scootersharing.ahga
+package dk.itu.moapd.scootersharing.ahga.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +11,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
+import dk.itu.moapd.scootersharing.ahga.R
+import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
+import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentUpdateRideBinding
 
 class UpdateRideFragment : Fragment() {

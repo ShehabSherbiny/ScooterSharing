@@ -18,15 +18,15 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package dk.itu.moapd.listview
+package dk.itu.moapd.scootersharing.ahga.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import dk.itu.moapd.scootersharing.ahga.R
-import dk.itu.moapd.scootersharing.ahga.RidesDB
-import dk.itu.moapd.scootersharing.ahga.Scooter
+import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
+import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.ListItemBinding
 
 
@@ -49,20 +49,20 @@ class ScooterAdapter(private val ridesDB: RidesDB) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScooterAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         // Create a new view, which defines the UI of the list item
         val inflater = LayoutInflater.from(parent.context)
         val binding = ListItemBinding.inflate(inflater, parent, false)
-        return ScooterAdapter.ViewHolder(binding)
+        return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ScooterAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         val scooter = ridesDB.getRidesList()[position]
-        Log.d(ScooterAdapter.TAG, "Populate an item at position: $position")
+        Log.d(TAG, "Populate an item at position: $position")
 
         // Bind the view holder with the selected `DummyModel` data.
         holder.bind(scooter)

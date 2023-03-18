@@ -21,12 +21,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package dk.itu.moapd.scootersharing.ahga
+package dk.itu.moapd.scootersharing.ahga.activities
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.view.WindowCompat
+import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
 
 /**

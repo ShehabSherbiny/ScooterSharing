@@ -1,9 +1,8 @@
-package dk.itu.moapd.scootersharing.ahga
+package dk.itu.moapd.scootersharing.ahga.helperClasses
 
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import dk.itu.moapd.scootersharing.ahga.MainActivity.Companion.ridesDB
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.ridesDB
 
 class SwipeToDeleteOrUpdateCallback(private val adapter: RecyclerView.Adapter<*>) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 

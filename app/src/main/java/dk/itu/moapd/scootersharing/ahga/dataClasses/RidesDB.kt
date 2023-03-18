@@ -1,4 +1,4 @@
-package dk.itu.moapd.scootersharing.ahga
+package dk.itu.moapd.scootersharing.ahga.dataClasses
 
 import android.content.Context
 import java.util.Random
