@@ -27,6 +27,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.WindowCompat
 import com.google.firebase.auth.FirebaseAuth
@@ -95,7 +96,7 @@ class MainActivity : AppCompatActivity() {
      */
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState:Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
@@ -104,9 +105,15 @@ class MainActivity : AppCompatActivity() {
 
         ridesDB = RidesDB.get(this)
 
-//        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.toolbar)
 
         setContentView(binding.root)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

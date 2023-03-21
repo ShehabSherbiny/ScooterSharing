@@ -67,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
             .setLogo(R.drawable.firebase_icon)
-            .setTheme(R.style.Theme_FirebaseAuthentication)
+            .setTheme(R.style.Theme_ScooterSharing)
             .build()
         signInLauncher.launch(signInIntent)
     }
