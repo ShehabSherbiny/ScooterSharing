@@ -1,5 +1,6 @@
 package dk.itu.moapd.scootersharing.ahga.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import dk.itu.moapd.scootersharing.ahga.adapters.ScooterAdapter
 import dk.itu.moapd.scootersharing.ahga.R
+import dk.itu.moapd.scootersharing.ahga.activities.LoginActivity
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.helperClasses.SwipeToDeleteOrUpdateCallback
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMainBinding
@@ -86,16 +88,29 @@ class MainFragment : Fragment() {
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             // IF THE USER IS NOT AUTH DON'T SHOW THE ADAPTER
-            //if (auth == null) { it ->
-            recyclerView.adapter = adapter
-            //}
+            if (auth == null){
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+            }
         }
-        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteOrUpdateCallback(adapter))
-        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+//        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteOrUpdateCallback(adapter))
+  //      itemTouchHelper.attachToRecyclerView(binding.recyclerView)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+//    override fun onStart() {
+//        super.onStart()
+//        if (auth.currentUser == null){
+//            val intent = Intent(requireContext(), LoginActivity::class.java)
+//            startActivity(intent)
+//            activity?.finish()
+//        }
+//    }
+
+
 }
