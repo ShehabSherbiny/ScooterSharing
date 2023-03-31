@@ -25,23 +25,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import dk.itu.moapd.scootersharing.ahga.R
-import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.ListItemBinding
-
+import com.firebase.ui.database.FirebaseRecyclerAdapter
+import com.firebase.ui.database.FirebaseRecyclerOptions
 
 /**
  * A class to customize an adapter with a `ViewHolder` to populate a dummy dataset into a `ListView`.
  */
-class ScooterAdapter(private val ridesDB: RidesDB) :
-    RecyclerView.Adapter<ScooterAdapter.ViewHolder>() {
+
+class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
+    FirebaseRecyclerAdapter<Scooter, ScooterAdapter.ViewHolder>(options) {
 
     companion object {
         private val TAG = ScooterAdapter::class.qualifiedName
     }
 
     class ViewHolder(private val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(scooter: Scooter){
             binding.itemName.text = binding.root.context.getString(R.string.s_name, scooter.name)
             binding.itemLocation.text = binding.root.context.getString(R.string.s_location, scooter.location)
@@ -57,17 +57,14 @@ class ScooterAdapter(private val ridesDB: RidesDB) :
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        // Get element from your dataset at this position and replace the
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, scooter: Scooter) {
+                // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        val scooter = ridesDB.getRidesList()[position]
         Log.d(TAG, "Populate an item at position: $position")
 
         // Bind the view holder with the selected `DummyModel` data.
         holder.bind(scooter)
-    }
 
-    override fun getItemCount() = ridesDB.getRidesList().size
+    }
 
 }

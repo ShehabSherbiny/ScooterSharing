@@ -31,5 +31,6 @@
     <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 <!--    <item name="windowActionBar">false</item>-->
 
+    <item name="android:windowBackground">@drawable/simpsons</item>
 </style>
 </resources>

@@ -8,16 +8,24 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import dk.itu.moapd.scootersharing.ahga.adapters.ScooterAdapter
 import dk.itu.moapd.scootersharing.ahga.R
-import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
+import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.helperClasses.SwipeToDeleteOrUpdateCallback
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMainBinding
+import dk.itu.moapd.scootersharing.ahga.helperClasses.DATABASE_URL
 
 class MainFragment : Fragment() {
 
+    private lateinit var database: DatabaseReference
+    private lateinit var auth: FirebaseAuth
+
     companion object {
-        lateinit var ridesDB: RidesDB
         private lateinit var adapter: ScooterAdapter
     }
 
@@ -29,12 +37,24 @@ class MainFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        ridesDB = RidesDB.get(requireContext())
+        auth = FirebaseAuth.getInstance()
+        database = Firebase.database(DATABASE_URL).reference
 
-        adapter = ScooterAdapter(ridesDB)
+        auth.currentUser?.let {
+            val query = database.child("scooters")
+//                .child("scooter1")
+//                .child(it.uid)
+//                .orderByChild("createdAt")
+            val options = FirebaseRecyclerOptions.Builder<Scooter>()
+                .setQuery(query, Scooter::class.java)
+                .setLifecycleOwner(this)
+                .build()
+            // Create the custom adapter to bind a list of dummy objects.
+            adapter = ScooterAdapter(options)
+        }
 
-        _binding = FragmentMainBinding.inflate(layoutInflater)
-
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = adapter
     }
 
     override fun onCreateView( // LAYOUT
@@ -52,7 +72,7 @@ class MainFragment : Fragment() {
 
         binding.apply {
 
-            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//            recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             startRideButton.setOnClickListener {
                 findNavController().navigate(R.id.show_start_ride_fragment)
@@ -65,12 +85,12 @@ class MainFragment : Fragment() {
             }
             listRidesButton.setOnClickListener{
 
-                recyclerView.adapter = adapter
-                if (recyclerView.visibility == View.VISIBLE){
-                    recyclerView.visibility = View.INVISIBLE
-                } else {
-                    recyclerView.visibility = View.VISIBLE
-                }
+////                recyclerView.adapter = adapter
+//                if (recyclerView.visibility == View.VISIBLE){
+//                    recyclerView.visibility = View.INVISIBLE
+//                } else {
+//                    recyclerView.visibility = View.VISIBLE
+//                }
             }
         }
 
