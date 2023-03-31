@@ -42,19 +42,12 @@ class MainFragment : Fragment() {
 
         auth.currentUser?.let {
             val query = database.child("scooters")
-//                .child("scooter1")
-//                .child(it.uid)
-//                .orderByChild("createdAt")
             val options = FirebaseRecyclerOptions.Builder<Scooter>()
                 .setQuery(query, Scooter::class.java)
                 .setLifecycleOwner(this)
                 .build()
-            // Create the custom adapter to bind a list of dummy objects.
             adapter = ScooterAdapter(options)
         }
-
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
     }
 
     override fun onCreateView( // LAYOUT
@@ -72,8 +65,6 @@ class MainFragment : Fragment() {
 
         binding.apply {
 
-//            recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
             startRideButton.setOnClickListener {
                 findNavController().navigate(R.id.show_start_ride_fragment)
             }
@@ -85,15 +76,20 @@ class MainFragment : Fragment() {
             }
             listRidesButton.setOnClickListener{
 
-////                recyclerView.adapter = adapter
-//                if (recyclerView.visibility == View.VISIBLE){
-//                    recyclerView.visibility = View.INVISIBLE
-//                } else {
-//                    recyclerView.visibility = View.VISIBLE
-//                }
+                if (recyclerView.visibility == View.VISIBLE){
+                    recyclerView.visibility = View.INVISIBLE
+                } else {
+                    recyclerView.visibility = View.VISIBLE
+                }
             }
-        }
 
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+            // IF THE USER IS NOT AUTH DON'T SHOW THE ADAPTER
+            //if (auth == null) { it ->
+            recyclerView.adapter = adapter
+            //}
+        }
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteOrUpdateCallback(adapter))
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
     }

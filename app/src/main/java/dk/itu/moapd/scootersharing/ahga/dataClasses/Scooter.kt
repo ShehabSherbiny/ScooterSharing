@@ -31,7 +31,7 @@ import java.text.DateFormat
  * @property location is a String; Starting point for the ride
  * @property timestamp Is a long; Timestamp
  */
-data class Scooter(val name: String, var location: String, var timestamp: Long = System.currentTimeMillis()){
+data class Scooter(val name: String? = null, var location: String? = null, var timestamp: Long? = System.currentTimeMillis()){
     override fun toString(): String {
         return "Scooter '$name' at '$location' on ${DateFormat.getDateInstance().format(timestamp)}"
     }
