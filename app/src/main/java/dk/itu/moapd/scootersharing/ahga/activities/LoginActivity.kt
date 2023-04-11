@@ -7,6 +7,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.ahga.R
 
 
@@ -22,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) { result ->
-        onSignInResult(result)
+        this.onSignInResult(result)
     }
 
     /**
@@ -84,6 +85,7 @@ class LoginActivity : AppCompatActivity() {
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         if (result.resultCode == RESULT_OK) {
             // Sign in success, update UI with the signed-in user's information.
+            val user = FirebaseAuth.getInstance().currentUser
             snackBar("User logged in the app.")
             startMainActivity()
         } else

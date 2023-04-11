@@ -60,18 +60,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        val user = auth.currentUser
 
         // Check if the user is not logged and redirect her/him to the LoginActivity.
-        if (auth.currentUser == null)
+        if( user == null) {
             startLoginActivity()
+        }
 
         // Set the user information.
-        val user = auth.currentUser
-        binding.contentMain.description.text = getString(
+
+        binding.contentMain.description.text = "test" /*getString(
             R.string.firebase_user_description,
             if (user?.email!!.isEmpty()) user.phoneNumber else user.email
 
-        )
+        )*/
     }
 
     private fun startLoginActivity() {

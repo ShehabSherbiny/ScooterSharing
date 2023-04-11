@@ -29,6 +29,7 @@ class MainFragment : Fragment() {
 
     companion object {
         private lateinit var adapter: ScooterAdapter
+        fun isAdapterInit()= ::adapter.isInitialized
     }
 
     private var _binding: FragmentMainBinding? = null
@@ -86,6 +87,9 @@ class MainFragment : Fragment() {
             }
 
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            if (isAdapterInit()) {
+                recyclerView.adapter = adapter
+            }
 
             // IF THE USER IS NOT AUTH DON'T SHOW THE ADAPTER
             if (auth == null){
@@ -103,14 +107,7 @@ class MainFragment : Fragment() {
         _binding = null
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        if (auth.currentUser == null){
-//            val intent = Intent(requireContext(), LoginActivity::class.java)
-//            startActivity(intent)
-//            activity?.finish()
-//        }
-//    }
+
 
 
 }
