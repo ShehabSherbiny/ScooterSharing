@@ -31,16 +31,21 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.WindowCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
+import dk.itu.moapd.scootersharing.ahga.fragments.MainFragment
+import dk.itu.moapd.scootersharing.ahga.helperClasses.DATABASE_URL
 
 /**
  * An activity class used as canvas for different Fragments and a ListView.
  */
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
+
 
     /**
      * View binding is a feature that allows you to more easily write code that interacts with
@@ -56,17 +61,19 @@ class MainActivity : AppCompatActivity() {
      */
     companion object {
         lateinit var ridesDB: RidesDB
+        lateinit var database: DatabaseReference
+        lateinit var auth: FirebaseAuth
     }
 
     override fun onStart() {
         super.onStart()
+
         val user = auth.currentUser
 
         // Check if the user is not logged and redirect her/him to the LoginActivity.
         if( user == null) {
             startLoginActivity()
         }
-
         // Set the user information.
 
         binding.contentMain.description.text = "test" /*getString(
@@ -100,6 +107,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState:Bundle?) {
 //        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+        database = Firebase.database(DATABASE_URL).reference
 
         auth = FirebaseAuth.getInstance()
 

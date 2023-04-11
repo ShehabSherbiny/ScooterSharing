@@ -17,15 +17,14 @@ import com.google.firebase.ktx.Firebase
 import dk.itu.moapd.scootersharing.ahga.adapters.ScooterAdapter
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.activities.LoginActivity
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.database
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.helperClasses.SwipeToDeleteOrUpdateCallback
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMainBinding
 import dk.itu.moapd.scootersharing.ahga.helperClasses.DATABASE_URL
 
 class MainFragment : Fragment() {
-
-    private lateinit var database: DatabaseReference
-    private lateinit var auth: FirebaseAuth
 
     companion object {
         private lateinit var adapter: ScooterAdapter
@@ -40,10 +39,7 @@ class MainFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        auth = FirebaseAuth.getInstance()
-        database = Firebase.database(DATABASE_URL).reference
-
-        auth.currentUser?.let {
+        MainActivity.auth.currentUser?.let {
             val query = database.child("scooters")
             val options = FirebaseRecyclerOptions.Builder<Scooter>()
                 .setQuery(query, Scooter::class.java)
@@ -64,7 +60,6 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { // LOGIC
         super.onViewCreated(view, savedInstanceState)
-
 
         binding.apply {
 
@@ -92,7 +87,7 @@ class MainFragment : Fragment() {
             }
 
             // IF THE USER IS NOT AUTH DON'T SHOW THE ADAPTER
-            if (auth == null){
+            if (MainActivity.auth == null){
             val intent = Intent(requireContext(), LoginActivity::class.java)
             startActivity(intent)
             activity?.finish()
@@ -106,8 +101,5 @@ class MainFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
-
 
 }

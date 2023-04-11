@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.R
+import dk.itu.moapd.scootersharing.ahga.adapters.ScooterAdapter
 import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
+import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentStartRideBinding
 
 class StartRideFragment : Fragment() {
@@ -65,8 +68,16 @@ class StartRideFragment : Fragment() {
                             // Respond to positive button press
                             val name = binding.nameInput.text.toString().trim()
                             val location = binding.locationInput.text.toString().trim()
+                            val scooter =  Scooter(name, location)
+                            MainActivity.auth.currentUser?.let{
+                               val id = MainActivity.database.child("scooters").
+                                       child(name).push()
+                               id?.let {
+                                   MainActivity.database.child("scooters").child(name).setValue(scooter)
+                               }
+                            }
 
-                            ridesDB.addScooter(name, location)
+                            //ridesDB.addScooter(name, location)
 
                             binding.nameInput.text.clear()
                             binding.locationInput.text.clear()
