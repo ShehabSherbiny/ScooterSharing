@@ -36,6 +36,8 @@ import com.google.firebase.ktx.Firebase
  */
 const val DATABASE_URL =
     "https://moapd-2023-a42f2-default-rtdb.europe-west1.firebasedatabase.app/"
+const val IMAGES_URL =
+    "gs://moapd-2023-a42f2.appspot.com"
 
 /**
  * Firebase Cloud Storage URL.

@@ -34,11 +34,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
 import dk.itu.moapd.scootersharing.ahga.fragments.MainFragment
 import dk.itu.moapd.scootersharing.ahga.helperClasses.DATABASE_URL
+import dk.itu.moapd.scootersharing.ahga.helperClasses.IMAGES_URL
 
 /**
  * An activity class used as canvas for different Fragments and a ListView.
@@ -62,6 +65,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         lateinit var ridesDB: RidesDB
         lateinit var database: DatabaseReference
+        lateinit var storage: FirebaseStorage
         lateinit var auth: FirebaseAuth
     }
 
@@ -108,7 +112,7 @@ class MainActivity : AppCompatActivity() {
 //        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         database = Firebase.database(DATABASE_URL).reference
-
+        storage = Firebase.storage(IMAGES_URL)
         auth = FirebaseAuth.getInstance()
 
         binding = ActivityMainBinding.inflate(layoutInflater)

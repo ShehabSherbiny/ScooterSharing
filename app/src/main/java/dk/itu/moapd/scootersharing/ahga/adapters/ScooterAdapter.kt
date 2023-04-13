@@ -24,11 +24,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.ListItemBinding
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 
 /**
  * A class to customize an adapter with a `ViewHolder` to populate a dummy dataset into a `ListView`.
@@ -39,6 +42,7 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
 
     companion object {
         private val TAG = ScooterAdapter::class.qualifiedName
+
     }
 
     class ViewHolder(private val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -54,6 +58,7 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
         // Create a new view, which defines the UI of the list item
         val inflater = LayoutInflater.from(parent.context)
         val binding = ListItemBinding.inflate(inflater, parent, false)
+
         return ViewHolder(binding)
     }
 
@@ -61,6 +66,12 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
                 // Get element from your dataset at this position and replace the
         // contents of the view with that element
         Log.d(TAG, "Populate an item at position: $position")
+
+        //TODO: implementer loading af billeder fra bucket
+       /* val imageRef = MainActivity.storage.reference.child("scooter1.jpg")
+        imageRef.downloadUrl.addOnSuccessListener {
+            Glide.with(holder.itemView.context).load(it).centerCrop().into(holder.itemView)
+        }*/
 
         // Bind the view holder with the selected `DummyModel` data.
         holder.bind(scooter)
