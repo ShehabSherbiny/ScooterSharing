@@ -12,7 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
-import dk.itu.moapd.scootersharing.ahga.databinding.FragmentDeleteRideBinding
+import dk.itu.moapd.scootersharing.ahga.databinding.FragmentEndRideBinding
 
 class DeleteRideFragment : Fragment() {
 
@@ -21,7 +21,7 @@ class DeleteRideFragment : Fragment() {
         private lateinit var ridesDB: RidesDB
     }
 
-    private var _binding: FragmentDeleteRideBinding? = null
+    private var _binding: FragmentEndRideBinding? = null
     private val binding get() = checkNotNull(_binding) {
         "Cannot access binding because it is null. Is the view visible?"
     }
@@ -36,7 +36,7 @@ class DeleteRideFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentDeleteRideBinding.inflate(inflater, container, false)
+        _binding = FragmentEndRideBinding.inflate(inflater, container, false)
         return binding.root
     }
 
