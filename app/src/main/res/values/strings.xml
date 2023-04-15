@@ -40,6 +40,6 @@
     <string name="content_description_image">Image</string>
     <string name="firebase_authentication">Firebase\nAuthentication</string>
 
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyA-jIAcJ2SHWO1G7DktvNyIDbCIl5jLJBk</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDcT7aU_-TzkRTTSzg3Y2pQ7MfQukcqr-w</string>
 
 </resources>
