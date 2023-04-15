@@ -46,6 +46,9 @@ class MainFragment : Fragment() {
             listRidesButton.setOnClickListener{
                 findNavController().navigate(R.id.show_ride_history_fragment)
             }
+            registerNewScooter.setOnClickListener{
+                findNavController().navigate(R.id.register_new_scooter_fragment)
+            }
 
         }
 

@@ -29,7 +29,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.core.view.WindowCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -80,10 +79,10 @@ class MainActivity : AppCompatActivity() {
         }
         // Set the user information.
 
-        binding.contentMain.description.text = "test" /*getString(
+//        binding.contentMain.description.text = "test"
+        /*getString(
             R.string.firebase_user_description,
             if (user?.email!!.isEmpty()) user.phoneNumber else user.email
-
         )*/
     }
 

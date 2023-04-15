@@ -13,16 +13,16 @@ import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
-import dk.itu.moapd.scootersharing.ahga.databinding.FragmentStartRideBinding
+import dk.itu.moapd.scootersharing.ahga.databinding.FragmentRegisterNewScooterBinding
 
-class StartRideFragment : Fragment() {
+class RegisterNewScooterFragment : Fragment() {
 
     companion object {
         private val TAG = MainActivity :: class.qualifiedName
         private lateinit var ridesDB: RidesDB
     }
 
-    private var _binding: FragmentStartRideBinding? = null
+    private var _binding: FragmentRegisterNewScooterBinding? = null
     private val binding get() = checkNotNull(_binding) {
         "Cannot access binding because it is null. Is the view visible?"
     }
@@ -37,7 +37,7 @@ class StartRideFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentStartRideBinding.inflate(inflater, container, false)
+        _binding = FragmentRegisterNewScooterBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -46,7 +46,7 @@ class StartRideFragment : Fragment() {
 
         binding.apply {
 
-            binding.startRideButton.setOnClickListener{
+            binding.registerNewScooterButton.setOnClickListener{
                 if(binding.nameInput.text.toString().isNotEmpty() && binding.locationInput.text.toString().isNotEmpty()){
 
                     MaterialAlertDialogBuilder(requireContext())
@@ -68,11 +68,11 @@ class StartRideFragment : Fragment() {
                             val location = binding.locationInput.text.toString().trim()
                             val scooter =  Scooter(name, location)
                             MainActivity.auth.currentUser?.let{
-                               val id = MainActivity.database.child("scooters").
-                                       child(name).push()
-                               id?.let {
-                                   MainActivity.database.child("scooters").child(name).setValue(scooter)
-                               }
+                                val id = MainActivity.database.child("scooters").
+                                child(name).push()
+                                id?.let {
+                                    MainActivity.database.child("scooters").child(name).setValue(scooter)
+                                }
                             }
 
                             //ridesDB.addScooter(name, location)
@@ -82,7 +82,7 @@ class StartRideFragment : Fragment() {
 
                             //SNACKBAR
                             val snack = Snackbar.make(it, ridesDB.getCurrentScooterInfo(),LENGTH_SHORT)
-                            snack.setAnchorView(binding.startRideButton.id)
+                            snack.setAnchorView(binding.registerNewScooterButton.id)
                             snack.show()
 
                             findNavController().navigate(R.id.show_main_fragment)
@@ -91,7 +91,7 @@ class StartRideFragment : Fragment() {
                 } else {
                     //SNACKBAR
                     val snack = Snackbar.make(it, "The field must not be empty",LENGTH_SHORT)
-                    snack.setAnchorView(binding.startRideButton.id)
+                    snack.setAnchorView(binding.registerNewScooterButton.id)
                     snack.show()
                 }
             }
