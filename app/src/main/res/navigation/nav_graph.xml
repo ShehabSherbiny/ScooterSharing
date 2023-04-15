@@ -23,8 +23,12 @@
             android:id="@+id/show_ride_history_fragment"
             app:destination="@id/rideHistoryFragment" />
         <action
-            android:id="@+id/register_new_scooter_fragment"
+            android:id="@+id/show_maps_fragment"
+            app:destination="@id/mapsFragment" />
+        <action
+            android:id="@+id/show_register_new_scooter_fragment"
             app:destination="@id/registerNewScooterFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/startFragment"
@@ -63,6 +67,15 @@
             app:destination="@id/mainFragment" />
     </fragment>
     <fragment
+        android:id="@+id/mapsFragment"
+        android:name="dk.itu.moapd.scootersharing.ahga.fragments.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" >
+        <action
+            android:id="@+id/show_main_fragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/registerNewScooterFragment"
         android:name="dk.itu.moapd.scootersharing.ahga.fragments.RegisterNewScooterFragment"
         android:label="RegisterNewScooterFragment" >
@@ -70,4 +83,5 @@
             android:id="@+id/show_main_fragment"
             app:destination="@id/mainFragment" />
     </fragment>
+
 </navigation>
