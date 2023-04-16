@@ -74,7 +74,7 @@ class LocationFragment : Fragment() {
 
 //              viewModel.onLocationChanged(locationResult.lastLocation)
                 locationResult.lastLocation?.let { location ->
-//                  latitudeTextField.editText?.setText(location.latitude.toString())
+//                  binding.latitudeTextField.editText?.setText(location.latitude.toString())
                     updateUI(location)
                 }
 
@@ -102,7 +102,8 @@ class LocationFragment : Fragment() {
     private fun permissionsToRequest(permissions: ArrayList<String>): ArrayList<String> {
         val result: ArrayList<String> = ArrayList()
         for (permission in permissions)
-            if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED)
+//            TODO: uncomment this line
+//            if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED)
                 result.add(permission)
         return result
     }
