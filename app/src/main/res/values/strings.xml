@@ -40,7 +40,7 @@
     <string name="content_description_image">Image</string>
     <string name="firebase_authentication">Firebase\nAuthentication</string>
 
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDcT7aU_-TzkRTTSzg3Y2pQ7MfQukcqr-w</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyABOf9MEzajhQOZSd52gRH4Ivj4CUn4Pl8</string>
     <string name="submit">Submit</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

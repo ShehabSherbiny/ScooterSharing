@@ -72,12 +72,9 @@ class LocationFragment : Fragment() {
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
 
-//              viewModel.onLocationChanged(locationResult.lastLocation)
                 locationResult.lastLocation?.let { location ->
-//                  binding.latitudeTextField.editText?.setText(location.latitude.toString())
                     updateUI(location)
                 }
-
             }
         }
     }
@@ -102,8 +99,7 @@ class LocationFragment : Fragment() {
     private fun permissionsToRequest(permissions: ArrayList<String>): ArrayList<String> {
         val result: ArrayList<String> = ArrayList()
         for (permission in permissions)
-//            TODO: uncomment this line
-//            if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED)
+            if (activity?.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED)
                 result.add(permission)
         return result
     }
@@ -196,18 +192,6 @@ class LocationFragment : Fragment() {
 
         return stringBuilder.toString()
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        // Define the UI components listeners.
-//        with (binding) {
-//            viewModel.locationState.observe(viewLifecycleOwner) { location ->
-//                latitudeTextField.editText?.setText(location.latitude.toString())
-//                longitudeTextField.editText?.setText(location.longitude.toString())
-//                timeTextField.editText?.setText(location.time.toDateString())
-//            }
-//        }
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

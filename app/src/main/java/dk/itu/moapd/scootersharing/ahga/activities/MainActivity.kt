@@ -56,10 +56,6 @@ class MainActivity : AppCompatActivity() {
      */
     private lateinit var binding: ActivityMainBinding
 
-    /**
-     * A set of static attributes used in this activity class.
-     * `ridesDB` represents a MockDatBase, and is lazy instantiated.
-     */
     companion object {
         lateinit var ridesDB: RidesDB
         lateinit var database: DatabaseReference
@@ -95,7 +91,8 @@ class MainActivity : AppCompatActivity() {
         }
         // Set the user information.
 
-//        binding.contentMain.description.text = "test"
+        //TODO: AHMED
+        //binding.contentMain.description.text = "test"
         /*getString(
             R.string.firebase_user_description,
             if (user?.email!!.isEmpty()) user.phoneNumber else user.email
