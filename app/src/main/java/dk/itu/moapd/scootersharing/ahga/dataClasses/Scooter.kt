@@ -24,16 +24,51 @@ SOFTWARE.
 package dk.itu.moapd.scootersharing.ahga.dataClasses
 
 import java.text.DateFormat
+import com.google.firebase.database.Exclude
+import com.google.firebase.database.IgnoreExtraProperties
 
-/**
- * This class is a data class meant to hold information about scooters
- * @property name is a String; Name of the scooter
- * @property location is a String; Starting point for the ride
- * @property timestamp Is a long; Timestamp
- */
-data class Scooter(val name: String? = null, var location: String? = null, var timestamp: Long? = System.currentTimeMillis()){
+
+@IgnoreExtraProperties
+data class Scooter(
+    val name: String? = null,
+    var location: String? = null,
+    var timestamp: Long? = System.currentTimeMillis(),
+    val batteryLevel: Int = 100,
+    val available: Boolean = true,
+    var latitude: Double? = null,
+    var longitude: Double? = null
+    )
+{
+    @Exclude
+    fun getScooterName(): String? {
+        return name
+    }
+
+    @Exclude
+    fun getLat(): Double {
+        return latitude!!
+    }
+
+    @Exclude
+    fun getLon(): Double {
+        return longitude!!
+    }
+
+    @Exclude
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+            "name" to name,
+            "location" to location,
+            "timestamp" to timestamp,
+            "batteryLevel" to batteryLevel,
+            "available" to available,
+            "latitude" to latitude,
+            "longitude" to longitude
+        )
+    }
+
     override fun toString(): String {
         return "Scooter '$name' at '$location' on ${DateFormat.getDateInstance().format(timestamp)}"
     }
-}
 
+}
