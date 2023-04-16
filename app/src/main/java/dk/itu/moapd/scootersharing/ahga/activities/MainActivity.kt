@@ -29,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -38,16 +39,14 @@ import com.google.firebase.storage.ktx.storage
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
-import dk.itu.moapd.scootersharing.ahga.fragments.MainFragment
 import dk.itu.moapd.scootersharing.ahga.helperClasses.DATABASE_URL
 import dk.itu.moapd.scootersharing.ahga.helperClasses.IMAGES_URL
+import java.util.*
 
 /**
  * An activity class used as canvas for different Fragments and a ListView.
  */
 class MainActivity : AppCompatActivity() {
-
-
 
     /**
      * View binding is a feature that allows you to more easily write code that interacts with
@@ -66,6 +65,23 @@ class MainActivity : AppCompatActivity() {
         lateinit var database: DatabaseReference
         lateinit var storage: FirebaseStorage
         lateinit var auth: FirebaseAuth
+    }
+
+    @SuppressLint("SuspiciousIndentation")
+    override fun onCreate(savedInstanceState:Bundle?) {
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
+        super.onCreate(savedInstanceState)
+        database = Firebase.database(DATABASE_URL).reference
+        storage = Firebase.storage(IMAGES_URL)
+        auth = FirebaseAuth.getInstance()
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        ridesDB = RidesDB.get(this)
+
+        setSupportActionBar(binding.toolbar)
+
+        setContentView(binding.root)
     }
 
     override fun onStart() {
@@ -93,36 +109,6 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
-    /**
-     * Called when the activity is starting.
-     * Derived classes must call through to the super class's implementation of this method.
-     * If they do not, an exception will be thrown.
-     *
-     * `binding` is initialized.
-     * `ridesDB` is initialized.
-     * `setContentView(int)` inflates the activity's UI, using ViewBinding.
-     *
-     * @param savedInstanceState If the activity is being re-initialized after previously being shut
-     * down then this Bundle contains the data it most recently supplied in `onSaveInstanceState()`.
-     * Note: Otherwise it is null.
-     */
-    @SuppressLint("SuspiciousIndentation")
-    override fun onCreate(savedInstanceState:Bundle?) {
-//        WindowCompat.setDecorFitsSystemWindows(window, false)
-        super.onCreate(savedInstanceState)
-        database = Firebase.database(DATABASE_URL).reference
-        storage = Firebase.storage(IMAGES_URL)
-        auth = FirebaseAuth.getInstance()
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-
-        ridesDB = RidesDB.get(this)
-
-        setSupportActionBar(binding.toolbar)
-
-        setContentView(binding.root)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -142,7 +128,6 @@ class MainActivity : AppCompatActivity() {
             } else -> super.onOptionsItemSelected(item)
         }
     }
-
 
 }
 
