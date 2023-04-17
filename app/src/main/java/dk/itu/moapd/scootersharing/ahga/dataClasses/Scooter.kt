@@ -28,6 +28,7 @@ import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 
 
+// val itu = LatLng(55.6596, 12.5910)
 @IgnoreExtraProperties
 data class Scooter(
     val name: String? = null,
@@ -35,8 +36,8 @@ data class Scooter(
     var timestamp: Long? = System.currentTimeMillis(),
     val batteryLevel: Int = 100,
     val available: Boolean = true,
-    var latitude: Double? = null,
-    var longitude: Double? = null
+    var latitude: Double? = 55.6596,
+    var longitude: Double? = 12.5910
     )
 {
     @Exclude

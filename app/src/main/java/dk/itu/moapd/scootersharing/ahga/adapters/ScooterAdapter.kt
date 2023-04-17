@@ -24,11 +24,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.ListItemBinding
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 
 /**
  * A class to customize an adapter with a `ViewHolder` to populate a dummy dataset into a `ListView`.
@@ -47,7 +50,19 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
             binding.itemName.text = binding.root.context.getString(R.string.s_name, scooter.name)
             binding.itemLocation.text = binding.root.context.getString(R.string.s_location, scooter.location)
             binding.itemTime.text = binding.root.context.getString(R.string.s_time, scooter.timestamp.toString())
+
+            //TODO: implementer loading af billeder fra bucket
+            val imageRef = MainActivity.storage.reference.child("${scooter.name}.jpg")
+
+            imageRef.downloadUrl.addOnSuccessListener {
+            Glide.with(itemView.context)
+                .load(it)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .centerCrop()
+                .into(binding.imageView)
+            }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -63,12 +78,6 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
                 // Get element from your dataset at this position and replace the
         // contents of the view with that element
         Log.d(TAG, "Populate an item at position: $position")
-
-        //TODO: implementer loading af billeder fra bucket
-       /* val imageRef = MainActivity.storage.reference.child("scooter1.jpg")
-        imageRef.downloadUrl.addOnSuccessListener {
-            Glide.with(holder.itemView.context).load(it).centerCrop().into(holder.itemView)
-        }*/
 
         // Bind the view holder with the selected `DummyModel` data.
         holder.bind(scooter)
