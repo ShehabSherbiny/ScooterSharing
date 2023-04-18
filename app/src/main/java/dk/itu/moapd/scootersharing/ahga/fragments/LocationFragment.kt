@@ -55,7 +55,7 @@ class LocationFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startLocationAware()
+            startLocationAware()
     }
 
     private fun startLocationAware() {
