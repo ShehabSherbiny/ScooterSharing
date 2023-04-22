@@ -49,6 +49,9 @@ class MainFragment : Fragment() {
             mapButton.setOnClickListener{
                 findNavController().navigate(R.id.show_maps_fragment)
             }
+            cameraButton.setOnClickListener{
+                findNavController().navigate(R.id.show_camera_fragment)
+            }
             registerNewScooterButton.setOnClickListener{
                 findNavController().navigate(R.id.show_register_new_scooter_fragment)
             }

@@ -60,6 +60,16 @@
         app:layout_constraintTop_toBottomOf="@+id/list_rides_button" />
 
     <Button
+        android:id="@+id/camera_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map_button" />
+
+    <Button
         android:id="@+id/register_new_scooter_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,6 +77,6 @@
         android:text="Register New Scooter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map_button" />
+        app:layout_constraintTop_toBottomOf="@+id/camera_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
