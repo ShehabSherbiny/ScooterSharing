@@ -45,8 +45,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
          * user has installed Google Play services and returned to the app.
          */
 
-        // Show the current device's location as a blue dot.
-
+//        // Show the current device's location as a blue dot.
+//        if(!checkPermission()) {
+//            googleMap.isMyLocationEnabled = true
+//        }
         googleMap.addMarker(MarkerOptions().position(itu).title("Marker at ITU"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(itu, 15f))
 
@@ -54,6 +56,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        val mapFragment = supportFragmentManager.findFragmentById(R.id.maps) as SupportMapFragment
+//        mapFragment.getMapAsync(this)
 
         // Show a dialog to ask the user to allow the application to access the device's location.
         requestUserPermissions()
@@ -90,23 +95,34 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMapsBinding.inflate(inflater, container, false)
+        val mapView = binding.mapview
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync(this)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requestUserPermissions()
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
+
+//        val mapFragment = supportFragmentManager.findFragmentById(R.id.google_maps) as SupportMapFragment
+//        mapFragment.getMapAsync(this)
+//        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+//        mapFragment?.getMapAsync(callback)
+//        val mapFragment = childFragmentManager.findFragmentById(R.id.mapview) as SupportMapFragment?
+//        mapFragment?.getMapAsync(callback)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+
+//        if (!checkPermission())
+//            googleMap.isMyLocationEnabled = true
 
         // Check if the user allows the application to access the location-aware resources.
         if (checkPermission())
             return
 
-        // Check if the user allows the application to access the location-aware resources.
+        // Show the current device's location as a blue dot.
         googleMap.isMyLocationEnabled = true
 
         // Set the default map type.
@@ -127,6 +143,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         // Move the Google Maps UI buttons under the OS top bar.
         googleMap.setPadding(0, 100, 0, 0)
 
+//        googleMap.addMarker(MarkerOptions().position(itu).title("Marker at ITU"))
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(itu, 15f))
+
     }
 
     private fun checkPermission() =
@@ -136,7 +155,5 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 ActivityCompat.checkSelfPermission(
                     requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
-
-
 
 }
