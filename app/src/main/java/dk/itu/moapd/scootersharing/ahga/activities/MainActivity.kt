@@ -23,6 +23,7 @@ SOFTWARE.
  */
 package dk.itu.moapd.scootersharing.ahga.activities
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -61,6 +62,9 @@ class MainActivity : AppCompatActivity() {
         lateinit var database: DatabaseReference
         lateinit var storage: FirebaseStorage
         lateinit var auth: FirebaseAuth
+        const val REQUEST_CODE_PERMISSIONS = 10
+        val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+
     }
 
     @SuppressLint("SuspiciousIndentation")

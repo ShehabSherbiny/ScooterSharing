@@ -25,9 +25,7 @@
         <action
             android:id="@+id/show_maps_fragment"
             app:destination="@id/mapsFragment" />
-        <action
-            android:id="@+id/show_camera_fragment"
-            app:destination="@id/cameraFragment" />
+       
         <action
             android:id="@+id/show_register_new_scooter_fragment"
             app:destination="@id/registerNewScooterFragment" />
@@ -79,15 +77,7 @@
             android:id="@+id/show_main_fragment"
             app:destination="@id/mainFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/cameraFragment"
-        android:name="dk.itu.moapd.scootersharing.ahga.fragments.CameraFragment"
-        android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" >
-        <action
-            android:id="@+id/show_main_fragment"
-            app:destination="@id/mainFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/registerNewScooterFragment"
         android:name="dk.itu.moapd.scootersharing.ahga.fragments.RegisterNewScooterFragment"
