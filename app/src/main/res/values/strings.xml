@@ -49,5 +49,6 @@
     <string name="longitude_text">Longitude</string>
     <string name="time_text">Time</string>
     <string name="content_description_location">Location Image</string>
+    <string name="capture_button_alt">Capture Picture</string>
 
 </resources>

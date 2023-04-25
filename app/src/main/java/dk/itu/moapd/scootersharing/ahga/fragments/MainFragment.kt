@@ -4,16 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMainBinding
+import java.io.File
+import java.util.*
 
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = checkNotNull(_binding){
         "Cannot access binding because it is null. Is the view visible?"
+    }
+
+    private val takePhoto = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { didTakePhoto: Boolean ->
+// Handle the result
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,8 +59,16 @@ class MainFragment : Fragment() {
             mapButton.setOnClickListener{
                 findNavController().navigate(R.id.show_maps_fragment)
             }
-            cameraButton.setOnClickListener{
-                findNavController().navigate(R.id.show_camera_fragment)
+            cameraButton.setOnClickListener{val photoName = "IMG_${Date()}.JPG"
+                val photoFile = File(requireContext().applicationContext.filesDir,
+                    photoName)
+                val photoUri = FileProvider.getUriForFile(
+                    requireContext(),
+                    "dk.itu.moapd.scootersharing.ahga.fileprovider",
+                    photoFile
+                )
+                takePhoto.launch(photoUri)
+
             }
             registerNewScooterButton.setOnClickListener{
                 findNavController().navigate(R.id.show_register_new_scooter_fragment)

@@ -39,14 +39,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
          * Manipulates the map once available.
          * This callback is triggered when the map is ready to be used.
          * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
          */
 
-        // Show the current device's location as a blue dot.
+        // Check if the user allows the application to access the location-aware resources.
+        if (!checkPermission())
+            // Check if the user allows the application to access the location-aware resources.
+            googleMap.isMyLocationEnabled = true
 
+        //ITU marker
         googleMap.addMarker(MarkerOptions().position(itu).title("Marker at ITU"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(itu, 15f))
 
@@ -136,7 +136,5 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 ActivityCompat.checkSelfPermission(
                     requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
-
-
 
 }
