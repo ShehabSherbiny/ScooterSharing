@@ -93,6 +93,9 @@ class MainFragment : Fragment() {
 
 
             }
+            qrButton.setOnClickListener{
+                findNavController().navigate(R.id.show_qr_fragment)
+            }
             registerNewScooterButton.setOnClickListener{
                 findNavController().navigate(R.id.show_register_new_scooter_fragment)
             }
