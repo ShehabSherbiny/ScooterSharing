@@ -66,7 +66,9 @@ class RegisterNewScooterFragment : Fragment() {
                             // Respond to positive button press
                             val name = binding.nameInput.text.toString().trim()
                             val location = binding.locationInput.text.toString().trim()
-                            val scooter =  Scooter(name, location)
+                            val lat = binding.lat.text.toString().trim().toDouble()
+                            val long = binding.longitude.text.toString().trim().toDouble()
+                            val scooter =  Scooter(name, location, latitude = lat, longitude = long)
                             MainActivity.auth.currentUser?.let{
                                 val id = MainActivity.database.child("scooters").
                                 child(name).push()

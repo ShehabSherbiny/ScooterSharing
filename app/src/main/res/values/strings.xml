@@ -51,5 +51,11 @@
     <string name="content_description_location">Location Image</string>
     <string name="capture_button_alt">Capture Picture</string>
     <string name="qr">QR</string>
+    <string name="enter_latitude">Enter latitude</string>
+    <string name="enter_longitude">Enter longitude</string>
+    <string name="availability">Availability</string>
+    <string name="battery">Battery</string>
+    <string name="scooter_available">Available</string>
+    <string name="scooter_not_available">Not available</string>
 
 </resources>

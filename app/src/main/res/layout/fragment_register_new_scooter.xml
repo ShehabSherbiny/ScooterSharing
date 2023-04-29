@@ -49,6 +49,19 @@
                 android:inputType="text"
                 android:hint="@string/enter_your_location" />
 
+            <EditText
+                android:id="@+id/lat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:hint="@string/enter_latitude" />
+            <EditText
+                android:id="@+id/longitude"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:hint="@string/enter_longitude" />
+
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

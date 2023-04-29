@@ -32,6 +32,7 @@ import dk.itu.moapd.scootersharing.ahga.databinding.ListItemBinding
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
+import java.text.DateFormat
 
 /**
  * A class to customize an adapter with a `ViewHolder` to populate a dummy dataset into a `ListView`.
@@ -49,7 +50,13 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
         fun bind(scooter: Scooter){
             binding.itemName.text = binding.root.context.getString(R.string.s_name, scooter.name)
             binding.itemLocation.text = binding.root.context.getString(R.string.s_location, scooter.location)
-            binding.itemTime.text = binding.root.context.getString(R.string.s_time, scooter.timestamp.toString())
+            binding.itemTime.text = DateFormat.getDateInstance().format(scooter.timestamp)
+            if (scooter.available){
+                binding.Availability.text = "Available"
+            }else{
+                binding.Availability.text = "Not available"
+            }
+            binding.battery.text = "Battery level: "+ scooter.batteryLevel.toString()
 
             //TODO: implementer loading af billeder fra bucket
             val imageRef = MainActivity.storage.reference.child("${scooter.name}.jpg")
