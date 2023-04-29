@@ -72,6 +72,8 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
             binding.card.setOnClickListener{
                 if (scooter.available) {
                     Log.d(TAG, "True")
+                    scooter.available = false
+                    scooter.name?.let { it1 -> MainActivity.database.child("scooters").child(it1).setValue(scooter) }
                 }else{
                     Log.d(TAG, "False")
                 }

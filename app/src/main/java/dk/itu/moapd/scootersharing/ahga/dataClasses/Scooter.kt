@@ -35,7 +35,7 @@ data class Scooter(
     var location: String? = null,
     var timestamp: Long? = System.currentTimeMillis(),
     val batteryLevel: Int = 100,
-    val available: Boolean = true,
+    var available: Boolean = true,
     var latitude: Double? = 55.6596,
     var longitude: Double? = 12.5910
     )
