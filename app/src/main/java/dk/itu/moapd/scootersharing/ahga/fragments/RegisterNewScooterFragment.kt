@@ -46,7 +46,7 @@ class RegisterNewScooterFragment : Fragment() {
 
         binding.apply {
 
-            binding.registerNewScooterButton.setOnClickListener{
+            binding.confirmRegisterNewScooterButton.setOnClickListener{
                 if(binding.nameInput.text.toString().isNotEmpty() && binding.locationInput.text.toString().isNotEmpty()){
 
                     MaterialAlertDialogBuilder(requireContext())
@@ -84,7 +84,7 @@ class RegisterNewScooterFragment : Fragment() {
 
                             //SNACKBAR
                             val snack = Snackbar.make(it, ridesDB.getCurrentScooterInfo(),LENGTH_SHORT)
-                            snack.setAnchorView(binding.registerNewScooterButton.id)
+                            snack.setAnchorView(binding.confirmRegisterNewScooterButton.id)
                             snack.show()
 
                             findNavController().navigate(R.id.show_main_fragment)
@@ -93,7 +93,7 @@ class RegisterNewScooterFragment : Fragment() {
                 } else {
                     //SNACKBAR
                     val snack = Snackbar.make(it, "The field must not be empty",LENGTH_SHORT)
-                    snack.setAnchorView(binding.registerNewScooterButton.id)
+                    snack.setAnchorView(binding.confirmRegisterNewScooterButton.id)
                     snack.show()
                 }
             }
