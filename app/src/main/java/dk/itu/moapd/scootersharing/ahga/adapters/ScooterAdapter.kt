@@ -23,6 +23,7 @@ package dk.itu.moapd.scootersharing.ahga.adapters
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -31,6 +32,8 @@ import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.ListItemBinding
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import java.text.DateFormat
@@ -54,6 +57,7 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
             binding.itemTime.text = DateFormat.getDateInstance().format(scooter.timestamp)
             if (scooter.available){
                 binding.Availability.text = "Available"
+
             }else{
                 binding.Availability.text = "Not available"
             }
@@ -71,11 +75,31 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
             }
             binding.card.setOnClickListener{
                 if (scooter.available) {
-                    Log.d(TAG, "True")
-                    scooter.available = false
-                    scooter.name?.let { it1 -> MainActivity.database.child("scooters").child(it1).setValue(scooter) }
-                }else{
-                    Log.d(TAG, "False")
+                    MaterialAlertDialogBuilder(itemView.context)
+                        .setTitle(R.string.app_name)
+                        .setMessage("Are you sure you want to book " + scooter.name+ " ?")
+                        .setNegativeButton(R.string.decline) { dialog, which ->
+                            // Respond to negative button press
+                            return@setNegativeButton
+                        }
+                        .setPositiveButton(R.string.accept) { dialog, which ->
+                            // Respond to positive button press
+                            scooter.available = false
+                            MainActivity.currentScooter = scooter
+                            MainActivity.onRide = true
+                            scooter.name?.let { it1 -> MainActivity.database.child("scooters").child(it1).setValue(scooter) }
+                            //SNACKBAR
+                            val snack = Snackbar.make(it,"You have started a ride with scooter " + scooter.name, Toast.LENGTH_SHORT)
+                            snack.show()
+
+                        }
+                        .show()
+                } else {
+                    //SNACKBAR
+                    val snack = Snackbar.make(it, "The chosen scooter is not available",
+                        BaseTransientBottomBar.LENGTH_SHORT
+                    )
+                    snack.show()
                 }
             }
         }

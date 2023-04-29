@@ -39,6 +39,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
+import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
 import dk.itu.moapd.scootersharing.ahga.helperClasses.DATABASE_URL
 import dk.itu.moapd.scootersharing.ahga.helperClasses.IMAGES_URL
@@ -62,6 +63,8 @@ class MainActivity : AppCompatActivity() {
         lateinit var database: DatabaseReference
         lateinit var storage: FirebaseStorage
         lateinit var auth: FirebaseAuth
+        lateinit var currentScooter: Scooter
+        var onRide = false
         const val REQUEST_CODE_PERMISSIONS = 10
         val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
 

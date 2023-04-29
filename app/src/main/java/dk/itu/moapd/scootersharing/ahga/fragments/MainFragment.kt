@@ -8,16 +8,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.StorageReference
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.currentScooter
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.database
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.onRide
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.storage
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMainBinding
 import java.io.File
@@ -58,13 +63,52 @@ class MainFragment : Fragment() {
         binding.apply {
 
             startRideButton.setOnClickListener {
-                findNavController().navigate(R.id.show_start_ride_fragment)
+                if(onRide){
+                    val snack = Snackbar.make(
+                        it,
+                        "You must end your current ride before starting another", Toast.LENGTH_SHORT
+                    )
+                    snack.show()
+                }else{
+                    findNavController().navigate(R.id.show_start_ride_fragment)
+                }
+
+
             }
-            updateRideButton.setOnClickListener{
-                findNavController().navigate(R.id.show_update_ride_fragment)
+
+            deleteRideButton.setOnClickListener {
+                if (onRide){
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(R.string.app_name)
+                    .setMessage("Are you sure you want to end your current ride?")
+                    .setNegativeButton(R.string.decline) { dialog, which ->
+                        // Respond to negative button press
+                        return@setNegativeButton
+                    }
+                    .setPositiveButton(R.string.accept) { dialog, which ->
+                        // Respond to positive button press
+                        currentScooter.available = true
+                        currentScooter.name?.let { it1 ->
+                            database.child("scooters").child(it1).setValue(
+                                currentScooter
+                            )
+                        }
+                        onRide = false
+                        //SNACKBAR
+                        val snack = Snackbar.make(
+                            it,
+                            "You have ended your current ride ", Toast.LENGTH_SHORT
+                        )
+                        snack.show()
+                    }
+                    .show()
+            }else{
+                    val snack = Snackbar.make(
+                        it,
+                        "You are not currently on a ride ", Toast.LENGTH_SHORT
+                    )
+                    snack.show()
             }
-            deleteRideButton.setOnClickListener{
-                findNavController().navigate(R.id.show_delete_ride_fragment)
             }
             listRidesButton.setOnClickListener{
                 findNavController().navigate(R.id.show_ride_history_fragment)
