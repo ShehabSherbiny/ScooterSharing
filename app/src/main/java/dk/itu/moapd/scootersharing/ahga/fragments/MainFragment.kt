@@ -3,6 +3,7 @@ package dk.itu.moapd.scootersharing.ahga.fragments
 import android.Manifest
 import android.content.pm.PackageManager
 import android.media.Image
+import com.google.mlkit.vision.barcode.common.Barcode.FORMAT_QR_CODE
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +16,8 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.storage.StorageReference
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.barcode.BarcodeScanning.getClient
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.database
@@ -38,6 +41,33 @@ class MainFragment : Fragment() {
         val ref= storage.reference.child("images/lol.jpg")
         uploadImageToBucket(photoUri, ref)
     }
+    private val qrCodeScanner = registerForActivityResult(
+        ActivityResultContracts.TakePicturePreview()
+    ) {
+        val client = getClient(BarcodeScannerOptions.Builder().setBarcodeFormats(FORMAT_QR_CODE).build())
+        client.process(it, 0).addOnSuccessListener { results ->
+            val found = results.firstOrNull()?.rawValue ?: "Unknown"
+            if (found == scooter) {
+                requireContext().run {
+                    val intent = Intent(this, ScooterService::class.java).apply {
+                        putExtra("command", "start")
+                        putExtra("scooter", scooter)
+                    }
+                    startForegroundService(this, intent)
+
+                    parentFragmentManager
+                        .beginTransaction()
+                        .replace(fragment_container_view_tag, ActiveRideFragment())
+                        .commit()
+                }
+            } else {
+                Toast.makeText(requireContext(), "Invalid QR code, please try again", LENGTH_LONG)
+                    .show()
+                Log.d(TAG, results.firstOrNull()?.rawValue ?: "None")
+            }
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
