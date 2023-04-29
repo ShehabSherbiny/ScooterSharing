@@ -64,6 +64,9 @@ class MainActivity : AppCompatActivity() {
         lateinit var storage: FirebaseStorage
         lateinit var auth: FirebaseAuth
         lateinit var currentScooter: Scooter
+        var lat: Double? = 0.0
+        var long: Double? = 0.0
+        lateinit var fusedLocationProviderClient: FusedLocationProviderClient
         var onRide = false
         const val REQUEST_CODE_PERMISSIONS = 10
         val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
@@ -81,6 +84,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         ridesDB = RidesDB.get(this)
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
 
         setSupportActionBar(binding.toolbar)
 

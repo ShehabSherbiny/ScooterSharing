@@ -2,13 +2,17 @@ package dk.itu.moapd.scootersharing.ahga.fragments
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Location
 import androidx.fragment.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.view.WindowCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -17,6 +21,8 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import dk.itu.moapd.scootersharing.ahga.R
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.fusedLocationProviderClient
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMapsBinding
 
 // GoogleMaps Key:
@@ -26,7 +32,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     companion object {
         val itu = LatLng(55.6596, 12.5910)
+
         private const val ALL_PERMISSIONS_RESULT = 1011
+        private val TAG = MainActivity :: class.qualifiedName
     }
 
     private var _binding: FragmentMapsBinding? = null
@@ -50,6 +58,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         googleMap.addMarker(MarkerOptions().position(itu).title("Marker at ITU"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(itu, 15f))
 
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +66,17 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         // Show a dialog to ask the user to allow the application to access the device's location.
         requestUserPermissions()
+
+        if(!checkPermission()) {
+            fusedLocationProviderClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    if (location != null) {
+                        Log.d(TAG, "HEJJ"+location.latitude.toString())
+                    }
+
+                    // Got last known location. In some rare situations this can be null.
+                }
+        }
     }
 
     private fun requestUserPermissions() {

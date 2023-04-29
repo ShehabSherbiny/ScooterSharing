@@ -2,15 +2,18 @@ package dk.itu.moapd.scootersharing.ahga.fragments
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Location
 import android.media.Image
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -22,8 +25,13 @@ import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.currentScooter
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.database
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.fusedLocationProviderClient
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.lat
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.long
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.onRide
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.storage
+import dk.itu.moapd.scootersharing.ahga.adapters.ScooterAdapter
+import dk.itu.moapd.scootersharing.ahga.dataClasses.Rides
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMainBinding
 import java.io.File
 import java.util.*
@@ -46,6 +54,7 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestUserPermissions()
     }
 
     override fun onCreateView( // LAYOUT
@@ -92,6 +101,38 @@ class MainFragment : Fragment() {
                             database.child("scooters").child(it1).setValue(
                                 currentScooter
                             )
+                        }
+
+                        if(!checkPermission()) {
+                            fusedLocationProviderClient.lastLocation
+                                .addOnSuccessListener { location: Location? ->
+                                    if (location != null) {
+                                        lat = location.latitude
+                                        long = location.longitude
+                                        Log.d(MainFragment::class.qualifiedName,"hejjj"+ lat.toString())
+                                    }
+                                }
+                        }
+                        val user = MainActivity.auth.currentUser
+                        if (user != null) {
+                           val uid = database.child("rides")
+                                .child("uid")
+                                .child(user.uid)
+                                .push()
+                                .key
+                           uid?.let {
+                               database.child("rides")
+                                   .child(user.uid)
+                                   .child(it)
+                                   .setValue(Rides(currentScooter,
+                                       startLatitude = currentScooter.latitude,
+                                       startLongitude = currentScooter.longitude,
+                                       endLatitude = lat,
+                                       endLongitude = long
+                                   ))
+                           }
+
+
                         }
                         onRide = false
                         //SNACKBAR
@@ -185,6 +226,8 @@ class MainFragment : Fragment() {
     private fun requestUserPermissions() {
         val permissions: ArrayList<String> = ArrayList()
         permissions.add(Manifest.permission.CAMERA)
+        permissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
 
         // Check which permissions is needed to ask to the user.
         val permissionsToRequest = permissionsToRequest(permissions)
@@ -210,5 +253,16 @@ class MainFragment : Fragment() {
                 result.add(permission)
         return result
     }
+
+    private fun checkPermission() =
+        ActivityCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
+        ) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(
+                    requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(
+                    requireContext(), Manifest.permission.CAMERA
+                ) != PackageManager.PERMISSION_GRANTED
 
 }

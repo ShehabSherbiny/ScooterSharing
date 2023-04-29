@@ -6,12 +6,17 @@ import android.location.Address
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.OnTokenCanceledListener
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentLocationBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -55,7 +60,9 @@ class LocationFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-            startLocationAware()
+        startLocationAware()
+        subscribeToLocationUpdates()
+
     }
 
     private fun startLocationAware() {
@@ -66,6 +73,27 @@ class LocationFragment : Fragment() {
         // Start receiving location updates.
         fusedLocationProviderClient = LocationServices
             .getFusedLocationProviderClient(requireContext())
+
+        requestUserPermissions()
+
+        if(checkPermission()){
+        fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
+            override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
+
+            override fun isCancellationRequested() = false
+        })
+            .addOnSuccessListener { location: Location? ->
+                if (location == null)
+                  Log.d(TAG, "fuck")
+                else {
+                    val lat = location.latitude
+                    val lon = location.longitude
+                    fusedLocationProviderClient.lastLocation
+                    Log.d(TAG, "HEJJJ" + lat.toString())
+                }
+
+            }}
+
 
         // Initialize the `LocationCallback`.
         locationCallback = object : LocationCallback() {
