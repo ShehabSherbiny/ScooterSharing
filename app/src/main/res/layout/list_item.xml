@@ -55,6 +55,7 @@
                 android:hint="@string/availability"
                 android:id="@+id/Availability"
                 android:textAppearance="?attr/textAppearanceBody2"
+                android:textStyle="bold"
                 android:textColor="?android:attr/textColorSecondary" />
             <TextView
                 android:layout_width="wrap_content"

@@ -31,6 +31,7 @@ import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.ListItemBinding
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import java.text.DateFormat
 
@@ -68,6 +69,13 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
                 .centerCrop()
                 .into(binding.imageView)
             }
+            binding.card.setOnClickListener{
+                if (scooter.available) {
+                    Log.d(TAG, "True")
+                }else{
+                    Log.d(TAG, "False")
+                }
+            }
         }
 
     }
@@ -87,8 +95,13 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
         Log.d(TAG, "Populate an item at position: $position")
 
         // Bind the view holder with the selected `DummyModel` data.
+
         holder.bind(scooter)
 
+
+
     }
+
+
 
 }
