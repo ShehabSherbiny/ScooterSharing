@@ -20,10 +20,18 @@
  */
 package dk.itu.moapd.scootersharing.ahga.adapters
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ComponentActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -38,7 +46,10 @@ import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Rides
 import dk.itu.moapd.scootersharing.ahga.databinding.RideHistoryItemRecyclerviewBinding
+import dk.itu.moapd.scootersharing.ahga.fragments.MainFragment
+import java.io.File
 import java.text.DateFormat
+import java.util.*
 
 /**
  * A class to customize an adapter with a `ViewHolder` to populate a dummy dataset into a `ListView`.
@@ -47,12 +58,15 @@ import java.text.DateFormat
 class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
     FirebaseRecyclerAdapter<Scooter, ScooterAdapter.ViewHolder>(options) {
 
+
+
     companion object {
         private val TAG = ScooterAdapter::class.qualifiedName
 
     }
 
     class ViewHolder(private val binding: ScooterItemRecyclerviewBinding) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(scooter: Scooter){
             binding.itemName.text = binding.root.context.getString(R.string.s_name, scooter.name)
             binding.itemLocation.text = binding.root.context.getString(R.string.s_location, scooter.location)
@@ -108,6 +122,18 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
                 }
             }
         }
+
+        private fun checkPermission() =
+            ActivityCompat.checkSelfPermission(
+                itemView.context, Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(
+                        itemView.context, Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(
+                        itemView.context, Manifest.permission.CAMERA
+                    ) != PackageManager.PERMISSION_GRANTED
+
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

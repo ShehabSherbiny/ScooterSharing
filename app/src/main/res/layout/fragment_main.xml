@@ -83,4 +83,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/qr_button" />
 
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
