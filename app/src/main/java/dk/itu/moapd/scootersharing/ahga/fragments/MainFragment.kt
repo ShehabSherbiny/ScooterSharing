@@ -38,6 +38,7 @@ import java.util.*
 
 class MainFragment : Fragment() {
 
+
     lateinit private var photoUri: Uri
     private var _binding: FragmentMainBinding? = null
     private val binding
@@ -45,11 +46,14 @@ class MainFragment : Fragment() {
             "Cannot access binding because it is null. Is the view visible?"
         }
 
-    private val takePhoto = registerForActivityResult(
+
+    val takePhoto = registerForActivityResult(
         ActivityResultContracts.TakePicture()
     ) { didTakePicture: Boolean ->
-        val ref = storage.reference.child("images/lol.jpg")
-        uploadImageToBucket(photoUri, ref)
+        val ref = currentScooter.name?.let { storage.reference.child(it + ".jpg") }
+        if (ref != null) {
+            uploadImageToBucket(photoUri, ref)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,6 +93,7 @@ class MainFragment : Fragment() {
                     )
                     snack.show()
                 } else {
+
                     findNavController().navigate(R.id.show_start_ride_fragment)
                 }
 
@@ -113,6 +118,9 @@ class MainFragment : Fragment() {
                                     currentScooter
                                 )
                             }
+
+
+
 
 
                             val user = MainActivity.auth.currentUser
@@ -160,6 +168,20 @@ class MainFragment : Fragment() {
                                 }
 
 
+                            }
+                            if (!checkPermission()) {
+                                val photoName = "IMG_${Date()}.JPG"
+                                val photoFile = File(
+                                    requireContext().applicationContext.filesDir,
+                                    photoName
+                                )
+                                photoUri = FileProvider.getUriForFile(
+                                    requireContext(),
+                                    "dk.itu.moapd.scootersharing.ahga.fileprovider",
+                                    photoFile
+                                )
+
+                                takePhoto.launch(photoUri)
                             }
                             onRide = false
                             //SNACKBAR
