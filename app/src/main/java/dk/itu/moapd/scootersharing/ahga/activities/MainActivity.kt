@@ -26,10 +26,10 @@ package dk.itu.moapd.scootersharing.ahga.activities
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -38,7 +38,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import dk.itu.moapd.scootersharing.ahga.R
-import dk.itu.moapd.scootersharing.ahga.dataClasses.RidesDB
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
 import dk.itu.moapd.scootersharing.ahga.helperClasses.DATABASE_URL
@@ -59,7 +58,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     companion object {
-        lateinit var ridesDB: RidesDB
         lateinit var database: DatabaseReference
         lateinit var storage: FirebaseStorage
         lateinit var auth: FirebaseAuth
@@ -68,13 +66,10 @@ class MainActivity : AppCompatActivity() {
         var onRide = false
         const val REQUEST_CODE_PERMISSIONS = 10
         val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-
-
     }
 
     @SuppressLint("SuspiciousIndentation")
-    override fun onCreate(savedInstanceState:Bundle?) {
-//        WindowCompat.setDecorFitsSystemWindows(window, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         database = Firebase.database(DATABASE_URL).reference
         storage = Firebase.storage(IMAGES_URL)
@@ -82,9 +77,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        ridesDB = RidesDB.get(this)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-
 
         setSupportActionBar(binding.toolbar)
 
@@ -97,22 +90,16 @@ class MainActivity : AppCompatActivity() {
         val user = auth.currentUser
 
         // Check if the user is not logged and redirect her/him to the LoginActivity.
-        if( user == null) {
+        if (user == null) {
             startLoginActivity()
         }
-        // Set the user information.
-
-        //TODO: AHMED
-        //binding.contentMain.description.text = "test"
-        /*getString(
-            R.string.firebase_user_description,
-            if (user?.email!!.isEmpty()) user.phoneNumber else user.email
-        )*/
     }
 
     private fun startLoginActivity() {
-        val intent = Intent(this,
-            LoginActivity::class.java)
+        val intent = Intent(
+            this,
+            LoginActivity::class.java
+        )
         startActivity(intent)
         finish()
     }
@@ -133,7 +120,8 @@ class MainActivity : AppCompatActivity() {
                 auth.signOut()
                 startLoginActivity()
                 true
-            } else -> super.onOptionsItemSelected(item)
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

@@ -6,13 +6,11 @@ import android.location.Address
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
@@ -20,7 +18,6 @@ import com.google.android.gms.tasks.OnTokenCanceledListener
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentLocationBinding
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 private const val TAG = "LocationFragment"
@@ -34,10 +31,10 @@ class LocationFragment : Fragment() {
     }
 
     private var _binding: FragmentLocationBinding? = null
-    private val binding get() = checkNotNull(_binding) {
-        "Cannot access binding because it is null. Is the view visible?"
-    }
-//    private val viewModel: ScooterSharingVM by activityViewModels()
+    private val binding
+        get() = checkNotNull(_binding) {
+            "Cannot access binding because it is null. Is the view visible?"
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,33 +64,23 @@ class LocationFragment : Fragment() {
 
     private fun startLocationAware() {
 
-        // Show a dialog to ask the user to allow the application to access the device's location.
         requestUserPermissions()
 
-        // Start receiving location updates.
         fusedLocationProviderClient = LocationServices
             .getFusedLocationProviderClient(requireContext())
 
         requestUserPermissions()
 
-        if(checkPermission()){
-        fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, object : CancellationToken() {
-            override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
+        if (checkPermission()) {
+            fusedLocationProviderClient.getCurrentLocation(
+                LocationRequest.PRIORITY_HIGH_ACCURACY,
+                object : CancellationToken() {
+                    override fun onCanceledRequested(p0: OnTokenCanceledListener) =
+                        CancellationTokenSource().token
 
-            override fun isCancellationRequested() = false
-        })
-            .addOnSuccessListener { location: Location? ->
-                if (location == null)
-                  Log.d(TAG, "fuck")
-                else {
-                    val lat = location.latitude
-                    val lon = location.longitude
-                    fusedLocationProviderClient.lastLocation
-                    Log.d(TAG, "HEJJJ" + lat.toString())
-                }
-
-            }}
-
+                    override fun isCancellationRequested() = false
+                })
+        }
 
         // Initialize the `LocationCallback`.
         locationCallback = object : LocationCallback() {
@@ -162,7 +149,7 @@ class LocationFragment : Fragment() {
             .removeLocationUpdates(locationCallback)
     }
 
-    private fun Long.toDateString() : String {
+    private fun Long.toDateString(): String {
         val date = Date(this)
         val format = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
         return format.format(date)
@@ -170,11 +157,11 @@ class LocationFragment : Fragment() {
 
     private fun updateUI(location: Location) {
 //        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
-            binding.apply {
-                latitudeTextField?.editText?.setText(location.latitude.toString())
-                longitudeTextField?.editText?.setText(location.longitude.toString())
-                timeTextField?.editText?.setText(location.time.toDateString())
-            }
+        binding.apply {
+            latitudeTextField?.editText?.setText(location.latitude.toString())
+            longitudeTextField?.editText?.setText(location.longitude.toString())
+            timeTextField?.editText?.setText(location.time.toDateString())
+        }
 //        else
 //            setAddress(location.latitude, location.longitude)
     }
@@ -206,7 +193,7 @@ class LocationFragment : Fragment() {
 //            }
 //    }
 
-    private fun Address.toAddressString() : String {
+    private fun Address.toAddressString(): String {
         val address = this
 
         // Create a `String` with multiple lines.

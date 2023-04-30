@@ -23,10 +23,9 @@ SOFTWARE.
  */
 package dk.itu.moapd.scootersharing.ahga.dataClasses
 
-import java.text.DateFormat
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
-
+import java.text.DateFormat
 
 // val itu = LatLng(55.6596, 12.5910)
 @IgnoreExtraProperties
@@ -38,8 +37,7 @@ data class Scooter(
     var available: Boolean = true,
     var latitude: Double? = 55.6596,
     var longitude: Double? = 12.5910
-    )
-{
+) {
     @Exclude
     fun getScooterName(): String? {
         return name

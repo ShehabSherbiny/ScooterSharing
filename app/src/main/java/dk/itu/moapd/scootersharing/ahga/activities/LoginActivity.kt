@@ -1,15 +1,14 @@
 package dk.itu.moapd.scootersharing.ahga.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dk.itu.moapd.scootersharing.ahga.R
-
 
 /**
  * An activity class with methods to manage the login activity of Firebase Authentication
@@ -56,18 +55,17 @@ class LoginActivity : AppCompatActivity() {
      * style.
      */
     private fun createSignInIntent() {
-
         // Choose authentication providers.
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
             AuthUI.IdpConfig.PhoneBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build())
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
 
         // Create and launch sign-in intent.
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
-//            .setLogo(R.drawable.simpsons)
             .setTheme(R.style.Theme_ScooterSharing)
             .build()
         signInLauncher.launch(signInIntent)
@@ -106,8 +104,10 @@ class LoginActivity : AppCompatActivity() {
     /**
      * Make a standard snack-bar that just contains text.
      */
-    private fun snackBar(text: CharSequence,
-                         duration: Int = Snackbar.LENGTH_SHORT) {
+    private fun snackBar(
+        text: CharSequence,
+        duration: Int = Snackbar.LENGTH_SHORT
+    ) {
         Snackbar
             .make(findViewById(android.R.id.content), text, duration)
             .show()

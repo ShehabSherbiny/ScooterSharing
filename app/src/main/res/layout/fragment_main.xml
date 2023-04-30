@@ -57,6 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Camera"
+        android:backgroundTint="@color/purple_200"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/map_button" />
@@ -67,6 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/qr"
+        android:backgroundTint="@color/purple_200"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/camera_button" />
@@ -77,6 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Pay"
+        android:backgroundTint="@color/purple_200"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/qr_button" />

@@ -26,34 +26,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ComponentActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-
-import androidx.navigation.fragment.findNavController
-
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import dk.itu.moapd.scootersharing.ahga.R
-import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
-import dk.itu.moapd.scootersharing.ahga.databinding.ScooterItemRecyclerviewBinding
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
-import dk.itu.moapd.scootersharing.ahga.dataClasses.Rides
-import dk.itu.moapd.scootersharing.ahga.databinding.RideHistoryItemRecyclerviewBinding
-import dk.itu.moapd.scootersharing.ahga.fragments.MainFragment
-import java.io.File
+import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
+import dk.itu.moapd.scootersharing.ahga.databinding.ScooterItemRecyclerviewBinding
 import java.text.DateFormat
-import java.util.*
 
 /**
  * A class to customize an adapter with a `ViewHolder` to populate a dummy dataset into a `ListView`.
@@ -62,45 +48,43 @@ import java.util.*
 class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
     FirebaseRecyclerAdapter<Scooter, ScooterAdapter.ViewHolder>(options) {
 
-
-
     companion object {
         private val TAG = ScooterAdapter::class.qualifiedName
-
     }
 
-    class ViewHolder(private val binding: ScooterItemRecyclerviewBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: ScooterItemRecyclerviewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(scooter: Scooter){
+        fun bind(scooter: Scooter) {
             binding.itemName.text = binding.root.context.getString(R.string.s_name, scooter.name)
-            binding.itemLocation.text = binding.root.context.getString(R.string.s_location, scooter.location)
+            binding.itemLocation.text =
+                binding.root.context.getString(R.string.s_location, scooter.location)
             binding.itemLatitude.text = scooter.latitude.toString()
             binding.itemLongitude.text = scooter.longitude.toString()
             binding.itemTime.text = DateFormat.getDateInstance().format(scooter.timestamp)
 
-
-            if (scooter.available){
+            if (scooter.available) {
                 binding.Availability.text = "Available"
 
-            }else{
+            } else {
                 binding.Availability.text = "Not available"
             }
-            binding.battery.text = "Battery level: "+ scooter.batteryLevel.toString()
+            binding.battery.text = "Battery level: " + scooter.batteryLevel.toString()
 
             val imageRef = MainActivity.storage.reference.child("${scooter.name}.jpg")
 
             imageRef.downloadUrl.addOnSuccessListener {
-            Glide.with(itemView.context)
-                .load(it)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .centerCrop()
-                .into(binding.imageView)
+                Glide.with(itemView.context)
+                    .load(it)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .centerCrop()
+                    .into(binding.imageView)
             }
-            binding.card.setOnClickListener{
+            binding.card.setOnClickListener {
                 if (scooter.available) {
                     MaterialAlertDialogBuilder(itemView.context)
                         .setTitle(R.string.app_name)
-                        .setMessage("Are you sure you want to book " + scooter.name+ " ?")
+                        .setMessage("Are you sure you want to book " + scooter.name + " ?")
                         .setNegativeButton(R.string.decline) { dialog, which ->
                             // Respond to negative button press
                             return@setNegativeButton
@@ -110,15 +94,22 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
                             scooter.available = false
                             MainActivity.currentScooter = scooter
                             MainActivity.onRide = true
-                            scooter.name?.let { it1 -> MainActivity.database.child("scooters").child(it1).setValue(scooter) }
+                            scooter.name?.let { it1 ->
+                                MainActivity.database.child("scooters").child(it1).setValue(scooter)
+                            }
                             //SNACKBAR
-                            val snack = Snackbar.make(it,"You have started a ride with scooter " + scooter.name, Toast.LENGTH_SHORT)
+                            val snack = Snackbar.make(
+                                it,
+                                "You have started a ride with scooter " + scooter.name,
+                                Toast.LENGTH_SHORT
+                            )
                             snack.show()
                         }
                         .show()
                 } else {
                     //SNACKBAR
-                    val snack = Snackbar.make(it, "The chosen scooter is not available",
+                    val snack = Snackbar.make(
+                        it, "The chosen scooter is not available",
                         BaseTransientBottomBar.LENGTH_SHORT
                     )
                     snack.show()
@@ -137,10 +128,9 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
                         itemView.context, Manifest.permission.CAMERA
                     ) != PackageManager.PERMISSION_GRANTED
 
-
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val inflater = LayoutInflater.from(parent.context)
         val binding = ScooterItemRecyclerviewBinding.inflate(inflater, parent, false)
@@ -149,18 +139,11 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, scooter: Scooter) {
-                // Get element from your dataset at this position and replace the
+        // Get element from your dataset at this position and replace the
         // contents of the view with that element
         Log.d(TAG, "Populate an item at position: $position")
 
-        // Bind the view holder with the selected `DummyModel` data.
-
         holder.bind(scooter)
-
-
-
     }
-
-
 
 }

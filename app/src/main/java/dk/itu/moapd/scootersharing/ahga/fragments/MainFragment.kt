@@ -3,10 +3,8 @@ package dk.itu.moapd.scootersharing.ahga.fragments
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
-import android.media.Image
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,16 +28,12 @@ import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.databa
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.fusedLocationProviderClient
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.onRide
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.storage
-import dk.itu.moapd.scootersharing.ahga.adapters.ScooterAdapter
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Rides
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMainBinding
 import java.io.File
-import java.text.DateFormat
 import java.util.*
 
-
 class MainFragment : Fragment() {
-
 
     lateinit private var photoUri: Uri
     private var _binding: FragmentMainBinding? = null
@@ -47,7 +41,6 @@ class MainFragment : Fragment() {
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
         }
-
 
     val takePhoto = registerForActivityResult(
         ActivityResultContracts.TakePicture()
@@ -71,10 +64,8 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { // LOGIC
         super.onViewCreated(view, savedInstanceState)
-
 
         binding.apply {
             if (onRide) {
@@ -102,8 +93,6 @@ class MainFragment : Fragment() {
             }
 
             startRideButton.setOnClickListener {
-
-
                 if (onRide) {
                     val snack = Snackbar.make(
                         it,
@@ -114,12 +103,9 @@ class MainFragment : Fragment() {
 
                     findNavController().navigate(R.id.show_start_ride_fragment)
                 }
-
-
             }
 
             deleteRideButton.setOnClickListener {
-
                 if (onRide) {
                     MaterialAlertDialogBuilder(requireContext())
                         .setTitle(R.string.app_name)
@@ -140,8 +126,6 @@ class MainFragment : Fragment() {
                             startRideButton.visibility = View.VISIBLE
                             deleteRideButton.visibility = View.GONE
                             currentScooterCard.visibility = View.GONE
-
-
 
 
                             val user = MainActivity.auth.currentUser
@@ -176,18 +160,15 @@ class MainFragment : Fragment() {
                                                         currentScooter.name?.let { scooterName ->
                                                             MainActivity.database.child("scooters")
                                                                 .child(scooterName).setValue(
-                                                                currentScooter
-                                                            )
+                                                                    currentScooter
+                                                                )
                                                         }
                                                     }
 
                                                 }
                                             }
                                     }
-
-
                                 }
-
                             }
                             if (!checkPermission()) {
                                 val photoName = "IMG_${Date()}.JPG"
@@ -200,7 +181,6 @@ class MainFragment : Fragment() {
                                     "dk.itu.moapd.scootersharing.ahga.fileprovider",
                                     photoFile
                                 )
-
                                 takePhoto.launch(photoUri)
                             }
                             onRide = false
@@ -259,9 +239,6 @@ class MainFragment : Fragment() {
             }
 
         }
-
-//        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteOrUpdateCallback(adapter))
-//        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
     }
 
     private fun imageResult(result: ActivityResult) {
@@ -271,26 +248,6 @@ class MainFragment : Fragment() {
     private fun uploadImageToBucket(uri: Uri, image: StorageReference) {
         image.putFile(uri)
     }
-
-    /* private fun saveImageInDatabase(url: String, path: String) {
-         val timestamp = System.currentTimeMillis()
-         val image =  Image(url, path, timestamp)
-
-         // In the case of authenticated user, create a new unique key for the object in the
-         // database.
-         MainActivity.auth.currentUser?.let { user ->
-             val uid = storage.reference.child("images")
-                 .child(user.uid)
-
-
-             // Insert the object in the database.
-             uid?.let {
-                 database.child("images")
-                     .child(user.uid)
-                     .setValue(image)
-             }
-         }
-     }*/
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -312,7 +269,6 @@ class MainFragment : Fragment() {
                 permissionsToRequest.toTypedArray(),
                 MainActivity.REQUEST_CODE_PERMISSIONS
             )
-
     }
 
     private fun allPermissionsGranted() = MainActivity.REQUIRED_PERMISSIONS.all {
@@ -320,7 +276,6 @@ class MainFragment : Fragment() {
             requireContext(), it
         ) == PackageManager.PERMISSION_GRANTED
     }
-
 
     private fun permissionsToRequest(permissions: ArrayList<String>): ArrayList<String> {
         val result: ArrayList<String> = ArrayList()
