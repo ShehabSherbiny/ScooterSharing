@@ -127,7 +127,6 @@ class MainFragment : Fragment() {
                             deleteRideButton.visibility = View.GONE
                             currentScooterCard.visibility = View.GONE
 
-
                             val user = MainActivity.auth.currentUser
                             if (user != null) {
                                 val uid = database.child("rides")
@@ -220,13 +219,8 @@ class MainFragment : Fragment() {
                         "dk.itu.moapd.scootersharing.ahga.fileprovider",
                         photoFile
                     )
-
                     takePhoto.launch(photoUri)
-
-
                 }
-
-
             }
             qrButton.setOnClickListener {
                 findNavController().navigate(R.id.show_qr_fragment)
@@ -237,7 +231,6 @@ class MainFragment : Fragment() {
             registerNewScooterButton.setOnClickListener {
                 findNavController().navigate(R.id.show_register_new_scooter_fragment)
             }
-
         }
     }
 
