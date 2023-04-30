@@ -72,6 +72,9 @@ class MainFragment : Fragment() {
         binding.apply {
 
             startRideButton.setOnClickListener {
+//                startRideButton.visibility = View.GONE
+//                deleteRideButton.visibility = View.VISIBLE
+
                 if(onRide){
                     val snack = Snackbar.make(
                         it,

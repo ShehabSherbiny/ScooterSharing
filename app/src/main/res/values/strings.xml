@@ -57,5 +57,6 @@
     <string name="battery">Battery</string>
     <string name="scooter_available">Available</string>
     <string name="scooter_not_available">Not available</string>
+    <string name="rides_history">Rides History</string>
 
 </resources>
