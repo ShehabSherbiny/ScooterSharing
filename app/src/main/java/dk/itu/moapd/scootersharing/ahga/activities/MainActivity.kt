@@ -64,8 +64,6 @@ class MainActivity : AppCompatActivity() {
         lateinit var storage: FirebaseStorage
         lateinit var auth: FirebaseAuth
         lateinit var currentScooter: Scooter
-        var lat: Double? = 0.0
-        var long: Double? = 0.0
         lateinit var fusedLocationProviderClient: FusedLocationProviderClient
         var onRide = false
         const val REQUEST_CODE_PERMISSIONS = 10

@@ -10,14 +10,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import dk.itu.moapd.scootersharing.ahga.activities.LoginActivity
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
+import dk.itu.moapd.scootersharing.ahga.adapters.HistoryAdapter
 import dk.itu.moapd.scootersharing.ahga.adapters.ScooterAdapter
+import dk.itu.moapd.scootersharing.ahga.dataClasses.Rides
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentRideHistoryBinding
+import dk.itu.moapd.scootersharing.ahga.databinding.RideHistoryItemRecyclerviewBinding
 
 class RideHistoryFragment : Fragment() {
 
     companion object {
-        private lateinit var adapter: ScooterAdapter
+        private lateinit var adapter: HistoryAdapter
         fun isAdapterInit()= ::adapter.isInitialized
     }
 
@@ -37,12 +40,12 @@ class RideHistoryFragment : Fragment() {
         }
 
         MainActivity.auth.currentUser?.let {
-            val query = MainActivity.database.child("scooters")
-            val options = FirebaseRecyclerOptions.Builder<Scooter>()
-                .setQuery(query, Scooter::class.java)
+            val query = MainActivity.database.child("rides").child(it.uid)
+            val options = FirebaseRecyclerOptions.Builder<Rides>()
+                .setQuery(query, Rides::class.java)
                 .setLifecycleOwner(this)
                 .build()
-            adapter = ScooterAdapter(options)
+            adapter = HistoryAdapter(options)
         }
 
     }
@@ -51,7 +54,7 @@ class RideHistoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentRideHistoryBinding.inflate(inflater,container,false)
+        _binding =  FragmentRideHistoryBinding.inflate(inflater,container,false)
         return binding.root
     }
 
@@ -59,6 +62,7 @@ class RideHistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
+
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             if (isAdapterInit()) {

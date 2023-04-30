@@ -68,8 +68,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             // Check if the user allows the application to access the location-aware resources.
             googleMap.isMyLocationEnabled = true
 
-        //ITU marker
-        googleMap.addMarker(MarkerOptions().position(itu).title("Marker at ITU"))
+        //ITU Zoom
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(itu, 15f))
 
         //ADD markers from Database

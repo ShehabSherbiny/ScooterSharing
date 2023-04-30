@@ -36,6 +36,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
+import dk.itu.moapd.scootersharing.ahga.dataClasses.Rides
+import dk.itu.moapd.scootersharing.ahga.databinding.RideHistoryItemRecyclerviewBinding
 import java.text.DateFormat
 
 /**
@@ -108,7 +110,6 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
         }
 
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         // Create a new view, which defines the UI of the list item

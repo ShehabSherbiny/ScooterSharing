@@ -29,7 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:hint="Ride History"
+                    android:hint="Scooter name"
                     android:textAppearance="?attr/textAppearanceHeadline6" />
 
                 <TextView
@@ -99,6 +99,11 @@
                     android:id="@+id/item_ride_price"
                     android:textAppearance="?attr/textAppearanceBody2"
                     android:textColor="?android:attr/textColorSecondary" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_baseline_not_listed_location_128"
+                    android:id="@+id/imageView"/>
 
 
             </LinearLayout>

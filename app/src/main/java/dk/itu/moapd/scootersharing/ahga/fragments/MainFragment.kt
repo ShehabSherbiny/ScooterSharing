@@ -26,14 +26,13 @@ import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.currentScooter
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.database
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.fusedLocationProviderClient
-import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.lat
-import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.long
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.onRide
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.storage
 import dk.itu.moapd.scootersharing.ahga.adapters.ScooterAdapter
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Rides
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMainBinding
 import java.io.File
+import java.text.DateFormat
 import java.util.*
 
 
@@ -41,14 +40,15 @@ class MainFragment : Fragment() {
 
     lateinit private var photoUri: Uri
     private var _binding: FragmentMainBinding? = null
-    private val binding get() = checkNotNull(_binding){
-        "Cannot access binding because it is null. Is the view visible?"
-    }
+    private val binding
+        get() = checkNotNull(_binding) {
+            "Cannot access binding because it is null. Is the view visible?"
+        }
 
     private val takePhoto = registerForActivityResult(
         ActivityResultContracts.TakePicture()
-    ) {  didTakePicture: Boolean ->
-        val ref= storage.reference.child("images/lol.jpg")
+    ) { didTakePicture: Boolean ->
+        val ref = storage.reference.child("images/lol.jpg")
         uploadImageToBucket(photoUri, ref)
     }
 
@@ -61,7 +61,7 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainBinding.inflate(inflater,container,false)
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -82,13 +82,13 @@ class MainFragment : Fragment() {
             startRideButton.setOnClickListener {
 
 
-                if(onRide){
+                if (onRide) {
                     val snack = Snackbar.make(
                         it,
                         "You must end your current ride before starting another", Toast.LENGTH_SHORT
                     )
                     snack.show()
-                }else{
+                } else {
                     findNavController().navigate(R.id.show_start_ride_fragment)
                 }
 
@@ -97,86 +97,104 @@ class MainFragment : Fragment() {
 
             deleteRideButton.setOnClickListener {
 
-                if (onRide){
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(R.string.app_name)
-                    .setMessage("Are you sure you want to end your current ride?")
-                    .setNegativeButton(R.string.decline) { dialog, which ->
-                        // Respond to negative button press
-                        return@setNegativeButton
-                    }
-                    .setPositiveButton(R.string.accept) { dialog, which ->
-                        // Respond to positive button press
-                        currentScooter.available = true
-                        currentScooter.name?.let { it1 ->
-                            database.child("scooters").child(it1).setValue(
-                                currentScooter
-                            )
+                if (onRide) {
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(R.string.app_name)
+                        .setMessage("Are you sure you want to end your current ride?")
+                        .setNegativeButton(R.string.decline) { dialog, which ->
+                            // Respond to negative button press
+                            return@setNegativeButton
                         }
+                        .setPositiveButton(R.string.accept) { dialog, which ->
+                            // Respond to positive button press
+                            currentScooter.available = true
+                            currentScooter.name?.let { it1 ->
+                                database.child("scooters").child(it1).setValue(
+                                    currentScooter
+                                )
+                            }
 
-                        if(!checkPermission()) {
-                            fusedLocationProviderClient.lastLocation
-                                .addOnSuccessListener { location: Location? ->
-                                    if (location != null) {
-                                        lat = location.latitude
-                                        long = location.longitude
-                                        Log.d(MainFragment::class.qualifiedName,"hejjj"+ lat.toString())
+
+                            val user = MainActivity.auth.currentUser
+                            if (user != null) {
+                                val uid = database.child("rides")
+                                    .child("uid")
+                                    .child(user.uid)
+                                    .push()
+                                    .key
+                                uid?.let {
+                                    if (!checkPermission()) {
+                                        fusedLocationProviderClient.lastLocation
+                                            .addOnSuccessListener { location: Location? ->
+                                                if (location != null) {
+                                                    //ADD RIDE TO USERS RIDE HISTORY
+                                                    database.child("rides")
+                                                        .child(user.uid)
+                                                        .child(it)
+                                                        .setValue(
+                                                            Rides(
+                                                                currentScooter,
+                                                                startLatitude = currentScooter.latitude,
+                                                                startLongitude = currentScooter.longitude,
+                                                                endLatitude = location.latitude,
+                                                                endLongitude = location.longitude,
+                                                            )
+                                                        )
+                                                    //UPDATE SCOOTER LOCATION
+                                                    currentScooter.latitude = location.latitude
+                                                    currentScooter.longitude = location.longitude
+                                                    MainActivity.auth.currentUser?.let {
+                                                        currentScooter.name?.let { scooterName ->
+                                                            MainActivity.database.child("scooters")
+                                                                .child(scooterName).setValue(
+                                                                currentScooter
+                                                            )
+                                                        }
+                                                    }
+
+                                                }
+                                            }
                                     }
+
+
                                 }
-                        }
-                        val user = MainActivity.auth.currentUser
-                        if (user != null) {
-                           val uid = database.child("rides")
-                                .child("uid")
-                                .child(user.uid)
-                                .push()
-                                .key
-                           uid?.let {
-                               database.child("rides")
-                                   .child(user.uid)
-                                   .child(it)
-                                   .setValue(Rides(currentScooter,
-                                       startLatitude = currentScooter.latitude,
-                                       startLongitude = currentScooter.longitude,
-                                       endLatitude = lat,
-                                       endLongitude = long
-                                   ))
-                           }
 
 
+                            }
+                            onRide = false
+                            //SNACKBAR
+                            val snack = Snackbar.make(
+                                it,
+                                "You have ended your current ride ", Toast.LENGTH_SHORT
+                            )
+                            snack.show()
                         }
-                        onRide = false
-                        //SNACKBAR
-                        val snack = Snackbar.make(
-                            it,
-                            "You have ended your current ride ", Toast.LENGTH_SHORT
-                        )
-                        snack.show()
-                    }
-                    .show()
+                        .show()
                     startRideButton.visibility = View.VISIBLE
                     deleteRideButton.visibility = View.GONE
-            }else{
+                } else {
                     val snack = Snackbar.make(
                         it,
                         "You are not currently on a ride ", Toast.LENGTH_SHORT
                     )
                     snack.show()
+                }
             }
-            }
-            listRidesButton.setOnClickListener{
+            listRidesButton.setOnClickListener {
                 findNavController().navigate(R.id.show_ride_history_fragment)
             }
-            mapButton.setOnClickListener{
+            mapButton.setOnClickListener {
                 findNavController().navigate(R.id.show_maps_fragment)
             }
-            cameraButton.setOnClickListener{
+            cameraButton.setOnClickListener {
                 requestUserPermissions()
 
-                if(allPermissionsGranted()) {
+                if (allPermissionsGranted()) {
                     val photoName = "IMG_${Date()}.JPG"
-                    val photoFile = File(requireContext().applicationContext.filesDir,
-                        photoName)
+                    val photoFile = File(
+                        requireContext().applicationContext.filesDir,
+                        photoName
+                    )
                     photoUri = FileProvider.getUriForFile(
                         requireContext(),
                         "dk.itu.moapd.scootersharing.ahga.fileprovider",
@@ -189,12 +207,11 @@ class MainFragment : Fragment() {
                 }
 
 
-
             }
-            qrButton.setOnClickListener{
+            qrButton.setOnClickListener {
                 findNavController().navigate(R.id.show_qr_fragment)
             }
-            registerNewScooterButton.setOnClickListener{
+            registerNewScooterButton.setOnClickListener {
                 findNavController().navigate(R.id.show_register_new_scooter_fragment)
             }
 
@@ -203,33 +220,34 @@ class MainFragment : Fragment() {
 //        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteOrUpdateCallback(adapter))
 //        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
     }
-    private fun imageResult(result: ActivityResult){
-       // if(resu)
+
+    private fun imageResult(result: ActivityResult) {
+        // if(resu)
     }
 
     private fun uploadImageToBucket(uri: Uri, image: StorageReference) {
         image.putFile(uri)
     }
 
-   /* private fun saveImageInDatabase(url: String, path: String) {
-        val timestamp = System.currentTimeMillis()
-        val image =  Image(url, path, timestamp)
+    /* private fun saveImageInDatabase(url: String, path: String) {
+         val timestamp = System.currentTimeMillis()
+         val image =  Image(url, path, timestamp)
 
-        // In the case of authenticated user, create a new unique key for the object in the
-        // database.
-        MainActivity.auth.currentUser?.let { user ->
-            val uid = storage.reference.child("images")
-                .child(user.uid)
+         // In the case of authenticated user, create a new unique key for the object in the
+         // database.
+         MainActivity.auth.currentUser?.let { user ->
+             val uid = storage.reference.child("images")
+                 .child(user.uid)
 
 
-            // Insert the object in the database.
-            uid?.let {
-                database.child("images")
-                    .child(user.uid)
-                    .setValue(image)
-            }
-        }
-    }*/
+             // Insert the object in the database.
+             uid?.let {
+                 database.child("images")
+                     .child(user.uid)
+                     .setValue(image)
+             }
+         }
+     }*/
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -253,9 +271,11 @@ class MainFragment : Fragment() {
             )
 
     }
+
     private fun allPermissionsGranted() = MainActivity.REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
-            requireContext(), it) == PackageManager.PERMISSION_GRANTED
+            requireContext(), it
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
 
