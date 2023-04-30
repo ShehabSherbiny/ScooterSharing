@@ -1,27 +1,72 @@
 package dk.itu.moapd.scootersharing.ahga.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import dk.itu.moapd.scootersharing.ahga.R
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.barcode.common.Barcode
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
+import dk.itu.moapd.scootersharing.ahga.databinding.FragmentQrBinding
 
 class QrFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val TAG = MainActivity::class.qualifiedName
 
-//        val options = BarcodeScannerOptions.Builder()
-//            .setBarcodeFormats(
-//                Barcode.FORMAT_QR_CODE,
-//                Barcode.FORMAT_AZTEC
-//            )
-//            .build()
-//        val scanner = BarcodeScanning.getClient(options)
+    private var _binding: FragmentQrBinding? = null
+    private val binding
+        get() = checkNotNull(_binding) {
+            "Cannot access binding because it is null. Is the view visible?"
+        }
 
-        // Or, to specify the formats to recognize:
-        // val scanner = BarcodeScanning.getClient(options)
+    private var scooter: String = ""
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val options = BarcodeScannerOptions.Builder()
+            .setBarcodeFormats(
+                Barcode.FORMAT_QR_CODE,
+                Barcode.FORMAT_AZTEC
+            )
+            .build()
+
+        binding.apply {
+            scanButton.setOnClickListener {
+                qrCodeScanner.launch(null)
+            }
+        }
+    }
+
+    val qrCodeScanner = registerForActivityResult(
+        ActivityResultContracts.TakePicturePreview()
+    ) {
+        val client = BarcodeScanning.getClient(
+            BarcodeScannerOptions.Builder().setBarcodeFormats(Barcode.FORMAT_QR_CODE).build()
+        )
+
+        if (it != null) {
+            client.process(it, 0).addOnSuccessListener { barcodes ->
+                val barcodeScanned = barcodes.firstOrNull()?.rawValue ?: "Unknown"
+                if (barcodeScanned == scooter) { //Find in a Scooter List ?
+                    requireContext().run {
+                        //START RIDE
+//                        findNavController().navigate(R.id.show_start_ride_fragment)
+                        Log.d(TAG, "BARCODE: " + barcodeScanned)
+                    }
+                } else {
+                    Log.d(TAG, "BARCODE: " + barcodeScanned)
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 
     override fun onCreateView(
@@ -29,7 +74,8 @@ class QrFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_qr, container, false)
+        _binding = FragmentQrBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
 }
