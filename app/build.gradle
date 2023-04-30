@@ -82,4 +82,7 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
     implementation 'com.google.firebase:firebase-ml-vision-barcode-model:16.0.1'
+
+    implementation 'com.google.android.gms:play-services-wallet:19.2.0-beta01'
+
 }
