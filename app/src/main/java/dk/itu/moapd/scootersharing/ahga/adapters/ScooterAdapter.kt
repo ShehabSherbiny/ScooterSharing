@@ -110,7 +110,6 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
                             //SNACKBAR
                             val snack = Snackbar.make(it,"You have started a ride with scooter " + scooter.name, Toast.LENGTH_SHORT)
                             snack.show()
-
                         }
                         .show()
                 } else {

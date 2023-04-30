@@ -18,6 +18,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.StorageReference
@@ -73,14 +75,30 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { // LOGIC
         super.onViewCreated(view, savedInstanceState)
 
+
         binding.apply {
             if (onRide) {
                 startRideButton.visibility = View.GONE
                 deleteRideButton.visibility = View.VISIBLE
+                currentScooterCard.visibility = View.VISIBLE
+
+                currentScooterName.text = currentScooter.name
+                currentScooterLocation.text = currentScooter.location
+                val imageRef = MainActivity.storage.reference.child("${currentScooter.name}.jpg")
+
+                imageRef.downloadUrl.addOnSuccessListener {
+                    Glide.with(requireContext())
+                        .load(it)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .centerCrop()
+                        .into(binding.currentScooterImage)
+                }
+
             }
             if (!onRide) {
                 startRideButton.visibility = View.VISIBLE
                 deleteRideButton.visibility = View.GONE
+                currentScooterCard.visibility = View.GONE
             }
 
             startRideButton.setOnClickListener {
@@ -119,6 +137,9 @@ class MainFragment : Fragment() {
                                 )
                             }
 
+                            startRideButton.visibility = View.VISIBLE
+                            deleteRideButton.visibility = View.GONE
+                            currentScooterCard.visibility = View.GONE
 
 
 
@@ -167,7 +188,6 @@ class MainFragment : Fragment() {
 
                                 }
 
-
                             }
                             if (!checkPermission()) {
                                 val photoName = "IMG_${Date()}.JPG"
@@ -192,8 +212,6 @@ class MainFragment : Fragment() {
                             snack.show()
                         }
                         .show()
-                    startRideButton.visibility = View.VISIBLE
-                    deleteRideButton.visibility = View.GONE
                 } else {
                     val snack = Snackbar.make(
                         it,
@@ -232,6 +250,9 @@ class MainFragment : Fragment() {
             }
             qrButton.setOnClickListener {
                 findNavController().navigate(R.id.show_qr_fragment)
+            }
+            paymentButton.setOnClickListener {
+                findNavController().navigate(R.id.show_payFragment)
             }
             registerNewScooterButton.setOnClickListener {
                 findNavController().navigate(R.id.show_register_new_scooter_fragment)
