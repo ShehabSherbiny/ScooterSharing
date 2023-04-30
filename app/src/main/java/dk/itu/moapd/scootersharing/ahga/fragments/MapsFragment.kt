@@ -20,10 +20,18 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.fusedLocationProviderClient
+import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMapsBinding
+import dk.itu.moapd.scootersharing.ahga.helperClasses.DATABASE_URL
 
 // GoogleMaps Key:
 // https://console.cloud.google.com/welcome?project=moapd-2023-a42f2
@@ -37,6 +45,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         private val TAG = MainActivity :: class.qualifiedName
     }
 
+    private lateinit var database: DatabaseReference
+
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = checkNotNull(_binding) {
         "Cannot access binding because it is null. Is the view visible?"
@@ -49,6 +59,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
          * This is where we can add markers or lines, add listeners or move the camera.
          */
 
+        //ITU             55.66040815474606, 12.591163331540711
+        //KU              55.66292688383645, 12.588398542332436
+        //LUKSUS NETTO    55.65654294862253, 12.589668417576462
+
         // Check if the user allows the application to access the location-aware resources.
         if (!checkPermission())
             // Check if the user allows the application to access the location-aware resources.
@@ -57,6 +71,37 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         //ITU marker
         googleMap.addMarker(MarkerOptions().position(itu).title("Marker at ITU"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(itu, 15f))
+
+        //ADD markers from Database
+        Firebase.database(DATABASE_URL).reference.apply {
+            keepSynced(true)
+        }.child("scooters").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (postSnapshot in dataSnapshot.children) {
+                    //var tempScooter2 = postSnapshot.getValue<Scooter>()
+                    val tempScooter = postSnapshot.getValue(Scooter::class.java)
+                    var tempPosition =
+                        tempScooter?.let { LatLng(it.getLat(), tempScooter.getLon()) }
+                    if (tempScooter != null) {
+                        tempPosition?.let {
+                            MarkerOptions()
+                                .position(it)
+                                .title(tempScooter.getScooterName().toString())
+                        }?.let {
+                            googleMap.addMarker(
+                                it
+                            )
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                //If fail, log message
+                Log.d(TAG, "MARKER FAILED: onCancelled")
+            }
+        })
 
 
     }
