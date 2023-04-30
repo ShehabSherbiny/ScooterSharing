@@ -70,10 +70,17 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
+            if (onRide) {
+                startRideButton.visibility = View.GONE
+                deleteRideButton.visibility = View.VISIBLE
+            }
+            if (!onRide) {
+                startRideButton.visibility = View.VISIBLE
+                deleteRideButton.visibility = View.GONE
+            }
 
             startRideButton.setOnClickListener {
-//                startRideButton.visibility = View.GONE
-//                deleteRideButton.visibility = View.VISIBLE
+
 
                 if(onRide){
                     val snack = Snackbar.make(
@@ -89,6 +96,7 @@ class MainFragment : Fragment() {
             }
 
             deleteRideButton.setOnClickListener {
+
                 if (onRide){
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.app_name)
@@ -146,6 +154,8 @@ class MainFragment : Fragment() {
                         snack.show()
                     }
                     .show()
+                    startRideButton.visibility = View.VISIBLE
+                    deleteRideButton.visibility = View.GONE
             }else{
                     val snack = Snackbar.make(
                         it,
