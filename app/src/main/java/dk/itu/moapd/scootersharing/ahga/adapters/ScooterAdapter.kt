@@ -29,7 +29,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
-import dk.itu.moapd.scootersharing.ahga.databinding.ListItemBinding
+import dk.itu.moapd.scootersharing.ahga.databinding.ScooterItemRecyclerviewBinding
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -50,11 +50,15 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
 
     }
 
-    class ViewHolder(private val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: ScooterItemRecyclerviewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(scooter: Scooter){
             binding.itemName.text = binding.root.context.getString(R.string.s_name, scooter.name)
             binding.itemLocation.text = binding.root.context.getString(R.string.s_location, scooter.location)
+            binding.itemLatitude.text = scooter.latitude.toString()
+            binding.itemLongitude.text = scooter.longitude.toString()
             binding.itemTime.text = DateFormat.getDateInstance().format(scooter.timestamp)
+
+
             if (scooter.available){
                 binding.Availability.text = "Available"
 
@@ -63,7 +67,6 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
             }
             binding.battery.text = "Battery level: "+ scooter.batteryLevel.toString()
 
-            //TODO: implementer loading af billeder fra bucket
             val imageRef = MainActivity.storage.reference.child("${scooter.name}.jpg")
 
             imageRef.downloadUrl.addOnSuccessListener {
@@ -110,7 +113,7 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
 
         // Create a new view, which defines the UI of the list item
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ListItemBinding.inflate(inflater, parent, false)
+        val binding = ScooterItemRecyclerviewBinding.inflate(inflater, parent, false)
 
         return ViewHolder(binding)
     }
