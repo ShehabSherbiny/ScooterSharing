@@ -46,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/deleteFragment"
-        android:name="dk.itu.moapd.scootersharing.ahga.fragments.DeleteRideFragment"
+        android:name="dk.itu.moapd.scootersharing.ahga.fragments.EndRideFragment"
         android:label="fragment_delete"
         tools:layout="@layout/fragment_end_ride" >
         <action

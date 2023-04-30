@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentEndRideBinding
 
-class DeleteRideFragment : Fragment() {
+class EndRideFragment : Fragment() {
 
     companion object {
         private val TAG = MainActivity::class.qualifiedName
