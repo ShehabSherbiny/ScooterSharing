@@ -1,12 +1,13 @@
 package dk.itu.moapd.scootersharing.ahga.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
@@ -55,11 +56,25 @@ class QrFragment : Fragment() {
                 if (barcodeScanned == scooter) { //Find in a Scooter List ?
                     requireContext().run {
                         //START RIDE
-//                        findNavController().navigate(R.id.show_start_ride_fragment)
-                        Log.d(TAG, "BARCODE: " + barcodeScanned)
+                        //findNavController().navigate(R.id.show_start_ride_fragment)
+
+                        // SNACKBAR
+                        view?.let { snackView ->
+                            Snackbar.make(
+                                snackView, "SCOOTER FOUND: " + barcodeScanned, Toast.LENGTH_SHORT
+                            )
+                        }?.show()
                     }
                 } else {
-                    Log.d(TAG, "BARCODE: " + barcodeScanned)
+
+                    // SNACKBAR
+                    view?.let { snackView ->
+                        Snackbar.make(
+                            snackView,
+                            "BARCODE DON'T MATCH SCOOTER: " + barcodeScanned,
+                            Toast.LENGTH_SHORT
+                        )
+                    }?.show()
                 }
             }
         }

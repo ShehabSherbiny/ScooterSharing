@@ -24,6 +24,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -65,7 +66,7 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
 
             if (scooter.available) {
                 binding.Availability.text = "Available"
-
+                binding.ScanQRCodeButton.visibility = View.VISIBLE
             } else {
                 binding.Availability.text = "Not available"
             }
