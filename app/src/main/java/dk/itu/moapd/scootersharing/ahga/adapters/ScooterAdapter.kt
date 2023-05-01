@@ -81,6 +81,7 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
                     .centerCrop()
                     .into(binding.imageView)
             }
+            // CARD
             binding.card.setOnClickListener {
                 if (scooter.available) {
                     MaterialAlertDialogBuilder(itemView.context)
@@ -116,7 +117,15 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
                     snack.show()
                 }
             }
+            // QR BUTTON
             binding.ScanQRCodeButton.setOnClickListener {
+                //TODO: CALL QR SCANNER
+//                binding.apply {
+//                    scanButton.setOnClickListener {
+//                        qrCodeScanner.launch(null)
+//                    }
+//                }
+
                 if (scooter.available) {
                     MaterialAlertDialogBuilder(itemView.context)
                         .setTitle(R.string.app_name)

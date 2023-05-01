@@ -11,12 +11,13 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
-import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentQrBinding
 
 class QrFragment : Fragment() {
 
-    private val TAG = MainActivity::class.qualifiedName
+    companion object {
+        private val TAG = QrFragment::class.qualifiedName
+    }
 
     private var _binding: FragmentQrBinding? = null
     private val binding
@@ -24,17 +25,9 @@ class QrFragment : Fragment() {
             "Cannot access binding because it is null. Is the view visible?"
         }
 
-    private var scooter: String = ""
-
+    var scooterName = "CPHH001"
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val options = BarcodeScannerOptions.Builder()
-            .setBarcodeFormats(
-                Barcode.FORMAT_QR_CODE,
-                Barcode.FORMAT_AZTEC
-            )
-            .build()
 
         binding.apply {
             scanButton.setOnClickListener {
@@ -53,9 +46,9 @@ class QrFragment : Fragment() {
         if (it != null) {
             client.process(it, 0).addOnSuccessListener { barcodes ->
                 val barcodeScanned = barcodes.firstOrNull()?.rawValue ?: "Unknown"
-                if (barcodeScanned == scooter) { //Find in a Scooter List ?
+                if (barcodeScanned == scooterName) { //Find in a Scooter List ?
                     requireContext().run {
-                        //START RIDE
+                        //TODO: START RIDE
                         //findNavController().navigate(R.id.show_start_ride_fragment)
 
                         // SNACKBAR
