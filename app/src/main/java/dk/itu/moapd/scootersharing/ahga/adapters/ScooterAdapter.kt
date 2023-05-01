@@ -70,7 +70,7 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
             } else {
                 binding.Availability.text = "Not available"
             }
-            binding.battery.text = "Battery level: " + scooter.batteryLevel.toString()
+            binding.battery.text = "Battery level: " + scooter.batteryLevel.toString() + "%"
 
             val imageRef = MainActivity.storage.reference.child("${scooter.name}.jpg")
 
@@ -82,6 +82,41 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
                     .into(binding.imageView)
             }
             binding.card.setOnClickListener {
+                if (scooter.available) {
+                    MaterialAlertDialogBuilder(itemView.context)
+                        .setTitle(R.string.app_name)
+                        .setMessage("Are you sure you want to book " + scooter.name + " ?")
+                        .setNegativeButton(R.string.decline) { dialog, which ->
+                            // Respond to negative button press
+                            return@setNegativeButton
+                        }
+                        .setPositiveButton(R.string.accept) { dialog, which ->
+                            // Respond to positive button press
+                            scooter.available = false
+                            MainActivity.currentScooter = scooter
+                            MainActivity.onRide = true
+                            scooter.name?.let { it1 ->
+                                MainActivity.database.child("scooters").child(it1).setValue(scooter)
+                            }
+                            //SNACKBAR
+                            val snack = Snackbar.make(
+                                it,
+                                "You have started a ride with scooter " + scooter.name,
+                                Toast.LENGTH_SHORT
+                            )
+                            snack.show()
+                        }
+                        .show()
+                } else {
+                    //SNACKBAR
+                    val snack = Snackbar.make(
+                        it, "The chosen scooter is not available",
+                        BaseTransientBottomBar.LENGTH_SHORT
+                    )
+                    snack.show()
+                }
+            }
+            binding.ScanQRCodeButton.setOnClickListener {
                 if (scooter.available) {
                     MaterialAlertDialogBuilder(itemView.context)
                         .setTitle(R.string.app_name)
