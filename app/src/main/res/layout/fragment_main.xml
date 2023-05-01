@@ -58,6 +58,14 @@
                 android:layout_gravity="center_horizontal"
                 android:text="Pay" />
 
+            <Button
+                android:id="@+id/accelerometer_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/purple_200"
+                android:layout_gravity="center_horizontal"
+                android:text="Accelerometer" />
+
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView

@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -32,6 +31,7 @@ import dk.itu.moapd.scootersharing.ahga.dataClasses.Rides
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMainBinding
 import java.io.File
 import java.util.*
+
 
 class MainFragment : Fragment() {
 
@@ -231,11 +231,10 @@ class MainFragment : Fragment() {
             registerNewScooterButton.setOnClickListener {
                 findNavController().navigate(R.id.show_register_new_scooter_fragment)
             }
+            accelerometerButton.setOnClickListener {
+                findNavController().navigate(R.id.show_linearAccelerationFragment)
+            }
         }
-    }
-
-    private fun imageResult(result: ActivityResult) {
-        // if(resu)
     }
 
     private fun uploadImageToBucket(uri: Uri, image: StorageReference) {
@@ -247,6 +246,7 @@ class MainFragment : Fragment() {
         _binding = null
     }
 
+    // PERMISSIONS
     private fun requestUserPermissions() {
         val permissions: ArrayList<String> = ArrayList()
         permissions.add(Manifest.permission.CAMERA)

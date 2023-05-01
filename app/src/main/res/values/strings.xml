@@ -68,4 +68,14 @@
     <string name="order_with_googlepay_button_content_description">Order With Google Pay</string>
     <string name="view_in_googlepay_button_content_description">View In Google Pay</string>
 
+    <string name="unavailable">Unavailable</string>
+    <string name="value_text">-</string>
+    <string name="gravity_text">%.7f m/s\u00B2</string>
+    <string name="axis_x">X-Axis</string>
+    <string name="axis_y">Y-Axis</string>
+    <string name="axis_z">Z-Axis</string>
+    <string name="rotation_x">X (Pitch)</string>
+    <string name="rotation_y">Y (Roll)</string>
+    <string name="rotation_z">Z (Yaw)</string>
+
 </resources>

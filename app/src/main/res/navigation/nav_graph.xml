@@ -26,8 +26,12 @@
             android:id="@+id/show_payFragment"
             app:destination="@id/payFragment" />
         <action
+            android:id="@+id/show_linearAccelerationFragment"
+            app:destination="@id/linearAccelerationFragment" />
+        <action
             android:id="@+id/show_register_new_scooter_fragment"
             app:destination="@id/registerNewScooterFragment" />
+
 
 
     </fragment>
@@ -71,6 +75,14 @@
         android:id="@+id/payFragment"
         android:name="dk.itu.moapd.scootersharing.ahga.fragments.PayFragment"
         android:label="PayFragment">
+        <action
+            android:id="@+id/show_main_fragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/linearAccelerationFragment"
+        android:name="dk.itu.moapd.scootersharing.ahga.fragments.LinearAccelerationFragment"
+        android:label="LinearAccelerationFragment" >
         <action
             android:id="@+id/show_main_fragment"
             app:destination="@id/mainFragment" />
