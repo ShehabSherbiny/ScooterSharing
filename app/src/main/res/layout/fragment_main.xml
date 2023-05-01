@@ -141,6 +141,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="260dp"
             android:backgroundTint="@color/red"
+            android:layout_gravity="center_horizontal"
             android:text="DEV: Register New Scooter" />
 
     </LinearLayout>
