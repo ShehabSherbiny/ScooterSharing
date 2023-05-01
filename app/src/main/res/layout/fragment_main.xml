@@ -1,97 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context=".fragments.MainFragment">
 
-    <Button
-        android:id="@+id/start_ride_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/start_ride"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="visible"
-        app:layout_constraintTop_toTopOf="@+id/root" />
-
-    <Button
-        android:id="@+id/delete_ride_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/end_ride"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/start_ride_button" />
-
-    <Button
-        android:id="@+id/list_rides_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/rides_history"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/delete_ride_button" />
-
-    <Button
-        android:id="@+id/map_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Map"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list_rides_button" />
-
-    <Button
-        android:id="@+id/camera_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Camera"
-        android:backgroundTint="@color/purple_200"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map_button" />
-
-    <Button
-        android:id="@+id/qr_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/qr"
-        android:backgroundTint="@color/purple_200"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/camera_button" />
-
-    <Button
-        android:id="@+id/payment_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Pay"
-        android:backgroundTint="@color/purple_200"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qr_button" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/current_scooter_card"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentPadding="8dp"
-        android:layout_margin="8dp"
-        android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@+id/payment_button" >
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/start_ride_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/start_ride"
+                android:layout_gravity="center_horizontal"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/delete_ride_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/end_ride"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/list_rides_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/rides_history" />
+
+            <Button
+                android:id="@+id/map_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Map" />
+
+            <Button
+                android:id="@+id/camera_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/purple_200"
+                android:layout_gravity="center_horizontal"
+                android:text="Camera" />
+
+            <Button
+                android:id="@+id/qr_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/purple_200"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/qr" />
+
+            <Button
+                android:id="@+id/payment_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/purple_200"
+                android:layout_gravity="center_horizontal"
+                android:text="Pay" />
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/current_scooter_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:visibility="visible"
+            app:contentPadding="8dp">
 
             <LinearLayout
                 android:id="@+id/layoutHorizontal"
@@ -125,11 +115,11 @@
                         android:textColor="?android:attr/textColorSecondary" />
 
                     <TextView
+                        android:id="@+id/current_scooter_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:hint="@string/scooter_location"
-                        android:id="@+id/current_scooter_location"
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?android:attr/textColorSecondary" />
 
@@ -143,20 +133,16 @@
 
             </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
 
-    <Button
-        android:id="@+id/register_new_scooter_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="190dp"
-        android:backgroundTint="@color/red"
-        android:text="DEV: Register New Scooter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/payment_button" />
+        <Button
+            android:id="@+id/register_new_scooter_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="260dp"
+            android:backgroundTint="@color/red"
+            android:text="DEV: Register New Scooter" />
 
+    </LinearLayout>
 
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
