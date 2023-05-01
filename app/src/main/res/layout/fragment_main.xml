@@ -51,28 +51,13 @@
                 android:text="Map" />
 
             <Button
-                android:id="@+id/camera_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/purple_200"
-                android:layout_gravity="center_horizontal"
-                android:text="Camera" />
-
-            <Button
-                android:id="@+id/qr_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/purple_200"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/qr" />
-
-            <Button
                 android:id="@+id/payment_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/purple_200"
                 android:layout_gravity="center_horizontal"
                 android:text="Pay" />
+
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
@@ -136,10 +121,26 @@
         </com.google.android.material.card.MaterialCardView>
 
         <Button
+            android:id="@+id/camera_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:backgroundTint="@color/red"
+            android:layout_gravity="center_horizontal"
+            android:text="DEV: Camera" />
+
+        <Button
+            android:id="@+id/qr_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/red"
+            android:layout_gravity="center_horizontal"
+            android:text="DEV: QR" />
+
+        <Button
             android:id="@+id/register_new_scooter_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="260dp"
             android:backgroundTint="@color/red"
             android:layout_gravity="center_horizontal"
             android:text="DEV: Register New Scooter" />
