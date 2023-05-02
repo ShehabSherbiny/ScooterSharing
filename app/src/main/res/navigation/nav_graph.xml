@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_mainFragment_to_payFragment"
             app:destination="@id/payFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_payFragment2"
+            app:destination="@id/payFragment" />
 
 
     </fragment>

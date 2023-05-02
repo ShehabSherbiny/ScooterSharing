@@ -201,6 +201,7 @@ class MainFragment : Fragment() {
                                 )
                                 takePhoto.launch(photoUri)
                             }
+
                             onRide = false
                             //SNACKBAR
                             val snack = Snackbar.make(
@@ -210,6 +211,8 @@ class MainFragment : Fragment() {
                             snack.show()
                         }
                         .show()
+                    //TODO: ADD PAYMENT
+//                findNavController().navigate(R.id.show_payFragment)
                 } else {
                     val snack = Snackbar.make(
                         it,
@@ -217,6 +220,7 @@ class MainFragment : Fragment() {
                     )
                     snack.show()
                 }
+//                findNavController().navigate(R.id.show_payFragment)
             }
             listRidesButton.setOnClickListener {
                 findNavController().navigate(R.id.show_ride_history_fragment)
