@@ -1,6 +1,8 @@
 package dk.itu.moapd.scootersharing.ahga.fragments
 
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +13,11 @@ import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentPayBinding
 import dk.itu.moapd.scootersharing.ahga.helperClasses.Validation
-import java.util.*
-import javax.xml.validation.Validator
 
 class PayFragment : Fragment() {
 
     companion object {
-        private val TAG = MainActivity::class.qualifiedName
+        private val TAG = PayFragment::class.qualifiedName
     }
 
     private var _binding: FragmentPayBinding? = null
@@ -61,7 +61,7 @@ class PayFragment : Fragment() {
                 if (firstName.text.toString().trim().isNotEmpty() &&
                     lastName.text.toString().trim().isNotEmpty() &&
                     phone.text.toString().trim().isNotEmpty()
-                    //TODO: Uncomment this before releasing the last version
+                //TODO: Uncomment this before releasing the last version
 //                    &&
 //                    dateofbirth.text.toString().trim().isNotEmpty() &&
 //                    cardNumber.text.toString().trim().isNotEmpty() &&
@@ -69,27 +69,21 @@ class PayFragment : Fragment() {
 //                    cvc.text.toString().trim().isNotEmpty()
                 ) {
                     //TODO: Implement a Loading ProgressBar
-                    loadingButton()
+//                    progressBar.visibility = View.VISIBLE
+//
+//                    Handler().postDelayed({
+//                        progressBar.visibility = View.GONE
+//                    }, 2000)
+
+//                    findNavController().popBackStack()
+                    findNavController().navigate(R.id.show_main_fragment)
+
                 } else {
                     Toast.makeText(requireContext(), "Please enter all fields ", Toast.LENGTH_SHORT)
                         .show()
                 }
             }
         }
-    }
-
-    private fun loadingButton() {
-//        binding.progressBar.visibility = View.VISIBLE
-//        Timer().schedule(object : TimerTask() {
-//            override fun run() {
-//                binding.progressBar.visibility = View.INVISIBLE
-//                parentFragmentManager
-//                    .beginTransaction()
-//                    .replace(R.id.fragment_container_view, MainFragment())
-//                    .commit()
-//            }
-//        }, 2000)
-        findNavController().popBackStack()
     }
 
     override fun onDestroyView() {
