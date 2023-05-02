@@ -46,6 +46,7 @@ import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
 import dk.itu.moapd.scootersharing.ahga.helperClasses.DATABASE_URL
 import dk.itu.moapd.scootersharing.ahga.helperClasses.IMAGES_URL
+import dk.itu.moapd.scootersharing.ahga.services.ScooterService
 import java.util.*
 
 /**
@@ -82,6 +83,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
+        //SERVICE
+        Intent(this, ScooterService::class.java).also { intent ->
+            startService(intent)
+        }
 
         setSupportActionBar(binding.toolbar)
 

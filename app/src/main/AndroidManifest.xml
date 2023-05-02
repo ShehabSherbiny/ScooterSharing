@@ -35,10 +35,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ScooterSharing"
         tools:targetApi="31">
-        <!--<service
+
+        <service
             android:name=".services.ScooterService"
             android:enabled="true"
-            android:exported="true"></service>-->
+            android:exported="true"></service>
 
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
