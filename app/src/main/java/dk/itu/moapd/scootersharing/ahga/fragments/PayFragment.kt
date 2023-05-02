@@ -1,18 +1,19 @@
 package dk.itu.moapd.scootersharing.ahga.fragments
 
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dk.itu.moapd.scootersharing.ahga.R
-import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentPayBinding
 import dk.itu.moapd.scootersharing.ahga.helperClasses.Validation
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
 
 class PayFragment : Fragment() {
 
@@ -55,11 +56,11 @@ class PayFragment : Fragment() {
                         .show()
                 }
                 if (!phoneValidator.isValidPhone) {
-                    Toast.makeText(requireContext(), "Enter valid last name", Toast.LENGTH_SHORT)
+                    Toast.makeText(requireContext(), "Enter valid phone", Toast.LENGTH_SHORT)
                         .show()
                 }
                 if (firstName.text.toString().trim().isNotEmpty() &&
-                    lastName.text.toString().trim().isNotEmpty() &&
+                    //lastName.text.toString().trim().isNotEmpty() &&
                     phone.text.toString().trim().isNotEmpty()
                 //TODO: Uncomment this before releasing the last version
 //                    &&
@@ -69,14 +70,16 @@ class PayFragment : Fragment() {
 //                    cvc.text.toString().trim().isNotEmpty()
                 ) {
                     //TODO: Implement a Loading ProgressBar
-//                    progressBar.visibility = View.VISIBLE
-//
-//                    Handler().postDelayed({
-//                        progressBar.visibility = View.GONE
-//                    }, 2000)
 
-//                    findNavController().popBackStack()
-                    findNavController().navigate(R.id.show_main_fragment)
+                    activity?.runOnUiThread {
+                        lifecycleScope.launch {
+                            progressBar.visibility = View.VISIBLE
+                            delay(2000)
+                            progressBar.visibility = View.GONE
+                            findNavController().navigate(R.id.show_main_fragment)
+                        }
+                    }
+
 
                 } else {
                     Toast.makeText(requireContext(), "Please enter all fields ", Toast.LENGTH_SHORT)
