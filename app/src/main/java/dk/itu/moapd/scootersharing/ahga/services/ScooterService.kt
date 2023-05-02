@@ -9,12 +9,16 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.model.LatLng
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.fusedLocationProviderClient
 
 class ScooterService : Service() {
 
     companion object {
         private const val TAG = "SCOOTER SERVICE"
+        var currentLatitude = 55.6596
+        var currentLongitude =12.5910
+
     }
 
     private var locationCallback: LocationCallback = object : LocationCallback() {
@@ -30,7 +34,8 @@ class ScooterService : Service() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                location.latitude
+                currentLatitude = location.latitude
+                currentLongitude= location.longitude
 
             }
         }

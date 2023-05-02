@@ -62,7 +62,7 @@ class MainActivityInstrumentedTest {
 
         // Insert data into the EditTexts.
         onView(withId(R.id.name_input))
-            .perform(clearText(), typeText("CPH001"))
+            .perform(clearText(), typeText("CPH002"))
         // Hide Keyboard
         Espresso.closeSoftKeyboard()
 

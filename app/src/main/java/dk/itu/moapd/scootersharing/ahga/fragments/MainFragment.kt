@@ -36,6 +36,7 @@ import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.onRide
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.storage
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Rides
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMainBinding
+import dk.itu.moapd.scootersharing.ahga.services.ScooterService
 import java.io.File
 import java.util.*
 
@@ -155,9 +156,7 @@ class MainFragment : Fragment() {
                                     .key
                                 uid?.let {
                                     if (!checkPermission()) {
-                                        fusedLocationProviderClient.lastLocation
-                                            .addOnSuccessListener { location: Location? ->
-                                                if (location != null) {
+
                                                     //ADD RIDE TO USERS RIDE HISTORY
                                                     database.child("rides")
                                                         .child(user.uid)
@@ -167,13 +166,13 @@ class MainFragment : Fragment() {
                                                                 currentScooter,
                                                                 startLatitude = currentScooter.latitude,
                                                                 startLongitude = currentScooter.longitude,
-                                                                endLatitude = location.latitude,
-                                                                endLongitude = location.longitude,
+                                                                endLatitude = ScooterService.currentLatitude,
+                                                                endLongitude =  ScooterService.currentLongitude,
                                                             )
                                                         )
                                                     //UPDATE SCOOTER LOCATION
-                                                    currentScooter.latitude = location.latitude
-                                                    currentScooter.longitude = location.longitude
+                                                    currentScooter.latitude = ScooterService.currentLatitude
+                                                    currentScooter.longitude =  ScooterService.currentLongitude
                                                     MainActivity.auth.currentUser?.let {
                                                         currentScooter.name?.let { scooterName ->
                                                             MainActivity.database.child("scooters")
@@ -183,8 +182,7 @@ class MainFragment : Fragment() {
                                                         }
                                                     }
 
-                                                }
-                                            }
+
                                     }
                                 }
                             }

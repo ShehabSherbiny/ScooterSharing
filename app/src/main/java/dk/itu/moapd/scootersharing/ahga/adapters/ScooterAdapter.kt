@@ -64,8 +64,8 @@ class ScooterAdapter(
             binding.itemName.text = binding.root.context.getString(R.string.s_name, scooter.name)
             binding.itemLocation.text =
                 binding.root.context.getString(R.string.s_location, scooter.location)
-            binding.itemLatitude.text = scooter.latitude.toString()
-            binding.itemLongitude.text = scooter.longitude.toString()
+            binding.itemLatitude.text = scooter.latitude.toString().substring(0, 5)
+            binding.itemLongitude.text = scooter.longitude.toString().substring(0,5)
             binding.itemTime.text = DateFormat.getDateInstance().format(scooter.timestamp)
 
             if (scooter.available) {
