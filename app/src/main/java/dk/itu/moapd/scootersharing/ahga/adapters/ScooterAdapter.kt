@@ -27,7 +27,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.core.app.ActivityCompat
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -46,7 +48,7 @@ import java.text.DateFormat
  * A class to customize an adapter with a `ViewHolder` to populate a dummy dataset into a `ListView`.
  */
 
-class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
+class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>, private val qrCodeScanner: ActivityResultLauncher<Void?>) :
     FirebaseRecyclerAdapter<Scooter, ScooterAdapter.ViewHolder>(options) {
 
     companion object {
@@ -56,10 +58,9 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
     class ViewHolder(private val binding: ScooterItemRecyclerviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(scooter: Scooter) {
+        fun bind(scooter: Scooter, qrCodeScanner :ActivityResultLauncher<Void?> ) {
             binding.itemName.text = binding.root.context.getString(R.string.s_name, scooter.name)
-            binding.itemLocation.text =
-                binding.root.context.getString(R.string.s_location, scooter.location)
+            binding.itemLocation.text = binding.root.context.getString(R.string.s_location, scooter.location)
             binding.itemLatitude.text = scooter.latitude.toString()
             binding.itemLongitude.text = scooter.longitude.toString()
             binding.itemTime.text = DateFormat.getDateInstance().format(scooter.timestamp)
@@ -119,12 +120,9 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
             }
             // QR BUTTON
             binding.ScanQRCodeButton.setOnClickListener {
-                //TODO: CALL QR SCANNER
-//                binding.apply {
-//                    scanButton.setOnClickListener {
-//                        qrCodeScanner.launch(null)
-//                    }
-//                }
+//                TODO: CALL QR SCANNER
+              qrCodeScanner.launch(null)
+
 
                 if (scooter.available) {
                     MaterialAlertDialogBuilder(itemView.context)
@@ -188,7 +186,7 @@ class ScooterAdapter(options: FirebaseRecyclerOptions<Scooter>) :
         // contents of the view with that element
         Log.d(TAG, "Populate an item at position: $position")
 
-        holder.bind(scooter)
+        holder.bind(scooter, qrCodeScanner)
     }
 
 }

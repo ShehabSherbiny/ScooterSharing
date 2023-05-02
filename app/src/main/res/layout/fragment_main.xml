@@ -170,7 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:backgroundTint="@color/red"
-            android:text="Accelerometer" />
+            android:text="DEV: Accelerometer" />
 
         <Button
             android:id="@+id/register_new_scooter_button"

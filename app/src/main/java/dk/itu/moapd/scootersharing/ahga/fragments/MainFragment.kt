@@ -4,12 +4,14 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -64,6 +66,7 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { // LOGIC
         super.onViewCreated(view, savedInstanceState)
 
@@ -75,9 +78,10 @@ class MainFragment : Fragment() {
 
                 currentScooterName.text = currentScooter.name
                 currentScooterLocation.text = currentScooter.location
+
                 //TODO: Get info from Fragment Linear Accelerometer
-//                currentScooterCircularProgressIndicatorX =
-//                currentScooterAxisXValue =
+                currentScooterCircularProgressIndicatorX.progress = LinearAccelerationFragment.progressBar
+                currentScooterAxisXValue.text = LinearAccelerationFragment.speedometer
 
                 val imageRef = MainActivity.storage.reference.child("${currentScooter.name}.jpg")
 
