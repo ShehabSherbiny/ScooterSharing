@@ -27,12 +27,12 @@ class ScooterService : Service() {
 
             // Updates the user interface components with GPS data location.
             locationResult.lastLocation?.let { location ->
-                //LAST LOCATION
+             /*   //LAST LOCATION
                 Toast.makeText(
                     this@ScooterService,
                     "SCOOTER SERVICE: LOCATION" + location,
                     Toast.LENGTH_SHORT
-                ).show()
+                ).show()*/
 
                 currentLatitude = location.latitude
                 currentLongitude= location.longitude
