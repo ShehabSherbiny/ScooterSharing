@@ -75,6 +75,10 @@ class MainFragment : Fragment() {
 
                 currentScooterName.text = currentScooter.name
                 currentScooterLocation.text = currentScooter.location
+                //TODO: Get info from Fragment Linear Accelerometer
+//                currentScooterCircularProgressIndicatorX =
+//                currentScooterAxisXValue =
+
                 val imageRef = MainActivity.storage.reference.child("${currentScooter.name}.jpg")
 
                 imageRef.downloadUrl.addOnSuccessListener {

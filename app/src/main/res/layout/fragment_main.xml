@@ -121,28 +121,19 @@
                         android:textAppearance="?attr/textAppearanceHeadline6" />
 
                     <com.google.android.material.progressindicator.CircularProgressIndicator
-                        android:id="@+id/circular_progress_indicator_x"
+                        android:id="@+id/current_scooter_circular_progress_indicator_x"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         app:indicatorSize="90dp" />
 
                     <TextView
-                        android:id="@+id/axis_x_value"
+                        android:id="@+id/current_scooter_axis_x_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="@string/value_text"
                         android:textAppearance="?attr/textAppearanceHeadlineSmall" />
-
-                    <TextView
-                        android:id="@+id/axis_x"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/axis_x"
-                        android:textAppearance="?attr/textAppearanceLabelMedium" />
 
                 </LinearLayout>
 
