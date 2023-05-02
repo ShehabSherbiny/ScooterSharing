@@ -2,6 +2,7 @@ package dk.itu.moapd.scootersharing.ahga.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,8 @@ class StartRideFragment : Fragment() {
     companion object {
         private lateinit var adapter: ScooterAdapter
         fun isAdapterInit() = ::adapter.isInitialized
+        private val TAG = StartRideFragment::class.qualifiedName
+        var scooterMatch = false
     }
 
     private var _binding: FragmentRideHistoryBinding? = null
@@ -42,7 +45,9 @@ class StartRideFragment : Fragment() {
         if (it != null) {
             client.process(it, 0).addOnSuccessListener { barcodes ->
                 val barcodeScanned = barcodes.firstOrNull()?.rawValue ?: "Unknown"
-                if (barcodeScanned == "CPHO01") { //Find in a Scooter List ?
+                Log.d(TAG, "BARCODE SCANNED: " + barcodeScanned)
+                if (barcodeScanned == "CPH001") {
+                    scooterMatch = true
                     requireContext().run {
                         //TODO: START RIDE
                         //findNavController().navigate(R.id.show_start_ride_fragment)

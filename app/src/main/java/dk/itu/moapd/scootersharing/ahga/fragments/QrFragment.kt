@@ -1,6 +1,7 @@
 package dk.itu.moapd.scootersharing.ahga.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentQrBinding
 
 class QrFragment : Fragment() {
@@ -25,7 +27,7 @@ class QrFragment : Fragment() {
             "Cannot access binding because it is null. Is the view visible?"
         }
 
-    var scooterName = "CPHH001"
+    var scooterName = "CPH001"
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -46,6 +48,7 @@ class QrFragment : Fragment() {
         if (it != null) {
             client.process(it, 0).addOnSuccessListener { barcodes ->
                 val barcodeScanned = barcodes.firstOrNull()?.rawValue ?: "Unknown"
+
                 if (barcodeScanned == scooterName) { //Find in a Scooter List ?
                     requireContext().run {
                         //TODO: START RIDE
