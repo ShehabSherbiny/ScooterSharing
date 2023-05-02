@@ -1,7 +1,12 @@
 package dk.itu.moapd.scootersharing.ahga.fragments
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.location.Location
 import android.net.Uri
 import android.os.Build
@@ -34,8 +39,10 @@ import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMainBinding
 import java.io.File
 import java.util.*
 
-
 class MainFragment : Fragment() {
+
+    val service = Context.SENSOR_SERVICE
+    private lateinit var sensorManager: SensorManager
 
     lateinit private var photoUri: Uri
     private var _binding: FragmentMainBinding? = null
@@ -70,6 +77,9 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { // LOGIC
         super.onViewCreated(view, savedInstanceState)
 
+        val service = Context.SENSOR_SERVICE
+        sensorManager = requireActivity().getSystemService(service) as SensorManager
+
         binding.apply {
             if (onRide) {
                 startRideButton.visibility = View.GONE
@@ -80,8 +90,9 @@ class MainFragment : Fragment() {
                 currentScooterLocation.text = currentScooter.location
 
                 //TODO: Get info from Fragment Linear Accelerometer
-                currentScooterCircularProgressIndicatorX.progress = LinearAccelerationFragment.progressBar
-                currentScooterAxisXValue.text = LinearAccelerationFragment.speedometer
+//                currentScooterCircularProgressIndicatorX.progress =
+//                currentScooterAxisXValue.text =
+
 
                 val imageRef = MainActivity.storage.reference.child("${currentScooter.name}.jpg")
 
@@ -249,10 +260,38 @@ class MainFragment : Fragment() {
         image.putFile(uri)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        // Get an instance of the linear acceleration sensor and register the sensor listener.
+        val linearAcceleration = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
+        if (linearAcceleration != null)
+            sensorManager.registerListener(
+                linearAccelerationListener,
+                linearAcceleration, SensorManager.SENSOR_DELAY_NORMAL
+            )
+
+        // Otherwise, inform to the users that there is no linear acceleration sensor in their
+        // mobile devices.
+        else {
+            binding.apply {
+                currentScooterAxisXValue.text = getString(R.string.unavailable)
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        // When the Fragment is not visible, unregister the linear acceleration listener.
+        sensorManager.unregisterListener(linearAccelerationListener)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 
     // PERMISSIONS
     private fun requestUserPermissions() {
@@ -296,5 +335,34 @@ class MainFragment : Fragment() {
                 ActivityCompat.checkSelfPermission(
                     requireContext(), Manifest.permission.CAMERA
                 ) != PackageManager.PERMISSION_GRANTED
+
+
+    // ACCELEROMETER
+    private fun Float.normalize(): Int {
+        val norm = java.lang.Float.min(
+            java.lang.Float.max(this, -SensorManager.STANDARD_GRAVITY),
+            SensorManager.STANDARD_GRAVITY
+        )
+        return ((norm + SensorManager.STANDARD_GRAVITY) /
+                (2f * SensorManager.STANDARD_GRAVITY) * 100).toInt()
+    }
+
+
+    private val linearAccelerationListener: SensorEventListener = object : SensorEventListener {
+        override fun onSensorChanged(event: SensorEvent) {
+            binding.apply {
+
+                // VALUES BIGGER THAN 0
+                if (event.values[0] > 0) {
+                    currentScooterCircularProgressIndicatorX.progress = event.values[0].normalize()
+                    currentScooterAxisXValue.text =
+                        getString(R.string.gravity_text, event.values[0])
+                }
+            }
+        }
+
+        override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
+        }
+    }
 
 }

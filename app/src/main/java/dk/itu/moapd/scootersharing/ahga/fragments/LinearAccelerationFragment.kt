@@ -29,7 +29,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentLinearAccelerometerBinding
@@ -44,11 +43,6 @@ import java.lang.Float.min
  * We have used a `ViewModel` from the `MainActivity` to execute the updates on UI components.
  */
 class LinearAccelerationFragment : Fragment() {
-
-    companion object{
-        var speedometer : String = ""
-        var progressBar : Int = 10
-    }
 
     /**
      * Used for receiving notifications from the SensorManager when there is new sensor data.
@@ -75,13 +69,6 @@ class LinearAccelerationFragment : Fragment() {
                 axisXValue.text = getString(R.string.gravity_text, event.values[0])
                 axisYValue.text = getString(R.string.gravity_text, event.values[1])
                 axisZValue.text = getString(R.string.gravity_text, event.values[2])
-
-                // VALUES BIGGER THAN 0
-                if (event.values[0] > 0) {
-                    speedometer = getString(R.string.gravity_text, event.values[0])
-                    progressBar = event.values[0].normalize()
-                }
-
             }
         }
 
@@ -201,7 +188,7 @@ class LinearAccelerationFragment : Fragment() {
         super.onPause()
 
         // When the Fragment is not visible, unregister the linear acceleration listener.
-         sensorManager.unregisterListener(linearAccelerationListener)
+        sensorManager.unregisterListener(linearAccelerationListener)
     }
 
     /**
