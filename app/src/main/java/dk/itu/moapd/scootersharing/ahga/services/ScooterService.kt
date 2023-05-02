@@ -1,37 +1,55 @@
 package dk.itu.moapd.scootersharing.ahga.services
 
+import android.Manifest
 import android.app.Service
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.IBinder
+import android.os.Looper
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.*
+import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.fusedLocationProviderClient
 
 class ScooterService : Service() {
 
+    companion object {
+        private const val TAG = "SCOOTER SERVICE"
+    }
+
+    private var locationCallback: LocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            super.onLocationResult(locationResult)
+
+            // Updates the user interface components with GPS data location.
+            locationResult.lastLocation?.let { location ->
+                //LAST LOCATION
+                Toast.makeText(
+                    this@ScooterService,
+                    "SCOOTER SERVICE: LOCATION" + location,
+                    Toast.LENGTH_LONG
+                ).show()
+
+                location.latitude
+
+            }
+        }
+    }
+
     override fun onCreate() {
-        // Start up the thread running the service.  Note that we create a
-        // separate thread because the service normally runs in the process's
-        // main thread, which we don't want to block.  We also make it
-        // background priority so CPU-intensive work will not disrupt our UI.
-//        HandlerThread("ServiceStartArguments", Process.THREAD_PRIORITY_BACKGROUND).apply {
-//            start()
-//
-//            // Get the HandlerThread's Looper and use it for our Handler
-//            serviceLooper = looper
-//            serviceHandler = ServiceHandler(looper)
-//        }
+
+        // Start receiving location updates.
+        fusedLocationProviderClient = LocationServices
+            .getFusedLocationProviderClient(this)
+
+        subscribeToLocationUpdates()
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show()
 
-//        // For each start request, send a message to start a job and deliver the
-//        // start ID so we know which request we're stopping when we finish the job
-//        serviceHandler?.obtainMessage()?.also { msg ->
-//            msg.arg1 = startId
-//            serviceHandler?.sendMessage(msg)
-//        }
-
-        // If we get killed, after returning from here, restart
         return START_STICKY
     }
 
@@ -42,6 +60,41 @@ class ScooterService : Service() {
 
     override fun onDestroy() {
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show()
+        unsubscribeToLocationUpdates()
     }
+
+    private fun subscribeToLocationUpdates() {
+
+        // Check if the user allows the application to access the location-aware resources.
+        if (checkPermission())
+            return
+
+        // Sets the accuracy and desired interval for active location updates.
+        val locationRequest = LocationRequest
+            .Builder(Priority.PRIORITY_HIGH_ACCURACY, 5)
+            .build()
+
+        // Subscribe to location changes.
+        fusedLocationProviderClient.requestLocationUpdates(
+            locationRequest, locationCallback, Looper.getMainLooper()
+        )
+    }
+
+    private fun unsubscribeToLocationUpdates() {
+        // Unsubscribe to location changes.
+        fusedLocationProviderClient
+            .removeLocationUpdates(locationCallback)
+    }
+
+
+    // PERMISSIONS
+    private fun checkPermission() =
+        ActivityCompat.checkSelfPermission(
+            this, Manifest.permission.ACCESS_FINE_LOCATION
+        ) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(
+                    this, Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+
 
 }

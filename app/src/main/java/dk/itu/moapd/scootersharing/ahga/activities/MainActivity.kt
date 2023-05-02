@@ -67,6 +67,8 @@ class MainActivity : AppCompatActivity() {
         lateinit var storage: FirebaseStorage
         lateinit var auth: FirebaseAuth
         lateinit var currentScooter: Scooter
+
+        //TODO: IMPLEMENT BROACAST RECEIVER to get location from our service
         lateinit var fusedLocationProviderClient: FusedLocationProviderClient
         var onRide = false
         const val REQUEST_CODE_PERMISSIONS = 10
