@@ -46,12 +46,12 @@ class HistoryAdapter(options: FirebaseRecyclerOptions<Rides>) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(rides: Rides) {
             binding.itemRideScooter.text = rides.scooter.name
-            binding.itemRideEndLatitude.text = "Ending latitude" + rides.endLatitude.toString()
-            binding.itemRideEndLongitude.text = "Ending longitude" + rides.endLongitude.toString()
+            binding.itemRideEndLatitude.text = "Ending latitude" + rides.endLatitude.toString().substring(0, 5)
+            binding.itemRideEndLongitude.text = "Ending longitude" + rides.endLongitude.toString().substring(0, 5)
             binding.itemRideStartLatitude.text =
-                "Starting latitude" + rides.startLatitude.toString()
+                "Starting latitude" + rides.startLatitude.toString().substring(0, 5)
             binding.itemRideStartLongitude.text =
-                "Ending latitude" + rides.startLongitude.toString()
+                "Ending latitude" + rides.startLongitude.toString().substring(0, 5)
             binding.itemRidePrice.text = "Price: " + rides.price.toString() + "dk"
 
             val imageRef = MainActivity.storage.reference.child("${rides.scooter.name}.jpg")
