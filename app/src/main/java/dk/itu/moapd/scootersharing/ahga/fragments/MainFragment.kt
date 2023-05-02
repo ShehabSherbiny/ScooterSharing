@@ -83,7 +83,7 @@ class MainFragment : Fragment() {
         binding.apply {
             if (onRide) {
                 startRideButton.visibility = View.GONE
-                deleteRideButton.visibility = View.VISIBLE
+                endRideButton.visibility = View.VISIBLE
                 currentScooterCard.visibility = View.VISIBLE
 
                 currentScooterName.text = currentScooter.name
@@ -107,7 +107,7 @@ class MainFragment : Fragment() {
             }
             if (!onRide) {
                 startRideButton.visibility = View.VISIBLE
-                deleteRideButton.visibility = View.GONE
+                endRideButton.visibility = View.GONE
                 currentScooterCard.visibility = View.GONE
             }
 
@@ -124,7 +124,7 @@ class MainFragment : Fragment() {
                 }
             }
 
-            deleteRideButton.setOnClickListener {
+            endRideButton.setOnClickListener {
                 if (onRide) {
                     MaterialAlertDialogBuilder(requireContext())
                         .setTitle(R.string.app_name)
@@ -143,7 +143,7 @@ class MainFragment : Fragment() {
                             }
 
                             startRideButton.visibility = View.VISIBLE
-                            deleteRideButton.visibility = View.GONE
+                            endRideButton.visibility = View.GONE
                             currentScooterCard.visibility = View.GONE
 
                             val user = MainActivity.auth.currentUser
