@@ -50,14 +50,6 @@
                 android:layout_gravity="center_horizontal"
                 android:text="Map" />
 
-            <Button
-                android:id="@+id/payment_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:backgroundTint="@color/purple_200"
-                android:text="Pay" />
-
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
@@ -139,7 +131,7 @@
 
                 <ImageView
                     android:id="@+id/current_scooter_image"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_baseline_not_listed_location_128" />
 
@@ -171,6 +163,14 @@
             android:layout_gravity="center_horizontal"
             android:backgroundTint="@color/red"
             android:text="DEV: Accelerometer" />
+
+        <Button
+            android:id="@+id/payment_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/red"
+            android:text="DEV: Pay" />
 
         <Button
             android:id="@+id/register_new_scooter_button"

@@ -24,11 +24,11 @@ class ScooterService : Service() {
             // Updates the user interface components with GPS data location.
             locationResult.lastLocation?.let { location ->
                 //LAST LOCATION
-//                Toast.makeText(
-//                    this@ScooterService,
-//                    "SCOOTER SERVICE: LOCATION" + location,
-//                    Toast.LENGTH_SHORT
-//                ).show()
+                Toast.makeText(
+                    this@ScooterService,
+                    "SCOOTER SERVICE: LOCATION" + location,
+                    Toast.LENGTH_SHORT
+                ).show()
 
                 location.latitude
 
