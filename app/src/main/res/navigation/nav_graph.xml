@@ -31,7 +31,9 @@
         <action
             android:id="@+id/show_register_new_scooter_fragment"
             app:destination="@id/registerNewScooterFragment" />
-
+        <action
+            android:id="@+id/action_mainFragment_to_payFragment"
+            app:destination="@id/payFragment" />
 
 
     </fragment>

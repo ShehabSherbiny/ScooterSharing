@@ -356,7 +356,7 @@ class MainFragment : Fragment() {
                 if (event.values[0] > 0) {
                     currentScooterCircularProgressIndicatorX.progress = event.values[0].normalize()
                     currentScooterAxisXValue.text =
-                        getString(R.string.gravity_text, event.values[0])
+                        getString(R.string.speedometer, event.values[0] * 3.6)
                 }
             }
         }

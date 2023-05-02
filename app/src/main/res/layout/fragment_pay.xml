@@ -151,7 +151,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <Button
-            android:id="@+id/mobilepay"
+            android:id="@+id/google_pay_button"
             android:layout_width="275dp"
             android:layout_height="65dp"
             android:layout_row="6"
@@ -159,6 +159,15 @@
             android:layout_gravity="center"
             android:text="GooglePay"
             tools:ignore="SpeakableTextPresentCheck" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
