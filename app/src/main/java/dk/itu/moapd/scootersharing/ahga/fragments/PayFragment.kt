@@ -69,8 +69,6 @@ class PayFragment : Fragment() {
 //                    expDate.text.toString().trim().isNotEmpty() &&
 //                    cvc.text.toString().trim().isNotEmpty()
                 ) {
-                    //TODO: Implement a Loading ProgressBar
-
                     activity?.runOnUiThread {
                         lifecycleScope.launch {
                             progressBar.visibility = View.VISIBLE
@@ -79,8 +77,6 @@ class PayFragment : Fragment() {
                             findNavController().navigate(R.id.show_main_fragment)
                         }
                     }
-
-
                 } else {
                     Toast.makeText(requireContext(), "Please enter all fields ", Toast.LENGTH_SHORT)
                         .show()
