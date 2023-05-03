@@ -11,6 +11,13 @@ class ScooterViewModel: ViewModel() {
     // A list of all available fragments used by the main activity.
     // P.S.: These instances are created only once, when the app executes the `onCreate()` method for the first time.
     private val fragments = ArrayList<Fragment>()
+    val currentScannedQr: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+    val scooterMatch: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
+
 
     // This method will be executed when the main activity adds a new fragment into the user interface.
     fun addFragment(fragment: Fragment) {

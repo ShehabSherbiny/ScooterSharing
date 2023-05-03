@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.snackbar.Snackbar
@@ -19,6 +20,7 @@ import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.adapters.ScooterAdapter
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentRideHistoryBinding
+import dk.itu.moapd.scootersharing.ahga.viewmodel.ScooterViewModel
 
 class StartRideFragment : Fragment() {
 
@@ -27,6 +29,7 @@ class StartRideFragment : Fragment() {
         fun isAdapterInit() = ::adapter.isInitialized
     }
 
+    private val viewModel: ScooterViewModel by activityViewModels()
     private var _binding: FragmentRideHistoryBinding? = null
     private val binding
         get() = checkNotNull(_binding) {
@@ -44,9 +47,8 @@ class StartRideFragment : Fragment() {
                 val barcodeScanned = barcodes.firstOrNull()?.rawValue ?: "Unknown"
                 if (barcodeScanned == "CPHO01") { //Find in a Scooter List ?
                     requireContext().run {
-                        //TODO: START RIDE
-                        //findNavController().navigate(R.id.show_start_ride_fragment)
-
+                        viewModel.currentScannedQr.value = barcodeScanned
+                        viewModel.scooterMatch.value = true
                         // SNACKBAR
                         view?.let { snackView ->
                             Snackbar.make(
@@ -56,6 +58,7 @@ class StartRideFragment : Fragment() {
                     }
                 } else {
 
+                    viewModel.scooterMatch.value = false
                     // SNACKBAR
                     view?.let { snackView ->
                         Snackbar.make(
@@ -78,6 +81,7 @@ class StartRideFragment : Fragment() {
             startActivity(intent)
             activity?.finish()
         }
+
 
         MainActivity.auth.currentUser?.let {
             val query = MainActivity.database.child("scooters")

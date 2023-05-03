@@ -34,6 +34,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -44,9 +47,11 @@ import com.google.firebase.storage.ktx.storage
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.ActivityMainBinding
+import dk.itu.moapd.scootersharing.ahga.fragments.*
 import dk.itu.moapd.scootersharing.ahga.helperClasses.DATABASE_URL
 import dk.itu.moapd.scootersharing.ahga.helperClasses.IMAGES_URL
 import dk.itu.moapd.scootersharing.ahga.services.ScooterService
+import dk.itu.moapd.scootersharing.ahga.viewmodel.ScooterViewModel
 import java.util.*
 
 /**
@@ -61,6 +66,8 @@ class MainActivity : AppCompatActivity() {
      * to all views that have an ID in the corresponding layout.
      */
     private lateinit var binding: ActivityMainBinding
+
+    val viewModel = ViewModelProvider(this)[ScooterViewModel::class.java]
 
     companion object {
         lateinit var database: DatabaseReference
@@ -89,6 +96,41 @@ class MainActivity : AppCompatActivity() {
         //SERVICE
         Intent(this, ScooterService::class.java).also { intent ->
             startService(intent)
+        }
+
+        val currentFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment_container_view)
+
+        // Create the fragments instances.
+        if (currentFragment == null) {
+            viewModel.addFragment(MainFragment())
+            viewModel.addFragment(LinearAccelerationFragment())
+            viewModel.addFragment(MapsFragment())
+            viewModel.addFragment(LocationFragment())
+            viewModel.addFragment(PayFragment())
+            viewModel.addFragment(QrFragment())
+            viewModel.addFragment(RegisterNewScooterFragment())
+            viewModel.addFragment(RideHistoryFragment())
+            viewModel.addFragment(StartRideFragment())
+            viewModel.setFragment(0)
+        }
+
+        for (fragment in viewModel.getFragmentList())
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.fragment_container_view, fragment)
+                .hide(fragment)
+                .commit()
+        var activeFragment: Fragment = viewModel.fragmentState.value!!
+
+        viewModel.fragmentState.observe(this) { fragment ->
+            supportFragmentManager
+                .beginTransaction()
+                .hide(activeFragment)
+                .show(fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit()
+            activeFragment = fragment
         }
 
         setSupportActionBar(binding.toolbar)
@@ -138,4 +180,5 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+
 
