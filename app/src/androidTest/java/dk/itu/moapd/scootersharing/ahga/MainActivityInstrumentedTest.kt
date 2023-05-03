@@ -62,7 +62,7 @@ class MainActivityInstrumentedTest {
 
         // Insert data into the EditTexts.
         onView(withId(R.id.name_input))
-            .perform(clearText(), typeText("CPH002"))
+            .perform(clearText(), typeText("CPH001"))
         // Hide Keyboard
         Espresso.closeSoftKeyboard()
 
@@ -94,6 +94,41 @@ class MainActivityInstrumentedTest {
 
         // Wait for 2 seconds
         Thread.sleep(2000)
+    }
+
+    @Test
+    fun populateScooterDatabase() {
+        createScooter("CPH001", "ITU", 55.66040815474606, 12.591163331540711)
+        createScooter("CPH002", "KU", 55.66292688383645, 12.588398542332436)
+        createScooter("CPH003", "LUKSUS NETTO", 55.65654294862253, 12.589668417576462)
+        createScooter("CPH004", "DR BYEN", 55.65854010445573, 12.590272476686216)
+        createScooter("CPH005", "METRO", 55.655990635421794, 12.58913363905719)
+        createScooter("CPH006", "KONCERTHUS", 55.658040421575464, 12.588934794317984)
+    }
+
+        private fun createScooter(name: String, location: String, lat: Double, long: Double) {
+        onView(withId(R.id.register_new_scooter_button))
+            .perform(click())
+
+        onView(withId(R.id.name_input))
+            .perform(clearText(), typeText(name))
+
+        onView(withId(R.id.location_input))
+            .perform(clearText(), typeText(location))
+
+        onView(withId(R.id.latitude_input))
+            .perform(clearText(), typeText(lat.toString()))
+
+        onView(withId(R.id.longitude_input))
+            .perform(clearText(), typeText(long.toString()))
+
+        Espresso.closeSoftKeyboard()
+
+        onView(withId(R.id.confirm_register_new_scooter_button))
+            .perform(click())
+
+        val acceptButton = onView(withText("Accept"))
+        acceptButton.perform(click())
     }
 
 }

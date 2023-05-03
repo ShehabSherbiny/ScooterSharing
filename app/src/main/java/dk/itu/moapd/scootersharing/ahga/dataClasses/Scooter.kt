@@ -33,7 +33,7 @@ data class Scooter(
     val name: String? = null,
     var location: String? = null,
     var timestamp: Long? = System.currentTimeMillis(),
-    val batteryLevel: Int = 100,
+    val batteryLevel: Int = (Math.random() * 100).toInt(),
     var available: Boolean = true,
     var latitude: Double? = 55.6596,
     var longitude: Double? = 12.5910

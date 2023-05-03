@@ -7,7 +7,6 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -31,7 +30,6 @@ import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.currentScooter
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.database
-import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.fusedLocationProviderClient
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.onRide
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.storage
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Rides
@@ -44,6 +42,7 @@ class MainFragment : Fragment() {
 
     val service = Context.SENSOR_SERVICE
     private lateinit var sensorManager: SensorManager
+
 
     lateinit private var photoUri: Uri
     private var _binding: FragmentMainBinding? = null
@@ -90,12 +89,7 @@ class MainFragment : Fragment() {
                 currentScooterName.text = currentScooter.name
                 currentScooterLocation.text = currentScooter.location
 
-                //TODO: Get info from Fragment Linear Accelerometer
-//                currentScooterCircularProgressIndicatorX.progress =
-//                currentScooterAxisXValue.text =
-
-
-                val imageRef = MainActivity.storage.reference.child("${currentScooter.name}.jpg")
+                val imageRef = storage.reference.child("${currentScooter.name}.jpg")
 
                 imageRef.downloadUrl.addOnSuccessListener {
                     Glide.with(requireContext())
@@ -128,8 +122,13 @@ class MainFragment : Fragment() {
             endRideButton.setOnClickListener {
                 if (onRide) {
                     MaterialAlertDialogBuilder(requireContext())
-                        .setTitle(R.string.app_name)
-                        .setMessage("Are you sure you want to end your current ride?")
+                        .setTitle("END RIDE")
+                        .setMessage(
+                            "Are you sure you want to end your current ride? \n\n" + currentScooter.name + "\nPrice: " + String.format(
+                                "%.2f",
+                                Math.random() * 100
+                            ) + "dkk"
+                        )
                         .setNegativeButton(R.string.decline) { dialog, which ->
                             // Respond to negative button press
                             return@setNegativeButton
@@ -157,32 +156,30 @@ class MainFragment : Fragment() {
                                 uid?.let {
                                     if (!checkPermission()) {
 
-                                                    //ADD RIDE TO USERS RIDE HISTORY
-                                                    database.child("rides")
-                                                        .child(user.uid)
-                                                        .child(it)
-                                                        .setValue(
-                                                            Rides(
-                                                                currentScooter,
-                                                                startLatitude = currentScooter.latitude,
-                                                                startLongitude = currentScooter.longitude,
-                                                                endLatitude = ScooterService.currentLatitude,
-                                                                endLongitude =  ScooterService.currentLongitude,
-                                                            )
-                                                        )
-                                                    //UPDATE SCOOTER LOCATION
-                                                    currentScooter.latitude = ScooterService.currentLatitude
-                                                    currentScooter.longitude =  ScooterService.currentLongitude
-                                                    MainActivity.auth.currentUser?.let {
-                                                        currentScooter.name?.let { scooterName ->
-                                                            MainActivity.database.child("scooters")
-                                                                .child(scooterName).setValue(
-                                                                    currentScooter
-                                                                )
-                                                        }
-                                                    }
-
-
+                                        //ADD RIDE TO USERS RIDE HISTORY
+                                        database.child("rides")
+                                            .child(user.uid)
+                                            .child(it)
+                                            .setValue(
+                                                Rides(
+                                                    currentScooter,
+                                                    startLatitude = currentScooter.latitude,
+                                                    startLongitude = currentScooter.longitude,
+                                                    endLatitude = ScooterService.currentLatitude,
+                                                    endLongitude = ScooterService.currentLongitude,
+                                                )
+                                            )
+                                        //UPDATE SCOOTER LOCATION
+                                        currentScooter.latitude = ScooterService.currentLatitude
+                                        currentScooter.longitude = ScooterService.currentLongitude
+                                        MainActivity.auth.currentUser?.let {
+                                            currentScooter.name?.let { scooterName ->
+                                                MainActivity.database.child("scooters")
+                                                    .child(scooterName).setValue(
+                                                        currentScooter
+                                                    )
+                                            }
+                                        }
                                     }
                                 }
                             }

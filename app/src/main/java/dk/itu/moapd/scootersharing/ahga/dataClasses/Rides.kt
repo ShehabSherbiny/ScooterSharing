@@ -5,7 +5,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 data class Rides(
     var scooter: Scooter = Scooter(),
-    val price: Double = 50.0,
+    val price: Double? = (Math.random() * 100),
     val startLatitude: Double? = 0.0,
     val startLongitude: Double? = 0.0,
     val endLatitude: Double? = 0.0,

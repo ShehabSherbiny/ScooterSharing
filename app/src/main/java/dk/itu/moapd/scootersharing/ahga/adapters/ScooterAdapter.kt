@@ -20,15 +20,12 @@
  */
 package dk.itu.moapd.scootersharing.ahga.adapters
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -46,7 +43,6 @@ import java.text.DateFormat
 /**
  * A class to customize an adapter with a `ViewHolder` to populate a dummy dataset into a `ListView`.
  */
-
 class ScooterAdapter(
     options: FirebaseRecyclerOptions<Scooter>,
     private val qrCodeScanner: ActivityResultLauncher<Void?>
@@ -65,7 +61,7 @@ class ScooterAdapter(
             binding.itemLocation.text =
                 binding.root.context.getString(R.string.s_location, scooter.location)
             binding.itemLatitude.text = scooter.latitude.toString().substring(0, 5)
-            binding.itemLongitude.text = scooter.longitude.toString().substring(0,5)
+            binding.itemLongitude.text = scooter.longitude.toString().substring(0, 5)
             binding.itemTime.text = DateFormat.getDateInstance().format(scooter.timestamp)
 
             if (scooter.available) {
@@ -89,11 +85,11 @@ class ScooterAdapter(
             binding.ScanQRCodeButton.setOnClickListener {
                 qrCodeScanner.launch(null)
 
-
+                // DIALOG
                 if (scooter.available) {
                     MaterialAlertDialogBuilder(itemView.context)
-                        .setTitle(R.string.app_name)
-                        .setMessage("Are you sure you want to book " + scooter.name + " ?")
+                        .setTitle("START RIDE")
+                        .setMessage("Are you sure you want to book the Scooter " + scooter.name + " ?")
                         .setNegativeButton(R.string.decline) { dialog, which ->
                             // Respond to negative button press
                             return@setNegativeButton
@@ -125,18 +121,6 @@ class ScooterAdapter(
                 }
             }
         }
-
-        private fun checkPermission() =
-            ActivityCompat.checkSelfPermission(
-                itemView.context, Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(
-                        itemView.context, Manifest.permission.ACCESS_COARSE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(
-                        itemView.context, Manifest.permission.CAMERA
-                    ) != PackageManager.PERMISSION_GRANTED
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
