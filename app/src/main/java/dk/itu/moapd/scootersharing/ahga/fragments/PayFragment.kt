@@ -48,6 +48,8 @@ class PayFragment : Fragment() {
             firstName.addTextChangedListener(nameValidator)
             var phoneValidator = Validation(phone)
             phone.addTextChangedListener(phoneValidator)
+            var cardValidator = Validation(cardNumber)
+            cardNumber.addTextChangedListener(cardValidator)
 
             googlePayButton.setOnClickListener {
                 //check if the EditText have values or not
@@ -59,6 +61,11 @@ class PayFragment : Fragment() {
                     Toast.makeText(requireContext(), "Enter valid phone", Toast.LENGTH_SHORT)
                         .show()
                 }
+                if (!cardValidator.isValidCardNumber) {
+                Toast.makeText(requireContext(), "Enter card number", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
                 if (firstName.text.toString().trim().isNotEmpty() &&
                     //lastName.text.toString().trim().isNotEmpty() &&
                     phone.text.toString().trim().isNotEmpty()
