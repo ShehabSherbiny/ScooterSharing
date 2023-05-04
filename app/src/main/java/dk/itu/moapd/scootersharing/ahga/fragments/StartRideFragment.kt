@@ -50,8 +50,13 @@ class StartRideFragment : Fragment(), ItemClickListener {
                 val barcodeScanned = barcodes.firstOrNull()?.rawValue ?: "Unknown"
                 if (barcodeScanned == selectedScooter.name) { //Find in a Scooter List ?
                     requireContext().run {
-                        //TODO: START RIDE
-                        //findNavController().navigate(R.id.show_start_ride_fragment)
+                        selectedScooter.available = false
+                        MainActivity.currentScooter = selectedScooter
+                        MainActivity.onRide = true
+                        selectedScooter.name?.let { it1 ->
+                            MainActivity.database.child("scooters").child(it1).setValue(
+                                selectedScooter)
+                        }
 
                         // SNACKBAR
                         view?.let { snackView ->
@@ -133,30 +138,18 @@ class StartRideFragment : Fragment(), ItemClickListener {
                 }
                 .setPositiveButton(R.string.accept) { _, _ ->
                     qrCodeScanner.launch(null)
-                    // TODO: Move this to the QRScanner scope.
-                    /*// Respond to positive button press
-                    scooter.available = false
-                    MainActivity.currentScooter = scooter
-                    MainActivity.onRide = true
-                    scooter.name?.let { it1 ->
-                        MainActivity.database.child("scooters").child(it1).setValue(scooter)
-                    }
-                    //SNACKBAR
-                    val snack = Snackbar.make(
-                        it,
-                        "You have started a ride with scooter " + scooter.name,
-                        Toast.LENGTH_SHORT
-                    )
-                    snack.show()*/
+
                 }
                 .show()
         } else {
             //SNACKBAR
-            /*val snack = Snackbar.make(
-                requireContext(), "The chosen scooter is not available",
-                BaseTransientBottomBar.LENGTH_SHORT
-            )
-            snack.show()*/
+            view?.let { snackView ->
+                Snackbar.make(
+                    snackView,
+                    "The chosen scooter is not available",
+                    Toast.LENGTH_SHORT
+                )
+            }?.show()
         }
     }
 

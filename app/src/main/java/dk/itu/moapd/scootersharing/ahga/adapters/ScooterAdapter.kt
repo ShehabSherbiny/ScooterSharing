@@ -88,43 +88,7 @@ class ScooterAdapter(
             // QR BUTTON
             binding.ScanQRCodeButton.setOnClickListener {
                 itemClickListener.onItemClickListener(scooter, position)
-                // TODO: Move this code to the Fragment.
-                /*qrCodeScanner.launch(null)
-                if(scooterMatch)
-                // DIALOG
-                if (scooter.available) {
-                    MaterialAlertDialogBuilder(itemView.context)
-                        .setTitle("START RIDE")
-                        .setMessage("Are you sure you want to book the Scooter " + scooter.name + " ?")
-                        .setNegativeButton(R.string.decline) { dialog, which ->
-                            // Respond to negative button press
-                            return@setNegativeButton
-                        }
-                        .setPositiveButton(R.string.accept) { dialog, which ->
-                            // Respond to positive button press
-                            scooter.available = false
-                            MainActivity.currentScooter = scooter
-                            MainActivity.onRide = true
-                            scooter.name?.let { it1 ->
-                                MainActivity.database.child("scooters").child(it1).setValue(scooter)
-                            }
-                            //SNACKBAR
-                            val snack = Snackbar.make(
-                                it,
-                                "You have started a ride with scooter " + scooter.name,
-                                Toast.LENGTH_SHORT
-                            )
-                            snack.show()
-                        }
-                        .show()
-                } else {
-                    //SNACKBAR
-                    val snack = Snackbar.make(
-                        it, "The chosen scooter is not available",
-                        BaseTransientBottomBar.LENGTH_SHORT
-                    )
-                    snack.show()
-                }*/
+
             }
         }
     }
