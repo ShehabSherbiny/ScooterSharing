@@ -38,14 +38,15 @@ import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.ScooterItemRecyclerviewBinding
+import dk.itu.moapd.scootersharing.ahga.helperClasses.ItemClickListener
 import java.text.DateFormat
 
 /**
  * A class to customize an adapter with a `ViewHolder` to populate a dummy dataset into a `ListView`.
  */
 class ScooterAdapter(
-    options: FirebaseRecyclerOptions<Scooter>,
-    private val qrCodeScanner: ActivityResultLauncher<Void?>
+    private val itemClickListener: ItemClickListener,
+    options: FirebaseRecyclerOptions<Scooter>
 ) :
     FirebaseRecyclerAdapter<Scooter, ScooterAdapter.ViewHolder>(options) {
 
@@ -53,10 +54,13 @@ class ScooterAdapter(
         private val TAG = ScooterAdapter::class.qualifiedName
     }
 
-    class ViewHolder(private val binding: ScooterItemRecyclerviewBinding) :
+    class ViewHolder(
+        private val itemClickListener: ItemClickListener,
+        private val binding: ScooterItemRecyclerviewBinding
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(scooter: Scooter, qrCodeScanner: ActivityResultLauncher<Void?>) {
+        fun bind(scooter: Scooter, position: Int) {
             binding.itemName.text = binding.root.context.getString(R.string.s_name, scooter.name)
             binding.itemLocation.text =
                 binding.root.context.getString(R.string.s_location, scooter.location)
@@ -83,8 +87,10 @@ class ScooterAdapter(
             }
             // QR BUTTON
             binding.ScanQRCodeButton.setOnClickListener {
-                qrCodeScanner.launch(null)
-
+                itemClickListener.onItemClickListener(scooter, position)
+                // TODO: Move this code to the Fragment.
+                /*qrCodeScanner.launch(null)
+                if(scooterMatch)
                 // DIALOG
                 if (scooter.available) {
                     MaterialAlertDialogBuilder(itemView.context)
@@ -118,7 +124,7 @@ class ScooterAdapter(
                         BaseTransientBottomBar.LENGTH_SHORT
                     )
                     snack.show()
-                }
+                }*/
             }
         }
     }
@@ -128,7 +134,7 @@ class ScooterAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val binding = ScooterItemRecyclerviewBinding.inflate(inflater, parent, false)
 
-        return ViewHolder(binding)
+        return ViewHolder(itemClickListener, binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, scooter: Scooter) {
@@ -136,7 +142,7 @@ class ScooterAdapter(
         // contents of the view with that element
         Log.d(TAG, "Populate an item at position: $position")
 
-        holder.bind(scooter, qrCodeScanner)
+        holder.bind(scooter, position)
     }
 
 }

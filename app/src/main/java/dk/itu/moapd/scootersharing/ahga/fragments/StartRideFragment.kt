@@ -2,6 +2,7 @@ package dk.itu.moapd.scootersharing.ahga.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,21 +11,26 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
+import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.activities.LoginActivity
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
 import dk.itu.moapd.scootersharing.ahga.adapters.ScooterAdapter
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentRideHistoryBinding
+import dk.itu.moapd.scootersharing.ahga.helperClasses.ItemClickListener
 
-class StartRideFragment : Fragment() {
+class StartRideFragment : Fragment(), ItemClickListener {
 
     companion object {
         private lateinit var adapter: ScooterAdapter
         fun isAdapterInit() = ::adapter.isInitialized
+        private lateinit var selectedScooter: Scooter
     }
 
     private var _binding: FragmentRideHistoryBinding? = null
@@ -42,7 +48,7 @@ class StartRideFragment : Fragment() {
         if (it != null) {
             client.process(it, 0).addOnSuccessListener { barcodes ->
                 val barcodeScanned = barcodes.firstOrNull()?.rawValue ?: "Unknown"
-                if (barcodeScanned == "CPHO01") { //Find in a Scooter List ?
+                if (barcodeScanned == selectedScooter.name) { //Find in a Scooter List ?
                     requireContext().run {
                         //TODO: START RIDE
                         //findNavController().navigate(R.id.show_start_ride_fragment)
@@ -85,7 +91,7 @@ class StartRideFragment : Fragment() {
                 .setQuery(query, Scooter::class.java)
                 .setLifecycleOwner(this)
                 .build()
-            adapter = ScooterAdapter(options, qrCodeScanner)
+            adapter = ScooterAdapter(this, options)
         }
     }
 
@@ -113,6 +119,45 @@ class StartRideFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClickListener(scooter: Scooter, position: Int) {
+        selectedScooter = scooter
+        if (scooter.available) {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("START RIDE")
+                .setMessage("Are you sure you want to book the Scooter " + scooter.name + " ?")
+                .setNegativeButton(R.string.decline) { _, _ ->
+                    // Respond to negative button press
+                    return@setNegativeButton
+                }
+                .setPositiveButton(R.string.accept) { _, _ ->
+                    qrCodeScanner.launch(null)
+                    // TODO: Move this to the QRScanner scope.
+                    /*// Respond to positive button press
+                    scooter.available = false
+                    MainActivity.currentScooter = scooter
+                    MainActivity.onRide = true
+                    scooter.name?.let { it1 ->
+                        MainActivity.database.child("scooters").child(it1).setValue(scooter)
+                    }
+                    //SNACKBAR
+                    val snack = Snackbar.make(
+                        it,
+                        "You have started a ride with scooter " + scooter.name,
+                        Toast.LENGTH_SHORT
+                    )
+                    snack.show()*/
+                }
+                .show()
+        } else {
+            //SNACKBAR
+            /*val snack = Snackbar.make(
+                requireContext(), "The chosen scooter is not available",
+                BaseTransientBottomBar.LENGTH_SHORT
+            )
+            snack.show()*/
+        }
     }
 
 }
