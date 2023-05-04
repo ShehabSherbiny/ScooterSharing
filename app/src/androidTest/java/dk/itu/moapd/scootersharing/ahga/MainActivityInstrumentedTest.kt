@@ -1,9 +1,5 @@
 package dk.itu.moapd.scootersharing.ahga
 
-import android.app.Activity
-import android.view.View
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Lifecycle.State
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
@@ -106,7 +102,7 @@ class MainActivityInstrumentedTest {
         createScooter("CPH006", "KONCERTHUS", 55.658040421575464, 12.588934794317984)
     }
 
-        private fun createScooter(name: String, location: String, lat: Double, long: Double) {
+    private fun createScooter(name: String, location: String, lat: Double, long: Double) {
         onView(withId(R.id.register_new_scooter_button))
             .perform(click())
 

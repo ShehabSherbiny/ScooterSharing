@@ -20,14 +20,8 @@
             android:id="@+id/show_maps_fragment"
             app:destination="@id/mapsFragment" />
         <action
-            android:id="@+id/show_qr_fragment"
-            app:destination="@id/qrFragment" />
-        <action
             android:id="@+id/show_payFragment"
             app:destination="@id/payFragment" />
-        <action
-            android:id="@+id/show_linearAccelerationFragment"
-            app:destination="@id/linearAccelerationFragment" />
         <action
             android:id="@+id/show_register_new_scooter_fragment"
             app:destination="@id/registerNewScooterFragment" />
@@ -68,26 +62,9 @@
             app:destination="@id/mainFragment" />
     </fragment>
     <fragment
-        android:id="@+id/qrFragment"
-        android:name="dk.itu.moapd.scootersharing.ahga.fragments.QrFragment"
-        android:label="fragment_qr"
-        tools:layout="@layout/fragment_qr">
-        <action
-            android:id="@+id/show_main_fragment"
-            app:destination="@id/mainFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/payFragment"
         android:name="dk.itu.moapd.scootersharing.ahga.fragments.PayFragment"
         android:label="PayFragment">
-        <action
-            android:id="@+id/show_main_fragment"
-            app:destination="@id/mainFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/linearAccelerationFragment"
-        android:name="dk.itu.moapd.scootersharing.ahga.fragments.LinearAccelerationFragment"
-        android:label="LinearAccelerationFragment" >
         <action
             android:id="@+id/show_main_fragment"
             app:destination="@id/mainFragment" />

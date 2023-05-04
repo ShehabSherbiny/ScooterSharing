@@ -62,19 +62,17 @@ class PayFragment : Fragment() {
                         .show()
                 }
                 if (!cardValidator.isValidCardNumber) {
-                Toast.makeText(requireContext(), "Enter card number", Toast.LENGTH_SHORT)
-                    .show()
-            }
+                    Toast.makeText(requireContext(), "Enter card number", Toast.LENGTH_SHORT)
+                        .show()
+                }
 
                 if (firstName.text.toString().trim().isNotEmpty() &&
                     //lastName.text.toString().trim().isNotEmpty() &&
-                    phone.text.toString().trim().isNotEmpty()
-                //TODO: Uncomment this before releasing the last version
-//                    &&
-//                    dateofbirth.text.toString().trim().isNotEmpty() &&
-//                    cardNumber.text.toString().trim().isNotEmpty() &&
-//                    expDate.text.toString().trim().isNotEmpty() &&
-//                    cvc.text.toString().trim().isNotEmpty()
+                    phone.text.toString().trim().isNotEmpty() &&
+                    dateofbirth.text.toString().trim().isNotEmpty() &&
+                    cardNumber.text.toString().trim().isNotEmpty() &&
+                    expDate.text.toString().trim().isNotEmpty() &&
+                    cvc.text.toString().trim().isNotEmpty()
                 ) {
                     activity?.runOnUiThread {
                         lifecycleScope.launch {

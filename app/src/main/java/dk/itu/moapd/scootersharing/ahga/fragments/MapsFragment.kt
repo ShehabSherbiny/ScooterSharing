@@ -2,7 +2,6 @@ package dk.itu.moapd.scootersharing.ahga.fragments
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,13 +23,9 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import dk.itu.moapd.scootersharing.ahga.R
 import dk.itu.moapd.scootersharing.ahga.activities.MainActivity
-import dk.itu.moapd.scootersharing.ahga.activities.MainActivity.Companion.fusedLocationProviderClient
 import dk.itu.moapd.scootersharing.ahga.dataClasses.Scooter
 import dk.itu.moapd.scootersharing.ahga.databinding.FragmentMapsBinding
 import dk.itu.moapd.scootersharing.ahga.helperClasses.DATABASE_URL
-
-// GoogleMaps Key:
-// https://console.cloud.google.com/welcome?project=moapd-2023-a42f2
 
 class MapsFragment : Fragment(), OnMapReadyCallback {
 

@@ -40,7 +40,6 @@ import java.util.*
 
 class MainFragment : Fragment() {
 
-    val service = Context.SENSOR_SERVICE
     private lateinit var sensorManager: SensorManager
 
 
@@ -174,7 +173,7 @@ class MainFragment : Fragment() {
                                         currentScooter.longitude = ScooterService.currentLongitude
                                         MainActivity.auth.currentUser?.let {
                                             currentScooter.name?.let { scooterName ->
-                                                MainActivity.database.child("scooters")
+                                                database.child("scooters")
                                                     .child(scooterName).setValue(
                                                         currentScooter
                                                     )
@@ -223,34 +222,11 @@ class MainFragment : Fragment() {
             mapButton.setOnClickListener {
                 findNavController().navigate(R.id.show_maps_fragment)
             }
-            cameraButton.setOnClickListener {
-                requestUserPermissions()
-
-                if (allPermissionsGranted()) {
-                    val photoName = "IMG_${Date()}.JPG"
-                    val photoFile = File(
-                        requireContext().applicationContext.filesDir,
-                        photoName
-                    )
-                    photoUri = FileProvider.getUriForFile(
-                        requireContext(),
-                        "dk.itu.moapd.scootersharing.ahga.fileprovider",
-                        photoFile
-                    )
-                    takePhoto.launch(photoUri)
-                }
-            }
-            qrButton.setOnClickListener {
-                findNavController().navigate(R.id.show_qr_fragment)
-            }
             paymentButton.setOnClickListener {
                 findNavController().navigate(R.id.show_payFragment)
             }
             registerNewScooterButton.setOnClickListener {
                 findNavController().navigate(R.id.show_register_new_scooter_fragment)
-            }
-            accelerometerButton.setOnClickListener {
-                findNavController().navigate(R.id.show_linearAccelerationFragment)
             }
         }
     }

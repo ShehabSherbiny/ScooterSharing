@@ -51,14 +51,6 @@
                 android:text="Map" />
 
             <Button
-                android:id="@+id/qr_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:backgroundTint="@color/purple_200"
-                android:text="QR" />
-
-            <Button
                 android:id="@+id/payment_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -163,26 +155,10 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/camera_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="200dp"
-                android:backgroundTint="@color/red"
-                android:text="DEV: Camera" />
-
-            <Button
-                android:id="@+id/accelerometer_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:backgroundTint="@color/red"
-                android:text="DEV: Accelerometer" />
-
-            <Button
                 android:id="@+id/register_new_scooter_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="260dp"
                 android:layout_gravity="center_horizontal"
                 android:backgroundTint="@color/red"
                 android:text="DEV: Register New Scooter" />
